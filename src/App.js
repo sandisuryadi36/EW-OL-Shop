@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch } from 'react-redux';
+import { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AdminDashboard from './pages/admin/dashboard';
+import Home from './pages/home';
+import Login from './pages/login';
+import Navbar from './widgets/navbar';
+import { loginCheck } from './app/data/slice';
+import UserDashboard from './pages/user/dashboard';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => { 
+    dispatch(loginCheck());
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/user/dashboard" element={<UserDashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
