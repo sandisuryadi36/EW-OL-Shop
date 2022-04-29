@@ -1,16 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { postLogin } from "../app/data/slice";
+import Spinner from "../component/spinner";
 
 const Login = () => { 
     const logedIn = useSelector(state => state.slice.logedIn);
-    const userData  = useSelector(state => state.slice.userData);
+    const userData = useSelector(state => state.slice.userData);
+    const status = useSelector(state => state.slice.status);
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const submitHandler = (e) => {
         e.preventDefault();
+        const origin = location.state ? location.state.from.pathname : "/login";
         const data = new URLSearchParams(new FormData(e.target));
-        dispatch(postLogin(data));
+        dispatch(postLogin(data)).then(() => navigate(origin))      
     }
 
     return (
@@ -21,6 +26,7 @@ const Login = () => {
                     : (userData.role === "user") && <Navigate to="/user/dashboard" />
                 : null
             }
+            {status === "pending" && <Spinner />}
             <h1>Login</h1>
             <div className="card m-2">
                 <div className="card-body">

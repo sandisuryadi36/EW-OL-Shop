@@ -17,8 +17,9 @@ export const slice = createSlice({
     initialState,
     reducers: {
         setLogout: (state, action) => {
-            state.logedIn = action.payload.logedIn;
-            state.userData = action.payload.userData;
+            if (action.payload.logedIn) { state.logedIn = action.payload.logedIn }
+            if (action.payload.userData) { state.userData = action.payload.userData }
+            if (action.payload.error) { state.error = action.payload.error }
         }
     },
     extraReducers(builder) {
