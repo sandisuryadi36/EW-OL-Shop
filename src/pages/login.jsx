@@ -22,8 +22,8 @@ const Login = () => {
         <div className="d-flex flex-column align-items-center pt-5">
             {logedIn
                 ? (userData.role === "admin")
-                    ? <Navigate to="/admin/dashboard" />
-                    : (userData.role === "user") && <Navigate to="/user/dashboard" />
+                    ? <Navigate to="/admin/dashboard/" />
+                    : (userData.role === "user") && <Navigate to="/user/dashboard/" />
                 : null
             }
             {status === "pending" && <Spinner />}

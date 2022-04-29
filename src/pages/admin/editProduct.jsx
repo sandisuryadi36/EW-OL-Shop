@@ -1,28 +1,29 @@
 import Input from "../../component/Input";
 import Spinner from "../../component/spinner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import * as c from "../../app/data/constants"
 import "./index.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom'
-import { getProduct } from "../../app/data/slice";
 
 const EditProduct = () => { 
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
     const status = useSelector(state => state.slice.status);
-    const recentAction = useSelector(state => state.slice.recentAction);
     const params = useParams()
     const navigate = useNavigate();
-    const dispatch =useDispatch();
-    const product = useSelector(state => state.slice.data);
+    const [product, setProduct] = useState(null);
     
-    useEffect(() => { 
-        if (recentAction === "loginCheck/fulfilled") {
-            dispatch(getProduct(params.id))
-        }
-    }, [recentAction, dispatch, params.id])
+    if (product === null) {
+        axios.get(c.API_URL + "/api/v1/product/" + params.id)
+        .then(res => {
+            setProduct(res.data.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     const loadCategory = async () => { 
         let getCategory = await axios.get(c.API_URL + "/api/v1/category");
@@ -58,19 +59,18 @@ const EditProduct = () => {
         setLoading(false);
         if (res.data.message === "Product successfully updated") { 
             alert("Product successfully updated");
-            navigate("/admin/dashboard")
+            navigate("/admin/dashboard/list")
         }
     }
 
     const EditForm = () => {
-        const [prevImage, setPrevImage] = useState(recentAction === "getProducts/fulfilled" && product ? product.image.filePath : "")
-        if (recentAction === "getProducts/fulfilled" && product === null) { 
+        const [prevImage, setPrevImage] = useState(product !== null ? product.image ? product.image.filePath : "https://via.placeholder.com/150/999999/FFFFFF/?text=no%20image" : "");
+        if (product === null) { 
             return (
                 <p>Product not found!</p>
             )
         }
-        if (recentAction === "getProducts/fulfilled" && product) {
-
+        if (product !== null) {
             const onImgChange = (event) => {
                 if (event.target.files && event.target.files[0]) {
                     setPrevImage(URL.createObjectURL(event.target.files[0]));
@@ -81,7 +81,7 @@ const EditProduct = () => {
             return (
                 <form id="addProductForm" onSubmit={putProdutHandler}>
                     <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" defaultValue={product.name} />
-                    <Input name="description" type="text" placeholder="Deskripsi Produk..." label="Deskripsi" defaultValue={product.description} />
+                    <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" defaultValue={product.description} />
                     <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" defaultValue={product.category.name}>
                         <option value="">Pilih Kategori</option>
                         <CategoryOptions />

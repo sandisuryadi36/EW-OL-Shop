@@ -27,8 +27,8 @@ const Navbar = () => {
                     <ul className="navbar-nav">
                         {logedIn && (
                             <li className="nav-item active">
-                                {user.role === "admin" && <NavLink to="/admin/dashboard" className={"nav-link"}>Admin Dashboard</NavLink>}
-                                {user.role === "user" && <NavLink to="/user/dashboard" className={"nav-link"}>User Dashboard</NavLink>}
+                                {user.role === "admin" && <NavLink to="/admin/dashboard/" className={"nav-link"}>Admin Dashboard</NavLink>}
+                                {user.role === "user" && <NavLink to="/user/dashboard/" className={"nav-link"}>User Dashboard</NavLink>}
                             </li>
                         )}
                         <li className="nav-item">

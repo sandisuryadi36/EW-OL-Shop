@@ -1,32 +1,41 @@
 import './index.scss';
 
 const Input = (props) => {
-  if(props.type === 'checkbox') {
-    return (
-      <div className='checkbox'>
-        <input className={props.error && 'is-invalid'} {...props} />
-        <label>{props.label}</label>
-        { props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
-      </div>
-    )
-  } else if (props.type === 'select') {
-    return (
-      <div>
-        <label>{props.label}</label>
-        <select className={`form-control ${props.error && 'is-invalid'}`} {...props}>
-          { props.children }
-        </select>
-        { props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
-      </div>
-    )    
-  } else {
-    return (
-      <div>
-        <label>{props.label}</label>
-        <input className={`form-control ${props.error && 'is-invalid'}`} {...props} />
-        {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
-      </div>
-    )
+  switch (props.type) { 
+    case "checkbox":
+      return (
+        <div className='checkbox'>
+          <input className={props.error && 'is-invalid'} {...props} />
+          <label>{props.label}</label>
+          {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
+        </div>
+      )
+    case "select":
+      return (
+        <div>
+          <label>{props.label}</label>
+          <select className={`form-control ${props.error && 'is-invalid'}`} {...props}>
+            {props.children}
+          </select>
+          {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
+        </div>
+      )    
+    case "textarea":
+      return (
+        <div>
+          <label>{props.label}</label>
+          <textarea className={`form-control ${props.error && 'is-invalid'}`} {...props}></textarea>
+          {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
+        </div>
+      )
+    default:
+      return (
+        <div>
+          <label>{props.label}</label>
+          <input className={`form-control ${props.error && 'is-invalid'}`} {...props} />
+          {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
+        </div>
+      )
   }
 }
 

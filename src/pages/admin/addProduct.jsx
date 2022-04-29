@@ -5,11 +5,14 @@ import axios from "axios";
 import * as c from "../../app/data/constants"
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { postProduct } from "../../app/data/slice";
 
 const AddProduct = () => { 
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const loadCategory = async () => { 
         let getCategory = await axios.get(c.API_URL + "/api/v1/category");
@@ -41,12 +44,15 @@ const AddProduct = () => {
             data.set("status", false);
         }
 
-        let res = await axios.post(c.API_URL + "/api/v1/product", data);
-        setLoading(false);
-        if (res.data.message === "Product successfully created") { 
-            alert("Product successfully created");
-            navigate("/admin/dashboard")
-        }
+        // let res = await axios.post(c.API_URL + "/api/v1/product", data);
+        dispatch(postProduct(data))
+            .then(res => {
+                setLoading(false);
+                if (res.payload.message === "Product successfully created") {
+                    alert("Product successfully created");
+                    navigate("/admin/dashboard/list")
+                }
+            })
     }
 
     return (
@@ -55,7 +61,7 @@ const AddProduct = () => {
             <h3>Add Product</h3>
             <form id="addProductForm" onSubmit={postProdutHandler}>
                 <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" />
-                <Input name="description" type="text" placeholder="Deskripsi Produk..." label="Deskripsi" />
+                <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" />
                 <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori">
                     <option value="">Pilih Kategori</option>
                     <CategoryOptions />

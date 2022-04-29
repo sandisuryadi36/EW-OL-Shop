@@ -10,6 +10,8 @@ import UserDashboard from './pages/user/dashboard';
 import AddProduct from './pages/admin/addProduct';
 import Spinner from './component/spinner';
 import EditProduct from './pages/admin/editProduct';
+import ListProduct from './pages/admin/listProduct';
+import Overview from './pages/admin/overview';
 
 function App() {
   const dispatch = useDispatch();
@@ -51,7 +53,9 @@ function App() {
               <AdminDashboard />
             </ProtectedRoute>
           } >
+          <Route path="/admin/dashboard/" element={<Overview />} />
           <Route path="/admin/dashboard/add" element={<AddProduct />} />
+          <Route path="/admin/dashboard/list" element={<ListProduct />} />
           <Route path="/admin/dashboard/edit/:id" element={<EditProduct />} />
         </Route>
 
