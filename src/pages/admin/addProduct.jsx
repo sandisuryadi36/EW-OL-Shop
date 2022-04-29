@@ -4,10 +4,12 @@ import { useState } from "react";
 import axios from "axios";
 import * as c from "../../app/data/constants"
 import "./index.scss";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => { 
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const loadCategory = async () => { 
         let getCategory = await axios.get(c.API_URL + "/api/v1/category");
@@ -43,7 +45,7 @@ const AddProduct = () => {
         setLoading(false);
         if (res.data.message === "Product successfully created") { 
             alert("Product successfully created");
-            window.location.href = "/admin/dashboard";
+            navigate("/admin/dashboard")
         }
     }
 

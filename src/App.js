@@ -9,6 +9,7 @@ import { loginCheck } from './app/data/slice';
 import UserDashboard from './pages/user/dashboard';
 import AddProduct from './pages/admin/addProduct';
 import Spinner from './component/spinner';
+import EditProduct from './pages/admin/editProduct';
 
 function App() {
   const dispatch = useDispatch();
@@ -17,8 +18,10 @@ function App() {
   const user = useSelector(state => state.slice.userData);
 
   useEffect(() => { 
-    dispatch(loginCheck());
-  }, [dispatch]);
+    if (status === "idle") {
+      dispatch(loginCheck());
+    }
+  }, [dispatch, status]);
 
   function ProtectedRoute(props) {
   const location = useLocation();
@@ -49,6 +52,7 @@ function App() {
             </ProtectedRoute>
           } >
           <Route path="/admin/dashboard/add" element={<AddProduct />} />
+          <Route path="/admin/dashboard/edit/:id" element={<EditProduct />} />
         </Route>
 
         <Route path="/user/dashboard"

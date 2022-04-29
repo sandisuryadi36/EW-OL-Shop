@@ -97,6 +97,28 @@ export const slice = createSlice({
             state.user = {}
         })
         
+        // get product
+        builder.addCase(getProduct.pending, (state, action) => {
+            state.status = 'pending'
+            state.recentAction = action.type
+            state.error = false
+            state.message = ''
+            state.data = {}
+        })
+        builder.addCase(getProduct.fulfilled, (state, action) => {
+            state.status = 'fulfilled'
+            state.recentAction = action.type
+            state.error = false
+            state.message = action.payload.message
+            state.data = action.payload.data
+        })
+        builder.addCase(getProduct.rejected, (state, action) => {
+            state.status = 'rejected'
+            state.recentAction = action.type
+            state.error = true
+            state.message = 'Get product failed'
+            state.data = {}
+        })
     },
 })
 
@@ -136,6 +158,17 @@ export const postLogout = createAsyncThunk('logout', async () => {
         }
     );
     return response.data;
+})
+
+export const getProduct = createAsyncThunk('getProducts', async (id) => { 
+    let url = ''
+    if (id) {
+        url = c.API_URL + '/api/v1/product/' + id
+    } else { 
+        url = c.API_URL + '/api/v1/product'
+    }
+    const response = await axios.get(url)
+    return response.data
 })
 
 export const { setLogout } = slice.actions;
