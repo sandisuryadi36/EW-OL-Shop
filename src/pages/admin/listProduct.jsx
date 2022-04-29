@@ -34,7 +34,10 @@ const ListProduct = () => {
                             <td className="text-center">{product.category ? product.category.name : ""}</td>
                             <td className="text-center">{product.status ? "Active" : "Inactive"}</td>
                             <td className="d-flex justify-content-center">
-                                <Link to={`/admin/dashboard/edit/${product._id}`}>
+                                <Link to={`/admin/dashboard/list/detail/${product._id}`}>
+                                    <button type="button" className="btn btn-sm btn-secondary">Detail</button>
+                                </Link>
+                                <Link to={`/admin/dashboard/list/edit/${product._id}`}>
                                     <button type="button" className="btn btn-sm btn-primary">Edit</button>
                                 </Link>
                                 <button type="button" className="btn btn-sm btn-danger" onClick={() => deleteHandler(product._id)}>Delete</button>

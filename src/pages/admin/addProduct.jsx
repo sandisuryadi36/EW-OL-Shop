@@ -57,7 +57,6 @@ const AddProduct = () => {
 
     return (
         <div>
-            {/* {loading && <Spinner />} */}
             <h3>Add Product</h3>
             <form id="addProductForm" onSubmit={postProdutHandler}>
                 <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" />
@@ -70,17 +69,19 @@ const AddProduct = () => {
                 <Input name="stock" type="number" placeholder="Stock Produk..." label="Stock" />
                 <Input name="image" type="file" placeholder="Image Produk..." label="Image" />
                 <Input name="status" type="checkbox" label="Active" defaultChecked={true} />
-                {loading
-                    ? (
-                        <button type="submit" className="btn btn-primary" form="addProductForm" disabled>
-                            <Spinner button={true} />
-                            Loading
-                        </button>
-                    )
-                    : (
-                        <button type="submit" className="btn btn-primary" form="addProductForm">Add Product</button>
-                    )
-                }
+                <div className="d-flex justify-content-end">
+                    {loading
+                        ? (
+                            <button type="submit" className="btn btn-primary" form="addProductForm" disabled>
+                                <Spinner button={true} />
+                                Loading
+                            </button>
+                        )
+                        : (
+                            <button type="submit" className="btn btn-primary" form="addProductForm">Add Product</button>
+                        )
+                    }
+                </div>
             </form>
         </div>
     )

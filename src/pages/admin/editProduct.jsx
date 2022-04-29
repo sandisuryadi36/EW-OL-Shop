@@ -4,8 +4,9 @@ import { useState } from "react";
 import axios from "axios";
 import * as c from "../../app/data/constants"
 import "./index.scss";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { putProduct } from "../../app/data/slice";
 
 const EditProduct = () => { 
     const [category, setCategory] = useState([]);
@@ -13,7 +14,10 @@ const EditProduct = () => {
     const status = useSelector(state => state.slice.status);
     const params = useParams()
     const navigate = useNavigate();
+    const location = useLocation();
     const [product, setProduct] = useState(null);
+    const origin = location.state ? location.state.from.pathname : "/admin/dashboard/list"
+    const dispatch = useDispatch();
     
     if (product === null) {
         axios.get(c.API_URL + "/api/v1/product/" + params.id)
@@ -45,22 +49,26 @@ const EditProduct = () => {
         )
     }
 
-    const putProdutHandler = async (e) => { 
+    const putProdutHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
         let data = new FormData(e.target)
         if (data.get("status") === "on") {
             data.set("status", true);
-        } else { 
+        } else {
             data.set("status", false);
         }
 
-        let res = await axios.put(c.API_URL + `/api/v1/product/${params.id}`, data);
-        setLoading(false);
-        if (res.data.message === "Product successfully updated") { 
-            alert("Product successfully updated");
-            navigate("/admin/dashboard/list")
-        }
+        // let res = await axios.put(c.API_URL + `/api/v1/product/${params.id}`, data);
+        dispatch(putProduct({id: params.id, data: data}))
+        .then(res => {
+                console.log(res)
+                setLoading(false);
+                if (res.payload.message === "Product successfully updated") {
+                    alert("Product successfully updated");
+                    navigate("/admin/dashboard/list")
+                }
+            })
     }
 
     const EditForm = () => {
@@ -78,8 +86,9 @@ const EditProduct = () => {
                     setPrevImage(product.image.filePath);
                 }
             }
+
             return (
-                <form id="addProductForm" onSubmit={putProdutHandler}>
+                <form id="editProductForm" onSubmit={putProdutHandler}>
                     <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" defaultValue={product.name} />
                     <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" defaultValue={product.description} />
                     <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" defaultValue={product.category.name}>
@@ -91,17 +100,19 @@ const EditProduct = () => {
                     <img src={prevImage} alt="product" />
                     <Input name="image" type="file" placeholder="Image Produk..." label="Change image" onChange={onImgChange} />
                     <Input name="status" type="checkbox" label="Active" defaultChecked={product.status} />
-                    {loading
-                        ? (
-                            <button type="submit" className="btn btn-primary" form="addProductForm" disabled>
-                                <Spinner button={true} />
-                                Loading
-                            </button>
-                        )
-                        : (
-                            <button type="submit" className="btn btn-primary" form="addProductForm">Update</button>
-                        )
-                    }
+                    <div className="d-flex justify-content-end">
+                        {loading
+                            ? (
+                                <button type="submit" className="btn btn-primary" form="editProductForm" disabled>
+                                    <Spinner button={true} />
+                                    Loading
+                                </button>
+                            )
+                            : (
+                                <button type="submit" className="btn btn-primary" form="editProductForm">Update</button>
+                            )
+                        }
+                    </div>
                 </form>
             )
         }
@@ -112,7 +123,10 @@ const EditProduct = () => {
     return (
         <div>
             {status === "pending" && <Spinner />}
-            <h3>Edit Product</h3>
+            <div className="d-flex justify-content-between">
+                <h3>Edit Product</h3>
+                <button className="btn btn-primary btn-sm" onClick={() => navigate(origin)}>Cancel</button>
+            </div>
             <EditForm />
         </div>
     )

@@ -160,6 +160,28 @@ export const slice = createSlice({
             state.message = 'Post product failed'
             state.data = null
         })
+
+        // put product
+        builder.addCase(putProduct.pending, (state, action) => {
+            state.status = 'pending'
+            state.recentAction = action.type
+            state.error = false
+            state.message = ''
+        })
+        builder.addCase(putProduct.fulfilled, (state, action) => {
+            state.status = 'fulfilled'
+            state.recentAction = action.type
+            state.error = false
+            state.message = action.payload.message
+            state.data = state.data.map(item => item._id === action.payload.data._id ? action.payload.data : item)
+        })
+        builder.addCase(putProduct.rejected, (state, action) => {
+            state.status = 'rejected'
+            state.recentAction = action.type
+            state.error = true
+            state.message = 'Put product failed'
+            state.data = null
+        })
     },
 })
 
@@ -224,6 +246,12 @@ export const postProduct = createAsyncThunk('postProduct', async (data) => {
     const response = await axios.post(c.API_URL + '/api/v1/product', data)
     return response.data;
 } )
+
+// put product
+export const putProduct = createAsyncThunk('putProduct', async (data) => { 
+    const response = await axios.put(c.API_URL + `/api/v1/product/${data.id}`, data.data)
+    return response.data;
+})
 
 export const { setSlice } = slice.actions;
 export default slice.reducer;

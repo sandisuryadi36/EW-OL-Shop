@@ -12,6 +12,7 @@ import Spinner from './component/spinner';
 import EditProduct from './pages/admin/editProduct';
 import ListProduct from './pages/admin/listProduct';
 import Overview from './pages/admin/overview';
+import DetailProduct from './pages/detailProduct';
 
 function App() {
   const dispatch = useDispatch();
@@ -56,7 +57,8 @@ function App() {
           <Route path="/admin/dashboard/" element={<Overview />} />
           <Route path="/admin/dashboard/add" element={<AddProduct />} />
           <Route path="/admin/dashboard/list" element={<ListProduct />} />
-          <Route path="/admin/dashboard/edit/:id" element={<EditProduct />} />
+          <Route path="/admin/dashboard/list/edit/:id" element={<EditProduct />} />
+          <Route path="/admin/dashboard/list/detail/:id" element={<DetailProduct />} />
         </Route>
 
         <Route path="/user/dashboard"

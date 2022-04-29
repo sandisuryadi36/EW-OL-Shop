@@ -4,9 +4,9 @@ const Input = (props) => {
   switch (props.type) { 
     case "checkbox":
       return (
-        <div className='checkbox'>
-          <input className={props.error && 'is-invalid'} {...props} />
+        <div className='checkbox d-flex justify-content-end align-items-center'>
           <label>{props.label}</label>
+          <input className={props.error && 'is-invalid'} {...props} />
           {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
         </div>
       )
