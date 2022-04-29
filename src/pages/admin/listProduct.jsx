@@ -57,7 +57,7 @@ const ListProduct = () => {
     return (
         <div>
             <h3>List Product</h3>
-            <div className="table-resposive">
+            <div className="table-responsive">
                 <table className="table table-sm table-striped">
                     <thead>
                         <tr>

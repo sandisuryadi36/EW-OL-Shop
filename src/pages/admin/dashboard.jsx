@@ -4,10 +4,10 @@ const AdminDashboard = () => {
     return (
         <div className="container mt-3">
             <h1>Admin Dashboard</h1>
-            <div className="d-flex felx-row mt-3 gap-2">
-                <div className="col-2 border rounded-3 border-dark p-2">
-                    <nav className="navbar">
-                        <ul className="nav flex-column nav-pills nav-fill">
+            <div className="">
+                <div className="border rounded-top border-dark border-bottom-0 p-2">
+                    <nav className="navbar container">
+                        <ul className="nav nav-tabs flex-row w-100">
                             <li className="nav-item active">
                                 <NavLink className="nav-link" aria-current="page" to="/admin/dashboard/">Overview</NavLink>
                             </li>
@@ -24,7 +24,7 @@ const AdminDashboard = () => {
                         </ul>
                     </nav>
                 </div>
-                <div className="w-100 p-2 ps-4 border rounded-3 border-dark ">
+                <div className="w-100 p-4 pt-0 border rounded-bottom border-dark border-top-0 ">
                     <Outlet />
                 </div>
             </div>
