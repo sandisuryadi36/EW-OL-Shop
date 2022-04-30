@@ -10,6 +10,7 @@ import { postProduct } from "../../app/data/slice";
 
 const AddProduct = () => { 
     const [category, setCategory] = useState([]);
+    const [newCategory, setNewCategory] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -37,6 +38,16 @@ const AddProduct = () => {
     const postProdutHandler = async (e) => { 
         e.preventDefault();
         setLoading(true);
+        
+        let categoryValue = e.target.category.value;
+        if (newCategory) {
+            let new_category = {
+                "name": e.target.newCategory.value.toLowerCase()
+            }
+            const category = await axios.post(c.API_URL + "/api/v1/category", new_category)
+            categoryValue = category.data.data._id
+        }
+        
         let data = new FormData(e.target)
         if (data.get("status") === "on") {
             data.set("status", true);
@@ -44,7 +55,8 @@ const AddProduct = () => {
             data.set("status", false);
         }
 
-        // let res = await axios.post(c.API_URL + "/api/v1/product", data);
+        data.set("category", categoryValue)
+
         dispatch(postProduct(data))
             .then(res => {
                 setLoading(false);
@@ -55,16 +67,26 @@ const AddProduct = () => {
             })
     }
 
+    const selectHandler = (e) => { 
+        if (e.target.value === "new") { 
+            setNewCategory(true);
+        } else { 
+            setNewCategory(false);
+        }
+    }
+
     return (
         <div>
             <h3>Add Product</h3>
             <form id="addProductForm" onSubmit={postProdutHandler}>
                 <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" />
                 <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" />
-                <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori">
+                <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" onChange={selectHandler}>
                     <option value="">Pilih Kategori</option>
                     <CategoryOptions />
+                    <option value="new">Tambah Kategori Baru</option>
                 </Input>
+                {newCategory && <Input name="newCategory" type="text" placeholder="Nama Kategori Baru..." label="Tambahkan Kategory" />}
                 <Input name="price" type="number" placeholder="Harga Produk..." label="Harga" />
                 <Input name="stock" type="number" placeholder="Stock Produk..." label="Stock" />
                 <Input name="image" type="file" placeholder="Image Produk..." label="Image" />

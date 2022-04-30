@@ -17,9 +17,6 @@ const AdminDashboard = () => {
                             <li className="nav-item">
                                 <NavLink className="nav-link" aria-current="page" to="/admin/dashboard/list">View Products</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link disabled" to="/">Disabled</NavLink>
-                            </li>
 
                         </ul>
                     </nav>

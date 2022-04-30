@@ -11,6 +11,7 @@ import { putProduct } from "../../app/data/slice";
 const EditProduct = () => { 
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [newCategory, setNewCategory] = useState(false);
     const status = useSelector(state => state.slice.status);
     const params = useParams()
     const navigate = useNavigate();
@@ -52,17 +53,26 @@ const EditProduct = () => {
     const putProdutHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-        let data = new FormData(e.target)
-        if (data.get("status") === "on") {
-            data.set("status", true);
-        } else {
-            data.set("status", false);
+
+        let categoryValue = e.target.category.value;
+        if (newCategory) {
+            let new_category = {
+                "name": e.target.newCategory.value.toLowerCase()
+            }
+            const category = await axios.post(c.API_URL + "/api/v1/category", new_category)
+            categoryValue = category.data.data._id
         }
 
-        // let res = await axios.put(c.API_URL + `/api/v1/product/${params.id}`, data);
-        dispatch(putProduct({id: params.id, data: data}))
+        let payload = new FormData(e.target)
+        if (payload.get("status") === "on") {
+            payload.set("status", true);
+        } else {
+            payload.set("status", false);
+        }
+        payload.set("category", categoryValue)
+
+        dispatch(putProduct({id: params.id, data: payload}))
         .then(res => {
-                console.log(res)
                 setLoading(false);
                 if (res.payload.message === "Product successfully updated") {
                     alert("Product successfully updated");
@@ -70,6 +80,15 @@ const EditProduct = () => {
                 }
             })
     }
+
+    const selectHandler = (e) => {
+        if (e.target.value === "new") {
+            setNewCategory(true);
+        } else {
+            setNewCategory(false);
+        }
+    }
+
 
     const EditForm = () => {
         const [prevImage, setPrevImage] = useState(product !== null ? product.image ? product.image.filePath : "https://via.placeholder.com/150/999999/FFFFFF/?text=no%20image" : "");
@@ -91,10 +110,12 @@ const EditProduct = () => {
                 <form id="editProductForm" onSubmit={putProdutHandler}>
                     <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" defaultValue={product.name} />
                     <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" defaultValue={product.description} />
-                    <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" defaultValue={product.category.name}>
+                    <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" onChange={selectHandler} defaultValue={product.category.name}>
                         <option value="">Pilih Kategori</option>
                         <CategoryOptions />
+                        <option value="new">Tambah Kategori Baru</option>
                     </Input>
+                    {newCategory && <Input name="newCategory" type="text" placeholder="Nama Kategori Baru..." label="Tambahkan Kategory" />}
                     <Input name="price" type="number" placeholder="Harga Produk..." label="Harga" defaultValue={product.price} />
                     <Input name="stock" type="number" placeholder="Stock Produk..." label="Stock" defaultValue={product.stock} />
                     <img src={prevImage} alt="product" />
