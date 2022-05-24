@@ -45,7 +45,7 @@ const EditProduct = () => {
         }
         return (
             category.map((cat, key) => {
-                return <option key={key} value={cat.Name}>{cat.Name}</option>
+                return <option key={key} value={cat.Id}>{cat.Name}</option>
             })
         )
     }
@@ -110,7 +110,7 @@ const EditProduct = () => {
                 <form id="editProductForm" onSubmit={putProdutHandler}>
                     <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" defaultValue={product.name} />
                     <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" defaultValue={product.description} />
-                    <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" onChange={selectHandler} defaultValue={product.category.name}>
+                    <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" onChange={selectHandler} defaultValue={product.category._id}>
                         <option value="">Pilih Kategori</option>
                         <CategoryOptions />
                         <option value="new">Tambah Kategori Baru</option>
