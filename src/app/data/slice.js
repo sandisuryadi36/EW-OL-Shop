@@ -20,6 +20,7 @@ export const slice = createSlice({
             if (action.payload.logedIn) { state.logedIn = action.payload.logedIn }
             if (action.payload.userData) { state.userData = action.payload.userData }
             if (action.payload.error) { state.error = action.payload.error }
+            if (action.payload.status) { state.status = action.payload.status }
         }
     },
     extraReducers(builder) {
@@ -43,7 +44,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = true
             state.message = 'Login failed'
-            state.data = null
+            state.data = []
         })
 
         // logout
@@ -52,14 +53,13 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = false
             state.message = ''
-            state.data = null
         })
         builder.addCase(postLogout.fulfilled, (state, action) => { 
             state.status = 'fulfilled'
             state.recentAction = action.type
             state.error = false
             state.message = action.payload.message
-            state.data = action.payload.data
+            state.data = []
             state.logedIn = action.payload.login
             state.userData = {}
         })
@@ -68,7 +68,6 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = true
             state.message = 'Logout failed'
-            state.data = null
         })
 
         // me check
@@ -114,7 +113,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = true
             state.message = 'Get product failed'
-            state.data = null
+            state.data = []
         })
 
         // delete product
@@ -136,7 +135,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = true
             state.message = 'Delete product failed'
-            state.data = null
+            state.data = []
         })
 
         // post product
@@ -158,7 +157,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = true
             state.message = 'Post product failed'
-            state.data = null
+            state.data = []
         })
 
         // put product
@@ -180,7 +179,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = true
             state.message = 'Put product failed'
-            state.data = null
+            state.data = []
         })
     },
 })

@@ -109,7 +109,7 @@ const EditProduct = () => {
             return (
                 <form id="editProductForm" onSubmit={putProdutHandler}>
                     <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" defaultValue={product.name} />
-                    <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" defaultValue={product.description} />
+                    <Input type="editor" name="description" label="Deskripsi" defaultValue={product.description} />
                     <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" onChange={selectHandler} defaultValue={product.category._id}>
                         <option value="">Pilih Kategori</option>
                         <CategoryOptions />

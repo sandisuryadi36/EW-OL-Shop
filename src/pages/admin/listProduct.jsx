@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { deleteProduct, getProduct } from "../../app/data/slice";
 
 const ListProduct = () => { 
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
+    const location = useLocation()
     // const recentAction = useSelector(state => state.slice.recentAction);
 
     useEffect(() => { 
@@ -34,7 +35,7 @@ const ListProduct = () => {
                             <td className="text-center">{product.category ? product.category.name : ""}</td>
                             <td className="text-center">{product.status ? "Active" : "Inactive"}</td>
                             <td className="d-flex justify-content-center">
-                                <Link to={`/admin/dashboard/list/detail/${product._id}`}>
+                                <Link to={`/admin/dashboard/list/detail/${product._id}`} state={{ from: location }}>
                                     <button type="button" className="btn btn-sm btn-secondary">Detail</button>
                                 </Link>
                                 <Link to={`/admin/dashboard/list/edit/${product._id}`}>

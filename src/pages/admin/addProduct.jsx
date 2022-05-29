@@ -80,7 +80,7 @@ const AddProduct = () => {
             <h3>Add Product</h3>
             <form id="addProductForm" onSubmit={postProdutHandler}>
                 <Input name="name" type="text" placeholder="Nama Produk..." label="Nama" />
-                <Input name="description" type="textarea" rows={4} placeholder="Deskripsi Produk..." label="Deskripsi" />
+                <Input type="editor" name="description" label="Deskripsi" />
                 <Input name="category" type="select" placeholder="Kategori Produk..." label="Kategori" onChange={selectHandler}>
                     <option value="">Pilih Kategori</option>
                     <CategoryOptions />

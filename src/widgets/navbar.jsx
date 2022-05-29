@@ -1,14 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { postLogout } from "../app/data/slice";
 
 const Navbar = () => { 
     const logedIn = useSelector(state => state.slice.logedIn);
     const user = useSelector(state => state.slice.userData);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const logoutHandler = () => { 
-        dispatch(postLogout());
+        dispatch(postLogout())
+            .then(navigate("/"))
     }
 
     return (
@@ -34,7 +36,7 @@ const Navbar = () => {
                         <li className="nav-item">
                             {!logedIn
                                 ? <NavLink to="/login" className={"nav-link"}>Login</NavLink>
-                                : <NavLink to="/" className={"nav-link"}><span onClick={logoutHandler} >Logout</span></NavLink>
+                                : <NavLink to="" className={"nav-link"} onClick={logoutHandler} >Logout</NavLink>
                             }
                         </li>
                     </ul>

@@ -1,7 +1,8 @@
+import TextEditor from '../textEditor';
 import './index.scss';
 
 const Input = (props) => {
-  switch (props.type) { 
+  switch (props.type) {
     case "checkbox":
       return (
         <div className='checkbox d-flex justify-content-end align-items-center'>
@@ -19,13 +20,20 @@ const Input = (props) => {
           </select>
           {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
         </div>
-      )    
+      )
     case "textarea":
       return (
         <div>
           <label>{props.label}</label>
           <textarea className={`form-control ${props.error && 'is-invalid'}`} {...props}></textarea>
           {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
+        </div>
+      )
+    case "editor":
+      return (
+        <div>
+          <label>{props.label}</label>
+          <TextEditor name={props.name} value={props.defaultValue} />
         </div>
       )
     default:

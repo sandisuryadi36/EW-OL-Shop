@@ -5,7 +5,7 @@ import * as c from "../app/data/constants"
 import "./index.scss";
 import { useSelector } from 'react-redux';
 
-const DetailProduct = () => { 
+const DetailProduct = (props) => { 
     const params = useParams();
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,11 +24,16 @@ const DetailProduct = () => {
     }
 
     return (
-        <div>
+        <div className={props.className}>
             <div className="d-flex justify-content-between">
                 <h3>Detail Product</h3>
                 <div>
-                    <button className="btn btn-primary btn-sm" onClick={() => navigate("/admin/dashboard/list")}>Back</button>
+                    <button className="btn btn-primary btn-sm"
+                        onClick={() => {
+                            const origin = location.state ? location.state.from.pathname : "/";
+                            navigate(origin)
+                        }}
+                    >Back</button>
                     {userRole === "admin" &&
                         <button className="btn btn-primary btn-sm"
                             onClick={() => navigate("/admin/dashboard/list/edit/" + id, { state: { from: location } })}
@@ -51,7 +56,7 @@ const DetailProduct = () => {
                         <p>{"Stock : " + product.stock}</p>
                         <p>{"Category : " + product.category.name}</p>
                         <h6>Description</h6>
-                        <p>{product.description}</p>
+                        <span dangerouslySetInnerHTML={{ __html: product.description }} />
                     </div>
                 </div>
             )}

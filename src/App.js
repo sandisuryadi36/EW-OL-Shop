@@ -47,6 +47,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/product/:id" element={<DetailProduct className="p-4" />} />
         
         <Route path="/admin/dashboard"
           element={
