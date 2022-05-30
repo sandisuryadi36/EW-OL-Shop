@@ -4,12 +4,13 @@ const SearchBar = (props) => {
     const navigate = useNavigate();
 
     // set search text
+    let timer = null;
     const searchHandler = (e) => {
-        // if enter key is pressed
-        if (e.key === "Enter") { 
+        clearTimeout(timer);
+        timer = setTimeout(() => {
             let text = e.target.value
             text === "" ? navigate("/") : navigate("/search/" + text)
-        }
+        }, 500)
     }
 
     return (

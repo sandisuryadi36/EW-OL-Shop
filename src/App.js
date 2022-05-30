@@ -47,34 +47,36 @@ function App() {
     <BrowserRouter>
       <RouteChangeListener />
       <Navbar />
-      <SearchBar placeholder="Search..." />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/product/:id" element={<DetailProduct className="p-4" />} />
-        <Route path="/search/:keyword" element={<Home />} />
+      <div className='container'>
+        <SearchBar placeholder="Search..." className="rounded-3 mt-3" />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/product/:id" element={<DetailProduct className="pt-4" />} />
+          <Route path="/search/:keyword" element={<Home />} />
 
-        <Route path="/admin/dashboard"
-          element={
-            <ProtectedRoute role="admin">
-              <AdminDashboard />
-            </ProtectedRoute>
-          } >
-          <Route path="/admin/dashboard/" element={<Overview />} />
-          <Route path="/admin/dashboard/add" element={<AddProduct />} />
-          <Route path="/admin/dashboard/list" element={<ListProduct />} />
-          <Route path="/admin/dashboard/list/edit/:id" element={<EditProduct />} />
-          <Route path="/admin/dashboard/list/detail/:id" element={<DetailProduct />} />
-        </Route>
+          <Route path="/admin/dashboard"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            } >
+            <Route path="/admin/dashboard/" element={<Overview />} />
+            <Route path="/admin/dashboard/add" element={<AddProduct />} />
+            <Route path="/admin/dashboard/list" element={<ListProduct />} />
+            <Route path="/admin/dashboard/list/edit/:id" element={<EditProduct />} />
+            <Route path="/admin/dashboard/list/detail/:id" element={<DetailProduct />} />
+          </Route>
 
-        <Route path="/user/dashboard"
-          element={
-            <ProtectedRoute role="user">
-              <UserDashboard />
-            </ProtectedRoute>
-          } />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/user/dashboard"
+            element={
+              <ProtectedRoute role="user">
+                <UserDashboard />
+              </ProtectedRoute>
+            } />
+        </Routes>
+      </div>
+    </BrowserRouter >
   );
 }
 
