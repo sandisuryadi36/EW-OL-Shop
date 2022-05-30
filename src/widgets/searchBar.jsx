@@ -13,7 +13,7 @@ const SearchBar = (props) => {
     }
 
     return (
-        <input className={"form-control " + props.className} type="text" placeholder={props.placeholder} onKeyUp={e => searchHandler(e)} />
+        <input id="searchBar" className={"form-control " + props.className} type="text" placeholder={props.placeholder} onKeyUp={e => searchHandler(e)} />
     )
 }
 

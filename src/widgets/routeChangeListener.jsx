@@ -9,6 +9,12 @@ const RouteChangeListener = () => {
 
     useEffect(() => {
         dispatch(setSlice({ status: "idle" }));
+        dispatch(setSlice({ data: [] }));
+        if (location.pathname.startsWith("/search/") === false) {
+            document.getElementById("searchBar").value = "";
+        } else {
+            document.getElementById("searchBar").value = location.pathname.substring(8);
+        }
     }, [location, dispatch]);
 }
 

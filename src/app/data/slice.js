@@ -9,7 +9,7 @@ const initialState = {
     message: '',
     logedIn: false,
     userData: {},
-    data: []
+    data: [],
 }
 
 export const slice = createSlice({
@@ -21,6 +21,7 @@ export const slice = createSlice({
             if (action.payload.userData) { state.userData = action.payload.userData }
             if (action.payload.error) { state.error = action.payload.error }
             if (action.payload.status) { state.status = action.payload.status }
+            if (action.payload.data) { state.data = action.payload.data }
         }
     },
     extraReducers(builder) {
