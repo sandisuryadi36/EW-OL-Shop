@@ -13,6 +13,8 @@ import EditProduct from './pages/admin/editProduct';
 import ListProduct from './pages/admin/listProduct';
 import Overview from './pages/admin/overview';
 import DetailProduct from './pages/detailProduct';
+import SearchBar from './widgets/searchBar';
+import RouteChangeListener from './widgets/routeChangeListener';
 
 function App() {
   const dispatch = useDispatch();
@@ -20,17 +22,17 @@ function App() {
   const status = useSelector(state => state.slice.status);
   const user = useSelector(state => state.slice.userData);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (status === "idle") {
       dispatch(loginCheck());
     }
   }, [dispatch, status]);
 
   function ProtectedRoute(props) {
-  const location = useLocation();
-    if (status === "fulfilled") { 
+    const location = useLocation();
+    if (status === "fulfilled") {
       if (!logedIn) {
-        return <Navigate to="/login" replace state={{from: location}} />
+        return <Navigate to="/login" replace state={{ from: location }} />
       }
 
       if (!(user.role === props.role)) {
@@ -43,12 +45,15 @@ function App() {
 
   return (
     <BrowserRouter>
+      <RouteChangeListener />
       <Navbar />
+      <SearchBar placeholder="Search..." />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/product/:id" element={<DetailProduct className="p-4" />} />
-        
+        <Route path="/search/:keyword" element={<Home />} />
+
         <Route path="/admin/dashboard"
           element={
             <ProtectedRoute role="admin">

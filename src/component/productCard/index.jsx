@@ -15,7 +15,7 @@ const ProductCard = (props) => {
                 <div className="ratio ratio-1x1">
                     <img className="image-square" src={imageURL} alt="product" />
                 </div>
-                <span class="badge text-bg-dark">{categoryName}</span>
+                <span className="badge text-bg-dark">{categoryName}</span>
                 <h6 className="card-title text-center">{productName}</h6>
                 <p className="card-text">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price)}</p>
             </div>

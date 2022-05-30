@@ -226,7 +226,7 @@ export const postLogout = createAsyncThunk('logout', async () => {
 export const getProduct = createAsyncThunk('getProducts', async (filter) => { 
     let url = ''
     if (filter) {
-        url = c.API_URL + '/api/v1/product' + filter
+        url = c.API_URL + '/api/v1/product/?' + filter
     } else { 
         url = c.API_URL + '/api/v1/product'
     }

@@ -1,17 +1,27 @@
 import { useEffect } from "react";
+import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../component/productCard";
 import { getProduct } from "../app/data/slice";
 
 const Home = () => {
+    const params = useParams()
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
+    const status = useSelector(state => state.slice.status);
+    let keyword = ""
+
+    if (params.keyword) {
+        keyword = params.keyword
+    }
 
     useEffect(() => {
-        if (products.length < 1) {
-            dispatch(getProduct());
+        if (status === "idle") {
+            if (keyword !== "") {
+                dispatch(getProduct("search=" + keyword))
+            } else dispatch(getProduct());
         }
-    }, [products, dispatch])
+    }, [status, dispatch, keyword]);
 
     const ListProduct = () => {
         let element = products.map((item, key) => {
