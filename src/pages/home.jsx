@@ -8,6 +8,7 @@ const Home = () => {
     const params = useParams()
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
+    const recentAction = useSelector(state => state.slice.recentAction);
     let keyword = ""
 
     if (params.keyword) {
@@ -19,6 +20,10 @@ const Home = () => {
             dispatch(getProduct("search=" + keyword))
         } else dispatch(getProduct());
     }, [dispatch, keyword]);
+
+    useEffect(() => { 
+        if (recentAction === "logout/fulfilled") dispatch(getProduct())
+    }, [recentAction, dispatch])
 
     const ListProduct = () => {
         let element = products.map((item, key) => {
