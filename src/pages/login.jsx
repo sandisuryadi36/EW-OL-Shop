@@ -23,7 +23,7 @@ const Login = () => {
             {logedIn
                 ? (userData.role === "admin")
                     ? <Navigate to="/admin/dashboard/" />
-                    : (userData.role === "user") && <Navigate to="/user/dashboard/" />
+                    : (userData.role === "user") && <Navigate to="/" />
                 : null
             }
             {status === "pending" && <Spinner />}

@@ -1,11 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import AdminDashboard from './pages/admin/dashboard';
 import Home from './pages/home';
 import Login from './pages/login';
 import Navbar from './widgets/navbar';
-import { loginCheck } from './app/data/slice';
 import UserDashboard from './pages/user/dashboard';
 import AddProduct from './pages/admin/addProduct';
 import Spinner from './component/spinner';
@@ -17,20 +15,14 @@ import SearchBar from './widgets/searchBar';
 import RouteChangeListener from './widgets/routeChangeListener';
 
 function App() {
-  const dispatch = useDispatch();
   const logedIn = useSelector(state => state.slice.logedIn);
   const status = useSelector(state => state.slice.status);
+  const loading = useSelector(state => state.slice.loading);
   const user = useSelector(state => state.slice.userData);
-
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(loginCheck());
-    }
-  }, [dispatch, status]);
 
   function ProtectedRoute(props) {
     const location = useLocation();
-    if (status === "fulfilled") {
+    if ((status === "fulfilled")&&(!loading)) {
       if (!logedIn) {
         return <Navigate to="/login" replace state={{ from: location }} />
       }
@@ -45,6 +37,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      {loading && <Spinner />}
       <RouteChangeListener />
       <Navbar />
       <div className='container'>

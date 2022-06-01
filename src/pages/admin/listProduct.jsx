@@ -6,14 +6,14 @@ import { deleteProduct, getProduct } from "../../app/data/slice";
 const ListProduct = () => { 
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
+    const status = useSelector(state => state.slice.status);
     const location = useLocation()
-    // const recentAction = useSelector(state => state.slice.recentAction);
 
-    useEffect(() => { 
-        if (products.length < 1) {
+    useEffect(() => {
+        if ((products.length < 1) && (status === "fulfilled")) {
             dispatch(getProduct());
         }
-    }, [products, dispatch])
+    }, [products, dispatch, status]);
 
 
     // delete product

@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const initialState = {
     status: 'idle',
+    loading: true,
     recentAction: null,
     error: false,
     message: '',
@@ -22,6 +23,7 @@ export const slice = createSlice({
             if (action.payload.error) { state.error = action.payload.error }
             if (action.payload.status) { state.status = action.payload.status }
             if (action.payload.data) { state.data = action.payload.data }
+            if (action.payload.loading) { state.loading = action.payload.loading }
         }
     },
     extraReducers(builder) {
@@ -31,6 +33,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = false
             state.message = ''
+            state.loading = true
         })
         builder.addCase(postLogin.fulfilled, (state, action) => {
             state.status = 'fulfilled'
@@ -39,6 +42,7 @@ export const slice = createSlice({
             state.message = action.payload.message
             state.userData = (action.payload.message === "Login successfully") && action.payload.data.user
             state.logedIn = action.payload.login
+            state.loading = false
         })
         builder.addCase(postLogin.rejected, (state, action) => {
             state.status = 'rejected'
@@ -46,6 +50,7 @@ export const slice = createSlice({
             state.error = true
             state.message = 'Login failed'
             state.data = []
+            state.loading = false
         })
 
         // logout
@@ -54,6 +59,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = false
             state.message = ''
+            state.loading = true
         })
         builder.addCase(postLogout.fulfilled, (state, action) => { 
             state.status = 'fulfilled'
@@ -63,12 +69,14 @@ export const slice = createSlice({
             state.data = []
             state.logedIn = action.payload.login
             state.userData = {}
+            state.loading = false
         })
         builder.addCase(postLogout.rejected, (state, action) => { 
             state.status = 'rejected'
             state.recentAction = action.type
             state.error = true
             state.message = 'Logout failed'
+            state.loading = false
         })
 
         // me check
@@ -78,6 +86,7 @@ export const slice = createSlice({
             state.error = false
             state.message = ''
             state.userData = {}
+            state.loading = true
         })
         builder.addCase(loginCheck.fulfilled, (state, action) => {
             state.status = 'fulfilled'
@@ -86,6 +95,7 @@ export const slice = createSlice({
             state.message = action.payload.message
             state.userData = action.payload.user
             state.logedIn = action.payload.login
+            state.loading = false
         })
         builder.addCase(loginCheck.rejected, (state, action) => {
             state.status = 'rejected'
@@ -93,6 +103,7 @@ export const slice = createSlice({
             state.error = true
             state.message = 'Login failed'
             state.user = {}
+            state.loading = false
         })
         
         // get product
@@ -101,6 +112,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = false
             state.message = ''
+            state.loading = true
         })
         builder.addCase(getProduct.fulfilled, (state, action) => {
             state.status = 'fulfilled'
@@ -108,6 +120,7 @@ export const slice = createSlice({
             state.error = false
             state.message = action.payload.message
             state.data = action.payload.data
+            state.loading = false
         })
         builder.addCase(getProduct.rejected, (state, action) => {
             state.status = 'rejected'
@@ -115,6 +128,7 @@ export const slice = createSlice({
             state.error = true
             state.message = 'Get product failed'
             state.data = []
+            state.loading = false
         })
 
         // delete product
@@ -123,6 +137,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = false
             state.message = ''
+            state.loading = true
         })
         builder.addCase(deleteProduct.fulfilled, (state, action) => {
             state.status = 'fulfilled'
@@ -130,6 +145,7 @@ export const slice = createSlice({
             state.error = false
             state.message = action.payload.message
             state.data = state.data.filter(item => item._id !== action.payload.data._id)
+            state.loading = false
         })
         builder.addCase(deleteProduct.rejected, (state, action) => {
             state.status = 'rejected'
@@ -137,6 +153,7 @@ export const slice = createSlice({
             state.error = true
             state.message = 'Delete product failed'
             state.data = []
+            state.loading = false
         })
 
         // post product
@@ -145,6 +162,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = false
             state.message = ''
+            state.loading = true
         })
         builder.addCase(postProduct.fulfilled, (state, action) => {
             state.status = 'fulfilled'
@@ -152,6 +170,7 @@ export const slice = createSlice({
             state.error = false
             state.message = action.payload.message
             state.data = !state.data ? state.data.concat(action.payload.data) : []
+            state.loading = false
         })
         builder.addCase(postProduct.rejected, (state, action) => {
             state.status = 'rejected'
@@ -159,6 +178,7 @@ export const slice = createSlice({
             state.error = true
             state.message = 'Post product failed'
             state.data = []
+            state.loading = false
         })
 
         // put product
@@ -167,6 +187,7 @@ export const slice = createSlice({
             state.recentAction = action.type
             state.error = false
             state.message = ''
+            state.loading = true
         })
         builder.addCase(putProduct.fulfilled, (state, action) => {
             state.status = 'fulfilled'
@@ -174,6 +195,7 @@ export const slice = createSlice({
             state.error = false
             state.message = action.payload.message
             state.data = state.data.map(item => item._id === action.payload.data._id ? action.payload.data : item)
+            state.loading = false
         })
         builder.addCase(putProduct.rejected, (state, action) => {
             state.status = 'rejected'
@@ -181,6 +203,7 @@ export const slice = createSlice({
             state.error = true
             state.message = 'Put product failed'
             state.data = []
+            state.loading = false
         })
     },
 })

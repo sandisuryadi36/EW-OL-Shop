@@ -8,7 +8,6 @@ const Home = () => {
     const params = useParams()
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
-    const status = useSelector(state => state.slice.status);
     let keyword = ""
 
     if (params.keyword) {
@@ -16,12 +15,10 @@ const Home = () => {
     }
 
     useEffect(() => {
-        if (status === "idle") {
-            if (keyword !== "") {
-                dispatch(getProduct("search=" + keyword))
-            } else dispatch(getProduct());
-        }
-    }, [status, dispatch, keyword]);
+        if (keyword !== "") {
+            dispatch(getProduct("search=" + keyword))
+        } else dispatch(getProduct());
+    }, [dispatch, keyword]);
 
     const ListProduct = () => {
         let element = products.map((item, key) => {
