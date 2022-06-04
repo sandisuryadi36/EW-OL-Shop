@@ -30,7 +30,10 @@ const DetailProduct = (props) => {
                 <div>
                     <button className="btn btn-primary btn-sm"
                         onClick={() => {
-                            const origin = location.state ? location.state.from.pathname : "/";
+                            let origin = location.state ? location.state.from.pathname : "/";
+                            if (location.state.from.search) { 
+                                origin += location.state.from.search;
+                            }
                             navigate(origin)
                         }}
                     >Back</button>
@@ -52,7 +55,7 @@ const DetailProduct = (props) => {
                     <div>
                         <h4>{product.name}</h4>
                         <p className='price'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.price)}</p>
-                        {userRole === "admin" && <p>{product.status ? "Status : Active" : "Status : Inactive"}</p>}
+                        {userRole === "admin" && <p>{product.status ? <span className="badge text-bg-success">Active</span> : <span className="badge text-bg-danger">Inactive</span>}</p>}
                         <p>{"Stock : " + product.stock}</p>
                         <p>{"Category : " + product.category.name}</p>
                         <h6>Description</h6>

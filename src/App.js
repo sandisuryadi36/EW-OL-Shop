@@ -13,12 +13,14 @@ import Overview from './pages/admin/overview';
 import DetailProduct from './pages/detailProduct';
 import SearchBar from './widgets/searchBar';
 import RouteChangeListener from './widgets/routeChangeListener';
+// import { useState } from 'react';
 
 function App() {
   const logedIn = useSelector(state => state.slice.logedIn);
   const status = useSelector(state => state.slice.status);
   const loading = useSelector(state => state.slice.loading);
   const user = useSelector(state => state.slice.userData);
+  // const [searchQuery, setSearchQuery] = useState('');
 
   function ProtectedRoute(props) {
     const location = useLocation();
@@ -35,6 +37,10 @@ function App() {
     return <Spinner />
   }
 
+  // const searchHandler = (value) => { 
+  //   setSearchQuery(value);
+  // }
+
   return (
     <BrowserRouter>
       {loading && <Spinner />}
@@ -46,7 +52,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/product/:id" element={<DetailProduct className="pt-4" />} />
-          <Route path="/search/:keyword" element={<Home />} />
+          <Route path="/product" element={<Home />} />
 
           <Route path="/admin/dashboard"
             element={

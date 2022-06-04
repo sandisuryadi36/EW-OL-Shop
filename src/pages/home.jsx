@@ -1,18 +1,18 @@
 import { useEffect } from "react";
-import { useParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../component/productCard";
 import { getProduct } from "../app/data/slice";
 
 const Home = () => {
-    const params = useParams()
+    const [params] = useSearchParams();
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
     const recentAction = useSelector(state => state.slice.recentAction);
     let keyword = ""
 
-    if (params.keyword) {
-        keyword = params.keyword
+    if (params.get("search") !== null) {
+        keyword = params.get("search")
     }
 
     useEffect(() => {

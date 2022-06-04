@@ -1,27 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { loginCheck, setSlice } from "../app/data/slice";
 
 const RouteChangeListener = () => { 
     const dispatch = useDispatch();
-    const location = useLocation();
+    const [params] = useSearchParams();
 
     useEffect(() => {
         async function routeChange(){
             dispatch(setSlice({ data: [] }))
             dispatch(loginCheck())
                 .then(() => { 
-                    if (location.pathname.startsWith("/search/") === false) {
-                        document.getElementById("searchBar").value = "";
+                    if (params.get("search") !== null) {
+                        document.getElementById("searchBar").value = params.get("search");
                     } else {
-                        document.getElementById("searchBar").value = location.pathname.substring(8);
+                        document.getElementById("searchBar").value = "";
                     }
                 })
                 // .then(() => dispatch(setSlice({ status: "idle" })))
         }
         routeChange();
-    }, [location.pathname, dispatch]);
+    }, [params, dispatch]);
 }
 
 export default RouteChangeListener;
