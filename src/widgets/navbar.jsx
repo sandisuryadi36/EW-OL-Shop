@@ -12,6 +12,34 @@ const Navbar = () => {
         dispatch(postLogout()).then(() => navigate("/"));
     }
 
+    const UserMenu = () => { 
+        if (logedIn) {
+            return (
+                <div className="dropdown">
+                    <button className="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {user.full_name}
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <Link to={"/"+ user.role + "/dashboard"} className="dropdown-item">Dashboard</Link>
+                        <button onClick={logoutHandler} className="btn-link dropdown-item" >Logout</button>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div className="dropdown">
+                    <button className="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Login
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <Link to="/login" className="dropdown-item">Login</Link>
+                        <Link to="" className="dropdown-item" >Register</Link>
+                    </div>
+                </div>
+            )
+        }    
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -25,20 +53,7 @@ const Navbar = () => {
                             <NavLink to="/" className={"nav-link"}>Home</NavLink>
                         </li>
                     </ul>
-                    <ul className="navbar-nav">
-                        {logedIn && (
-                            <li className="nav-item active">
-                                {user.role === "admin" && <NavLink to="/admin/dashboard/" className={"nav-link"}>Admin Dashboard</NavLink>}
-                                {user.role === "user" && <NavLink to="/user/dashboard/" className={"nav-link"}>User Dashboard</NavLink>}
-                            </li>
-                        )}
-                        <li className="nav-item">
-                            {!logedIn
-                                ? <Link to="/login" className={"nav-link"}>Login</Link>
-                                : <button onClick={logoutHandler} className={"btn btn-link nav-link"} >Logout</button>
-                            }
-                        </li>
-                    </ul>
+                    <UserMenu />
                 </div>
             </div>
         </nav>
