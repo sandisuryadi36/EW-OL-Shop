@@ -15,19 +15,19 @@ const UserMenu = () => {
     if (logedIn) {
         return (
             <div className="dropdown">
-                <button className="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button className="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {user.full_name}
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <Link to={"/" + user.role + "/dashboard"} className="dropdown-item">Dashboard</Link>
-                    <button onClick={logoutHandler} className="btn-link dropdown-item" >Logout</button>
+                    <button onClick={logoutHandler} className="btn-link no-m dropdown-item" >Logout</button>
                 </div>
             </div>
         )
     } else {
         return (
             <div className="dropdown">
-                <button className="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button className="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Login
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

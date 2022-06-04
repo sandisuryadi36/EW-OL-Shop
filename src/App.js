@@ -11,7 +11,7 @@ import EditProduct from './pages/admin/editProduct';
 import ListProduct from './pages/admin/listProduct';
 import Overview from './pages/admin/overview';
 import DetailProduct from './pages/detailProduct';
-import SearchBar from './widgets/searchBar';
+// import SearchBar from './widgets/searchBar';
 import RouteChangeListener from './widgets/routeChangeListener';
 // import { useState } from 'react';
 
@@ -47,7 +47,7 @@ function App() {
       <RouteChangeListener />
       <Navbar />
       <div className='container'>
-        <SearchBar placeholder="Search..." className="rounded-3 mt-3" />
+        {/* <SearchBar placeholder="Search..." className="rounded-3 mt-3" /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

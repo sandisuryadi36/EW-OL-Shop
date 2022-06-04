@@ -11,13 +11,6 @@ const RouteChangeListener = () => {
         async function routeChange(){
             dispatch(setSlice({ data: [] }))
             dispatch(loginCheck())
-                .then(() => { 
-                    if (params.get("search") !== null) {
-                        document.getElementById("searchBar").value = params.get("search");
-                    } else {
-                        document.getElementById("searchBar").value = "";
-                    }
-                })
                 // .then(() => dispatch(setSlice({ status: "idle" })))
         }
         routeChange();

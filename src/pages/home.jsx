@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../component/productCard";
 import { getProduct } from "../app/data/slice";
+import SearchBar from "../widgets/searchBar";
 
 const Home = () => {
     const [params] = useSearchParams();
@@ -42,9 +43,12 @@ const Home = () => {
     }
 
     return (
-        <div className="pt-3 d-flex flex-wrap gap-2">
-            <ListProduct />
-        </div>
+        <>
+            <SearchBar placeholder="Search..." className="rounded-3 mt-3" search={keyword}/>
+            <div className="pt-3 d-flex flex-wrap gap-2">
+                <ListProduct />
+            </div>
+        </>
     );
 }
 
