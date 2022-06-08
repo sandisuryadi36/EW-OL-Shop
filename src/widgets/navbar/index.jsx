@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import UserMenu from "./userMenu";
 
 const Navbar = () => { 
@@ -15,7 +15,12 @@ const Navbar = () => {
                             <NavLink to="/" className={"nav-link"}>Home</NavLink>
                         </li>
                     </ul>
-                    <UserMenu />
+                    <div className="d-flex align-items-center">
+                        <Link to="">
+                            <i className="bi bi-cart text-light me-3"></i>
+                        </Link>
+                        <UserMenu />
+                    </div>
                 </div>
             </div>
         </nav>

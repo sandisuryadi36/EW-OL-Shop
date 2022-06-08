@@ -1,25 +1,27 @@
 import { Link, useLocation } from "react-router-dom";
+import AddCartButton from "../addCartButton";
 import "./index.scss"
 
 const ProductCard = (props) => {
     let { productName, productID, price, imageURL, categoryName } = props.product;
     const location = useLocation()
 
-    // const onClickHandler = () => {
-    //     return <Navigate to={"/product/" + productID} replace state={{ from: location }} />
-    // }
-
     return (
-        <Link className="card col-2 product-card" to={"/product/" + productID} state={{ from: location }}>
-            <div className="card-body d-flex flex-column align-items-center">
+        <div className="card col-2 pt-2 pb-2 d-flex flex-column align-items-center justify-content-between">
+            <Link className="product-card card-body p-0 text-dark w-100" to={"/product/" + productID} state={{ from: location }}>
                 <div className="ratio ratio-1x1">
                     <img className="image-square" src={imageURL} alt="product" />
                 </div>
-                <span className="badge text-bg-dark">{categoryName}</span>
-                <h6 className="card-title text-center">{productName}</h6>
-                <p className="card-text">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price)}</p>
-            </div>
-        </Link>
+                <div className="ps-2 pe-2">
+                    <div className="badge text-bg-dark mt-1">{categoryName}</div>
+                    <div className="mt-2 mb-1">{productName}</div>
+                    <h6 className="mb-0 fw-bold">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price)}</h6>
+                </div>
+            </Link>
+            <>
+                <AddCartButton product={productID} />
+            </>
+        </div>
     )
 }
 
