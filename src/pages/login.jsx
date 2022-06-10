@@ -15,7 +15,13 @@ const Login = () => {
         e.preventDefault();
         const origin = location.state ? location.state.from.pathname : "/login";
         const data = new URLSearchParams(new FormData(e.target));
-        dispatch(postLogin(data)).then(() => navigate(origin))      
+        dispatch(postLogin(data)).then((res) => {
+            if (res.payload.login) {
+                navigate(origin)
+            } else {
+                alert(res.payload.message)
+            }
+        })      
     }
 
     return (

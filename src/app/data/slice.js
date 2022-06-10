@@ -5,12 +5,15 @@ import axios from 'axios';
 const initialState = {
     status: 'idle',
     loading: true,
+    currentLocation: null,
     recentAction: null,
     error: false,
     message: '',
     logedIn: false,
     userData: {},
     data: [],
+    cartCount: 0,
+    cartItems: [],
 }
 
 export const slice = createSlice({
@@ -24,6 +27,8 @@ export const slice = createSlice({
             if (action.payload.status) { state.status = action.payload.status }
             if (action.payload.data) { state.data = action.payload.data }
             if (action.payload.loading) { state.loading = action.payload.loading }
+            if (action.payload.cartCount) { state.cartCount = action.payload.cartCount }
+            if (action.payload.currentLocation) { state.currentLocation = action.payload.currentLocation }
         }
     },
     extraReducers(builder) {
@@ -69,6 +74,8 @@ export const slice = createSlice({
             state.data = []
             state.logedIn = action.payload.login
             state.userData = {}
+            state.cartItems = []
+            state.cartCount = 0
             state.loading = false
         })
         builder.addCase(postLogout.rejected, (state, action) => { 
@@ -205,6 +212,53 @@ export const slice = createSlice({
             state.data = []
             state.loading = false
         })
+
+        // put cart
+        builder.addCase(putCart.pending, (state, action) => { 
+            state.status = 'pending'
+            state.recentAction = action.type
+            state.error = false
+            state.message = ''
+            state.loading = true
+        })
+        builder.addCase(putCart.fulfilled, (state, action) => {
+            state.status = 'fulfilled'
+            state.recentAction = action.type
+            state.error = false
+            state.message = action.payload.message
+            state.loading = false
+        })
+        builder.addCase(putCart.rejected, (state, action) => { 
+            state.status = 'rejected'
+            state.recentAction = action.type
+            state.error = true
+            state.message = 'Put cart failed'
+            state.loading = false
+        })
+
+        // get cart
+        builder.addCase(getCart.pending, (state, action) => { 
+            state.status = 'pending'
+            state.recentAction = action.type
+            state.error = false
+            state.message = ''
+            state.loading = true
+        })
+        builder.addCase(getCart.fulfilled, (state, action) => { 
+            state.status = 'fulfilled'
+            state.recentAction = action.type
+            state.error = false
+            state.message = action.payload.message
+            state.cartItems = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getCart.rejected, (state, action) => { 
+            state.status = 'rejected'
+            state.recentAction = action.type
+            state.error = true
+            state.message = 'Get cart failed'
+            state.loading = false
+        })
     },
 })
 
@@ -273,6 +327,18 @@ export const postProduct = createAsyncThunk('postProduct', async (data) => {
 // put product
 export const putProduct = createAsyncThunk('putProduct', async (data) => { 
     const response = await axios.put(c.API_URL + `/api/v1/product/${data.id}`, data.data)
+    return response.data;
+})
+
+// put cart
+export const putCart = createAsyncThunk('putCart', async (data) => { 
+    const response = await axios.put(c.API_URL + `/api/v1/cart`, data)
+    return response.data;
+})
+
+// get cart
+export const getCart = createAsyncThunk('getCart', async () => { 
+    const response = await axios.get(c.API_URL + '/api/v1/cart')
     return response.data;
 })
 

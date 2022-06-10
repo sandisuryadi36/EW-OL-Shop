@@ -19,7 +19,7 @@ const ProductCard = (props) => {
                 </div>
             </Link>
             <>
-                <AddCartButton product={productID} />
+                <AddCartButton product={props.product} />
             </>
         </div>
     )

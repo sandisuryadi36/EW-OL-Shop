@@ -4,6 +4,7 @@ import axios from "axios";
 import * as c from "../app/data/constants"
 import "./index.scss";
 import { useSelector } from 'react-redux';
+import AddCartButton from "../component/addCartButton";
 
 const DetailProduct = (props) => { 
     const params = useParams();
@@ -28,7 +29,7 @@ const DetailProduct = (props) => {
             <div className="d-flex justify-content-between">
                 <h3>Detail Product</h3>
                 <div>
-                    <button className="btn btn-primary btn-sm"
+                    <button type="button" className="btn-close" aria-label="Close"
                         onClick={() => {
                             let origin = location.state ? location.state.from.pathname : "/";
                             if (location.state.from.search) { 
@@ -36,12 +37,7 @@ const DetailProduct = (props) => {
                             }
                             navigate(origin)
                         }}
-                    >Back</button>
-                    {userRole === "admin" &&
-                        <button className="btn btn-primary btn-sm"
-                            onClick={() => navigate("/admin/dashboard/list/edit/" + id, { state: { from: location } })}
-                        >Edit</button>
-                    }
+                    ></button>
                 </div>
             </div>
             {product && (
@@ -52,12 +48,24 @@ const DetailProduct = (props) => {
                             alt="product"
                         />
                     </div>
-                    <div>
-                        <h4>{product.name}</h4>
-                        <p className='price'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.price)}</p>
-                        {userRole === "admin" && <p>{product.status ? <span className="badge text-bg-success">Active</span> : <span className="badge text-bg-danger">Inactive</span>}</p>}
-                        <p>{"Stock : " + product.stock}</p>
-                        <p>{"Category : " + product.category.name}</p>
+                    <div className='w-100'>
+                        <div className='d-flex flex-row justify-content-between'>
+                            <div>
+                                <h4>{product.name}</h4>
+                                <p className='price'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.price)}</p>
+                                {userRole === "admin" && <p>{product.status ? <span className="badge text-bg-success">Active</span> : <span className="badge text-bg-danger">Inactive</span>}</p>}
+                                <p>{"Stock : " + product.stock}</p>
+                                <p>{"Category : " + product.category.name}</p>
+                            </div>
+                            <div>
+                                <AddCartButton product={product} detail={true} />
+                                {userRole === "admin" &&
+                                    <button className="btn btn-primary"
+                                        onClick={() => navigate("/admin/dashboard/list/edit/" + id, { state: { from: location } })}
+                                    >Edit</button>
+                                }
+                            </div>
+                        </div>
                         <h6>Description</h6>
                         <span dangerouslySetInnerHTML={{ __html: product.description }} />
                     </div>

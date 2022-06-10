@@ -35,7 +35,8 @@ const Home = () => {
                 status: item.status,
                 categoryID: item.category._id,
                 categoryName: item.category.name,
-                imageURL: item.image.filePath
+                imageURL: item.image.filePath,
+                stock: item.stock
             }
             return <ProductCard product={detail} key={key}/>
         })

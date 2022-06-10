@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import AdminDashboard from './pages/admin/dashboard';
 import Home from './pages/home';
 import Login from './pages/login';
@@ -13,6 +13,7 @@ import Overview from './pages/admin/overview';
 import DetailProduct from './pages/detailProduct';
 // import SearchBar from './widgets/searchBar';
 import RouteChangeListener from './widgets/routeChangeListener';
+import Cart from './pages/user/cart';
 // import { useState } from 'react';
 
 function App() {
@@ -72,7 +73,16 @@ function App() {
               <ProtectedRoute role="user">
                 <UserDashboard />
               </ProtectedRoute>
-            } />
+            } >
+          </Route>
+          <Route path="/user/"
+            element={
+              <ProtectedRoute role="user">
+                <Outlet />
+              </ProtectedRoute>
+            } >
+            <Route path="/user/cart/" element={<Cart />} />
+          </Route>
           <Route path="*" element={<div>Page not found</div>} />
         </Routes>
       </div>

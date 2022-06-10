@@ -1,7 +1,11 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import UserMenu from "./userMenu";
+import "./index.scss"
+import CartIcon from "./cartIcon";
+import { useSelector } from "react-redux";
 
-const Navbar = () => { 
+const Navbar = (props) => { 
+    const user = useSelector(state => state.slice.userData);
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -16,9 +20,7 @@ const Navbar = () => {
                         </li>
                     </ul>
                     <div className="d-flex align-items-center">
-                        <Link to="">
-                            <i className="bi bi-cart text-light me-3"></i>
-                        </Link>
+                        {user ? (user.role === "admin") ? null : <CartIcon /> : <CartIcon />}
                         <UserMenu />
                     </div>
                 </div>
