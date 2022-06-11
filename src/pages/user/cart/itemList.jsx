@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as c from '../../../app/data/constants'
-import { getCart, setSlice } from "../../../app/data/slice";
+import { addToCart, subFromCart, getCart, setSlice } from "../../../app/data/slice";
 
 const ListItem = (props) => {
     const cartCount = useSelector(state => state.slice.cartCount);
@@ -21,7 +21,6 @@ const ListItem = (props) => {
             const updateCart = (val) => {
                 axios.put(c.API_URL + "/api/v1/cart", { product: props.product.product, quantity: val }).then((res) => {
                     setCount(res.data.data.quantity)
-                    console.log(res.data.data.quantity)
                 })
             }
             switch (e.target.value) {
@@ -29,12 +28,14 @@ const ListItem = (props) => {
                     if (count < product.stock) {
                         updateCart(count + 1)
                         dispatch(setSlice({ cartCount: cartCount + 1 }))
+                        dispatch(addToCart({ price: props.product.price }))
                     }
                     break
                 case "sub":
                     if (count > 0) {
                         updateCart(count - 1)
                         dispatch(setSlice({ cartCount: cartCount - 1 }))
+                        dispatch(subFromCart({ price: props.product.price }))
                     }
                     break
                 default:
@@ -52,7 +53,7 @@ const ListItem = (props) => {
     }
 
     return (
-        <li className="container-fluid list-group-item d-flex flex-row justify-content-between" >
+        <li className="list-group-item d-flex flex-row justify-content-between ps-0 pe-0" >
             <div className="d-flex flex-row align-items-center">
                 <div className="cart-list-img m-2" >
                     <img className="w-100 h-100 image-square" src={item.imageUrl} alt={item.product.name} />
@@ -60,17 +61,18 @@ const ListItem = (props) => {
                 <div>{item.productName}</div>
             </div>
             <div className="d-flex flex-row justify-content-end align-items-center col-4">
-                <div className="d-flex flex-column align-items-end justify-content-between">
+                <div className="d-flex flex-column justify-content-between align-items-end">
                     <div className="d-flex flex-row align-items-center">
                         <Counter product={item} />
                     </div>
-                    <h6 className="mb-0">Price: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * count)}</h6>
+                    <h6 className="m-1">Price: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * count)}</h6>
                 </div>
                 <div>
-                    <button className="btn btn-link cart-delete bi bi-trash-fill text-danger ms-2 me-1" onClick={() => {
+                    <button className="btn btn-link cart-delete bi bi-trash-fill text-secondary ms-2 me-1" onClick={() => {
                         if (window.confirm("Are you sure you want to delete this item?")) {
                             axios.delete(c.API_URL + "/api/v1/cart/" + item._id).then((res) => {
                                 dispatch(setSlice({ cartCount: cartCount - count }))
+                                dispatch(subFromCart({ price: item.total }))
                                 dispatch(getCart())
                             })
                         }

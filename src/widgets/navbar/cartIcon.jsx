@@ -8,9 +8,10 @@ const CartIcon = () => {
         return (
             <Link to="/user/cart/" className="cart-icon me-3">
                 <i className="bi bi-cart position-relative">
-                    <span className="position-absolute top-0 start-100 translate-middle p-1 mt-1 bg-danger rounded-circle">
-                        <span className="visually-hidden">New alerts</span>
-                    </span></i>
+                    <div className="position-absolute top-0 start-100 translate-middle p-2 mt-1 bg-danger rounded-circle border border-white">
+                        <span className="badge-count position-absolute top-50 start-50 translate-middle">{cartCount <= 99 && cartCount}</span>
+                    </div>
+                </i>
             </Link>
         )
     } else { 

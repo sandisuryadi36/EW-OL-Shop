@@ -13,13 +13,7 @@ const RouteChangeListener = () => {
             dispatch(setSlice({ data: [] }))
             dispatch(loginCheck()).then((res) => { 
                 if (res.payload.login) {
-                    dispatch(getCart()).then((res) => {
-                        let itemCount = 0
-                        res.payload.data.forEach((item) => {
-                            itemCount += item.quantity
-                        })
-                        dispatch(setSlice({ cartCount: itemCount }))
-                    })
+                    dispatch(getCart())
                 }
             })
         }

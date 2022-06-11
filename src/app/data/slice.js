@@ -14,6 +14,7 @@ const initialState = {
     data: [],
     cartCount: 0,
     cartItems: [],
+    totalCart: 0
 }
 
 export const slice = createSlice({
@@ -29,6 +30,13 @@ export const slice = createSlice({
             if (action.payload.loading) { state.loading = action.payload.loading }
             if (action.payload.cartCount) { state.cartCount = action.payload.cartCount }
             if (action.payload.currentLocation) { state.currentLocation = action.payload.currentLocation }
+            if (action.payload.totalCart) { state.totalCart = action.payload.totalCart }
+        },
+        addToCart: (state, action) => { 
+            state.totalCart += action.payload.price
+        },
+        subFromCart: (state, action) => { 
+            state.totalCart -= action.payload.price
         }
     },
     extraReducers(builder) {
@@ -250,6 +258,14 @@ export const slice = createSlice({
             state.error = false
             state.message = action.payload.message
             state.cartItems = action.payload.data
+            let count = 0
+            let total = 0
+            action.payload.data.forEach(item => { 
+                count += item.quantity
+                total += item.total
+            })
+            state.cartCount = count
+            state.totalCart = total
             state.loading = false
         })
         builder.addCase(getCart.rejected, (state, action) => { 
@@ -342,5 +358,5 @@ export const getCart = createAsyncThunk('getCart', async () => {
     return response.data;
 })
 
-export const { setSlice } = slice.actions;
+export const { setSlice, addToCart, subFromCart } = slice.actions;
 export default slice.reducer;
