@@ -14,6 +14,9 @@ import DetailProduct from './pages/detailProduct';
 // import SearchBar from './widgets/searchBar';
 import RouteChangeListener from './widgets/routeChangeListener';
 import Cart from './pages/user/cart';
+import UserOverview from './pages/user/overview';
+import PageNotFound from './pages/404';
+import AddressList from './pages/user/address/addressList';
 // import { useState } from 'react';
 
 function App() {
@@ -74,16 +77,18 @@ function App() {
                 <UserDashboard />
               </ProtectedRoute>
             } >
+            <Route path="/user/dashboard/" element={<UserOverview />} />
+            <Route path="/user/dashboard/address" element={<AddressList />} />
           </Route>
-          <Route path="/user/"
+          <Route path="/user"
             element={
               <ProtectedRoute role="user">
                 <Outlet />
               </ProtectedRoute>
             } >
-            <Route path="/user/cart/" element={<Cart />} />
+            <Route path="/user/cart" element={<Cart />} />
           </Route>
-          <Route path="*" element={<div>Page not found</div>} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
     </BrowserRouter >

@@ -19,7 +19,7 @@ const UserMenu = () => {
                     {user.full_name}
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <Link to={"/" + user.role + "/dashboard"} className="dropdown-item">Dashboard</Link>
+                    <Link to={"/" + user.role + "/dashboard/"} className="dropdown-item">Dashboard</Link>
                     <button onClick={logoutHandler} className="btn-link no-m dropdown-item" >Logout</button>
                 </div>
             </div>
