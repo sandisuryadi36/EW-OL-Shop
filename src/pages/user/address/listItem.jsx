@@ -11,6 +11,7 @@ const AddressListItem = (props) => {
     }
 
     const deleteHandler = () => { 
+        console.log(address._id)
         if (window.confirm("Are you sure you want to delete this address?")) { 
             axios.delete(c.API_URL + "/api/v1/delivery-address/" + address._id).then(res => { 
                 props.updateAddress(res.data.data)
