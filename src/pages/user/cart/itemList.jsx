@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as c from '../../../app/data/constants'
 import { addToCart, subFromCart, getCart, setSlice } from "../../../app/data/slice";
 
 const ListItem = (props) => {
     const cartCount = useSelector(state => state.slice.cartCount);
+    const location = useLocation();
     const item = props.product
     const dispatch = useDispatch()
     const [count, setCount] = useState(props.product.quantity);
@@ -54,12 +56,12 @@ const ListItem = (props) => {
 
     return (
         <li className="list-group-item d-flex flex-row justify-content-between ps-0 pe-0" >
-            <div className="d-flex flex-row align-items-center">
+            <Link to={"/product/"+item.product} className="d-flex flex-row align-items-center text-black" state={{ from: location }}>
                 <div className="cart-list-img m-2" >
                     <img className="w-100 h-100 image-square" src={item.imageUrl} alt={item.product.name} />
                 </div>
                 <div>{item.productName}</div>
-            </div>
+            </Link>
             <div className="d-flex flex-row justify-content-end align-items-center col-4">
                 <div className="d-flex flex-column justify-content-between align-items-end">
                     <div className="d-flex flex-row align-items-center">

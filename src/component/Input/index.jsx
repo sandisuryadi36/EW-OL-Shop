@@ -13,9 +13,9 @@ const Input = (props) => {
       )
     case "select":
       return (
-        <div>
-          <label>{props.label}</label>
-          <select className={`form-control ${props.error && 'is-invalid'}`} {...props}>
+        <div className={props.divclass}>
+          <label className={props.labelclass}>{props.label}</label>
+          <select className={`form-control ${props.inputclass} ${props.error && 'is-invalid'}`} {...props}>
             {props.children}
           </select>
           {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}

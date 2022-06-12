@@ -21,7 +21,8 @@ const AddProduct = () => {
         categories = getCategory.data.data.map(category => { 
             return {"Id": category._id, "Name": category.name}
         })
-        setCategory(categories);    }
+        setCategory(categories);
+    }
 
     const CategoryOptions = () => { 
         if (category.length < 1) { 
