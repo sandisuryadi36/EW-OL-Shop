@@ -37,6 +37,11 @@ export const slice = createSlice({
         },
         subFromCart: (state, action) => { 
             state.totalCart -= action.payload.price
+        },
+        clearCart: (state, action) => { 
+            state.cartCount = 0
+            state.totalCart = 0
+            state.cartItems = []
         }
     },
     extraReducers(builder) {
@@ -358,5 +363,5 @@ export const getCart = createAsyncThunk('getCart', async () => {
     return response.data;
 })
 
-export const { setSlice, addToCart, subFromCart } = slice.actions;
+export const { setSlice, addToCart, subFromCart, clearCart } = slice.actions;
 export default slice.reducer;

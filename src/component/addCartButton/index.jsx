@@ -16,6 +16,7 @@ const AddCartButton = (props) => {
     const addCartHandler = () => { 
         if (!logedIn) { 
             navigate("/login", { state: { from: location } })
+            return
         }
 
         const productID = product._id ? product._id : product.productID

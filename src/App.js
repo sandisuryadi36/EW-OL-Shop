@@ -18,6 +18,7 @@ import UserOverview from './pages/user/overview';
 import PageNotFound from './pages/404';
 import AddressList from './pages/user/address/addressList';
 import Checkout from './pages/user/checkout';
+import UserOrder from './pages/user/order';
 // import { useState } from 'react';
 
 function App() {
@@ -89,6 +90,7 @@ function App() {
             } >
             <Route path="/user/cart" element={<Cart />} />
             <Route path="/user/checkout" element={<Checkout />} />
+            <Route path="/user/order" element={<UserOrder />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

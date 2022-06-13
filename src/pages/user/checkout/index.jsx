@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Input from "../../../component/Input";
 import * as c from '../../../app/data/constants'
 import AddressOptions from "./option";
 import axios from "axios";
 import AddAddress from "../address/addAddress";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../../../app/data/slice";
 
 const Checkout = () => { 
     const totalCart = useSelector(state => state.slice.totalCart);
@@ -12,6 +14,8 @@ const Checkout = () => {
     const [addresses, setAddresses] = useState([])
     const [addressString, setAddressString] = useState("");
     const [delivFee, setDelivFee] = useState(15000);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (addresses.length < 1) {
@@ -41,11 +45,11 @@ const Checkout = () => {
         )
     }
 
-    const selectHandler = async (e) => { 
+    const selectHandler = (e) => { 
         if (e.target.value === "") {
             setAddressString("")
         } else {
-            const item = await addresses.find(address => address._id === e.target.value)
+            const item = addresses.find(address => address._id === e.target.value)
             setAddressString(
                 item.detail + ", " +
                 item.kelurahan + ", " +
@@ -54,6 +58,22 @@ const Checkout = () => {
                 item.provinsi
             )
         }
+    }
+
+    const submitOrderHandler = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target)
+        let payload = {
+            deliveryAddressID: formData.get("delivery-address"),
+            deliveryFee: formData.get("delivery-fee"),
+        }
+        axios.post(c.API_URL + "/api/v1/order", payload).then(res => { 
+            if (res.data.message === "Order successfully created") {
+                window.alert("Order successfully created")
+                dispatch(clearCart())
+                navigate("/user/order")
+            }
+        })
     }
 
     return (
@@ -66,7 +86,7 @@ const Checkout = () => {
                     {cartItems.map((item, index) => <ItemList key={index} product={item} />)}
                 </ul>
             </div>
-            <div className="d-flex flex-column align-items-end container-fluid">
+            <form id="checkoutForm" onSubmit={submitOrderHandler} className="d-flex flex-column align-items-end container-fluid">
                 <div className="d-flex flex-row justify-content-end align-items-end container-fluid p-0">
                     <button className="btn btn-link ms-2 me-2 mb-2 p-0 border-0" data-bs-toggle="modal" data-bs-target={"#addAddress"}>Add New Address</button>
                     <AddAddress updateAddress={updateListHandler} />
@@ -75,7 +95,7 @@ const Checkout = () => {
                             divclass="d-flex flex-column align-items-end container-fluid p-0"
                             // labelclass=""
                             inputclass= "mb-2"
-                            name="deliveery-address"
+                            name="delivery-address"
                             type="select"
                             placeholder="Delivery Address..."
                             label="Delivery Address"
@@ -90,8 +110,8 @@ const Checkout = () => {
                 <Input
                     divclass="col-3 d-flex flex-column align-items-end mt-2"
                     labelclass=""
-                    inputclass="mb-0"
-                    name="deliveryFee"
+                    inputclass="mb-2"
+                    name="delivery-fee"
                     type="select"
                     placeholder="Shipment..."
                     label="Shipment"
@@ -101,15 +121,15 @@ const Checkout = () => {
                     <option value={25000}>Express</option>
                 </Input>
                 {delivFee !== "" &&
-                    <div className="text-secondary">
-                        {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(delivFee)}
-                    </div>}
-            </div>
+                <div className="text-secondary">
+                    {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(delivFee)}
+                </div>}
+            </form>
             <div className="d-flex justify-content-end align-intems-center p-3 bg-warning rounded w-100" >
                 <h5 className="m-0">Total: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format((totalCart + delivFee))}</h5>
             </div>
             <div className="d-flex justify-content-end">
-                <button className="btn btn-lg btn-success btn-block">Process Transaction</button>
+                <button className="btn btn-lg btn-success btn-block mb-5" type="submit" form="checkoutForm">Process Order</button>
             </div>
         </div>
     )
