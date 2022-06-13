@@ -1,3 +1,9 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
 a {
     text-decoration: none;
 }
@@ -12,4 +18,9 @@ p {
 
 button.no-m {
     margin: 0;
+}
+
+.no-decor {
+    text-decoration: none;
+    color: #000;
 }

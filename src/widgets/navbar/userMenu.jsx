@@ -20,7 +20,7 @@ const UserMenu = () => {
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <Link to={"/" + user.role + "/dashboard/"} className="dropdown-item">Dashboard</Link>
-                    {user.role === "user" && <Link to={"/user/order"} className="dropdown-item">My Order</Link>}
+                    {user.role === "user" && <Link to={"/user/order"} className="dropdown-item">My Orders</Link>}
                     <button onClick={logoutHandler} className="btn-link no-m dropdown-item" >Logout</button>
                 </div>
             </div>

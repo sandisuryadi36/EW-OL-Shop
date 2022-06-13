@@ -5,7 +5,7 @@ import * as c from '../../../app/data/constants'
 import AddressOptions from "./option";
 import axios from "axios";
 import AddAddress from "../address/addAddress";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { clearCart } from "../../../app/data/slice";
 
 const Checkout = () => { 
@@ -46,40 +46,42 @@ const Checkout = () => {
     }
 
     const selectHandler = (e) => { 
-        if (e.target.value === "") {
-            setAddressString("")
-        } else {
-            const item = addresses.find(address => address._id === e.target.value)
-            setAddressString(
-                item.detail + ", " +
-                item.kelurahan + ", " +
-                item.kecamatan + ", " +
-                item.kota + ", " +
-                item.provinsi
-            )
-        }
+        const item = addresses.find(address => address._id === e.target.value)
+        setAddressString(
+            item.detail + ", " +
+            item.kelurahan + ", " +
+            item.kecamatan + ", " +
+            item.kota + ", " +
+            item.provinsi
+        )
     }
 
     const submitOrderHandler = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target)
-        let payload = {
-            deliveryAddressID: formData.get("delivery-address"),
-            deliveryFee: formData.get("delivery-fee"),
-        }
-        axios.post(c.API_URL + "/api/v1/order", payload).then(res => { 
-            if (res.data.message === "Order successfully created") {
-                window.alert("Order successfully created")
-                dispatch(clearCart())
-                navigate("/user/order")
+        if (formData.get("delivery-address") !== null) { 
+            let payload = {
+                deliveryAddressID: formData.get("delivery-address"),
+                deliveryFee: formData.get("delivery-fee"),
             }
-        })
+            axios.post(c.API_URL + "/api/v1/order", payload).then(res => {
+                if (res.data.message === "Order successfully created") {
+                    window.alert("Order successfully created")
+                    dispatch(clearCart())
+                    navigate("/user/order")
+                }
+            })
+        }
     }
 
     return (
         <div className="d-flex flex-column gap-3 align-items-end">
-            <div className="container-fluid mt-2">
+            <div className="container-fluid mt-2 d-flex flex-row justify-content-between align-items-center">
                 <h3 className="text-black">Your Cart</h3>
+                <Link to="/user/cart" className="btn btn-link no-decor">
+                    <i className="bi bi-chevron-left"></i>
+                    back
+                </Link>
             </div>
             <div className="container-fluid">
                 <ul className="list-group">
@@ -89,7 +91,6 @@ const Checkout = () => {
             <form id="checkoutForm" onSubmit={submitOrderHandler} className="d-flex flex-column align-items-end container-fluid">
                 <div className="d-flex flex-row justify-content-end align-items-end container-fluid p-0">
                     <button className="btn btn-link ms-2 me-2 mb-2 p-0 border-0" data-bs-toggle="modal" data-bs-target={"#addAddress"}>Add New Address</button>
-                    <AddAddress updateAddress={updateListHandler} />
                     <div className="d-flex flex-column align-items-end col-3">
                         <Input
                             divclass="d-flex flex-column align-items-end container-fluid p-0"
@@ -99,9 +100,10 @@ const Checkout = () => {
                             type="select"
                             placeholder="Delivery Address..."
                             label="Delivery Address"
+                            devault="DEFAULT"
                             onChange={selectHandler}
                         >
-                            <option value="" disabled selected>Select Address</option>
+                            <option value="DEFAULT" disabled>Select Address</option>
                             <AddressOptions addresses={addresses} />
                         </Input>
                     </div>
@@ -125,6 +127,7 @@ const Checkout = () => {
                     {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(delivFee)}
                 </div>}
             </form>
+            <AddAddress updateAddress={updateListHandler} />
             <div className="d-flex justify-content-end align-intems-center p-3 bg-warning rounded w-100" >
                 <h5 className="m-0">Total: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format((totalCart + delivFee))}</h5>
             </div>
