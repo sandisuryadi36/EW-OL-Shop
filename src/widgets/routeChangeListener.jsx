@@ -12,7 +12,7 @@ const RouteChangeListener = () => {
             dispatch(setSlice({ currentLocation: location }))
             dispatch(setSlice({ data: [] }))
             dispatch(loginCheck()).then((res) => { 
-                if (res.payload.login) {
+                if (res.payload.login && res.payload.user.role === "user") {
                     dispatch(getCart())
                 }
             })

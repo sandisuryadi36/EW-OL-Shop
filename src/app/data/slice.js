@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as c from './constants'
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
+// const port = process.env.PORT || 3001;
 
 const initialState = {
     status: 'idle',
@@ -61,6 +65,10 @@ export const slice = createSlice({
             state.userData = (action.payload.message === "Login successfully") && action.payload.data.user
             state.logedIn = action.payload.login
             state.loading = false
+            cookies.set('token', action.payload.data.token, {
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 60 * 60 * 24
+            })
         })
         builder.addCase(postLogin.rejected, (state, action) => {
             state.status = 'rejected'
@@ -90,6 +98,7 @@ export const slice = createSlice({
             state.cartItems = []
             state.cartCount = 0
             state.loading = false
+            cookies.remove('token')
         })
         builder.addCase(postLogout.rejected, (state, action) => { 
             state.status = 'rejected'
@@ -284,6 +293,7 @@ export const slice = createSlice({
 })
 
 axios.defaults.withCredentials = true
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.get('token')
 
 // login check
 export const loginCheck = createAsyncThunk('loginCheck', async () => { 
@@ -293,31 +303,13 @@ export const loginCheck = createAsyncThunk('loginCheck', async () => {
 
 // post login
 export const postLogin = createAsyncThunk('login', async (data) => { 
-    const response = await axios.post(c.API_URL + '/auth/login', data,
-        {
-            proxy: {
-                host: 'localhost',
-                port: 3001
-            },
-            withCredentials: true,
-            credentials: 'include'
-        }
-    );
+    const response = await axios.post(c.API_URL + '/auth/login', data);
     return response.data;
 })
 
 // post logout
 export const postLogout = createAsyncThunk('logout', async () => { 
-    const response = await axios.put(c.API_URL + '/auth/logout', {},
-        {
-            proxy: {
-                host: 'localhost',
-                port: 3001
-            },
-            withCredentials: true,
-            credentials: 'include'
-        }
-    );
+    const response = await axios.put(c.API_URL + '/auth/logout');
     return response.data;
 })
 

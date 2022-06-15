@@ -46,7 +46,7 @@ const Home = () => {
     return (
         <>
             <SearchBar placeholder="Search..." className="rounded-3 mt-3" search={keyword}/>
-            <div className="pt-3 d-flex flex-wrap gap-2">
+            <div className="pt-3 d-flex justify-content-between flex-wrap gap-2">
                 <ListProduct />
             </div>
         </>
