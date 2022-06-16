@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { postLogin } from "../app/data/slice";
 import Spinner from "../component/spinner";
+import Cookies from "universal-cookie"
+const cookies = new Cookies();
 
 const Login = () => { 
     const logedIn = useSelector(state => state.slice.logedIn);
@@ -17,6 +19,11 @@ const Login = () => {
         const data = new URLSearchParams(new FormData(e.target));
         dispatch(postLogin(data)).then((res) => {
             if (res.payload.login) {
+                cookies.set('token', res.payload.data.token, {
+                    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                    secure: process.env.NODE_ENV === 'production',
+                    maxAge: 60 * 60 * 24
+                })
                 navigate(origin)
             } else {
                 alert(res.payload.message)

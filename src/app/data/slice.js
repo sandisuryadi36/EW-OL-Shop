@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as c from './constants'
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 // const port = process.env.PORT || 3001;
 
@@ -30,7 +28,10 @@ export const slice = createSlice({
             if (action.payload.userData) { state.userData = action.payload.userData }
             if (action.payload.error) { state.error = action.payload.error }
             if (action.payload.status) { state.status = action.payload.status }
-            if (action.payload.data) { state.data = action.payload.data }
+            if (action.payload.data) {
+                state.data = action.payload.data
+                state.recentAction = "reset-data"
+            }
             if (action.payload.loading) { state.loading = action.payload.loading }
             if (action.payload.cartCount) { state.cartCount = action.payload.cartCount }
             if (action.payload.currentLocation) { state.currentLocation = action.payload.currentLocation }
@@ -65,10 +66,6 @@ export const slice = createSlice({
             state.userData = (action.payload.message === "Login successfully") && action.payload.data.user
             state.logedIn = action.payload.login
             state.loading = false
-            cookies.set('token', action.payload.data.token, {
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 60 * 60 * 24
-            })
         })
         builder.addCase(postLogin.rejected, (state, action) => {
             state.status = 'rejected'
@@ -98,7 +95,6 @@ export const slice = createSlice({
             state.cartItems = []
             state.cartCount = 0
             state.loading = false
-            cookies.remove('token')
         })
         builder.addCase(postLogout.rejected, (state, action) => { 
             state.status = 'rejected'
@@ -293,7 +289,16 @@ export const slice = createSlice({
 })
 
 axios.defaults.withCredentials = true
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.get('token')
+// slice.caseReducers.setAxios()
+
+// console.log(slice.reducer)
+// axios.defaults.headers = (() => { 
+//     if (slice.get('logedIn')) { 
+//         return { 
+//             'Authorization': `Bearer ${cookies.get('token')}`
+//         }
+//     }
+// })
 
 // login check
 export const loginCheck = createAsyncThunk('loginCheck', async () => { 

@@ -23,7 +23,7 @@ const Home = () => {
     }, [dispatch, keyword]);
 
     useEffect(() => { 
-        if (recentAction === "logout/fulfilled") dispatch(getProduct())
+        if (recentAction === "reset-data") dispatch(getProduct())
     }, [recentAction, dispatch])
 
     const ListProduct = () => {
@@ -47,7 +47,7 @@ const Home = () => {
         <>
             <SearchBar placeholder="Search..." className="rounded-3 mt-3" search={keyword}/>
             <div className="pt-3 d-flex justify-content-between flex-wrap gap-2">
-                <ListProduct />
+                {products !== null && <ListProduct />}
             </div>
         </>
     );

@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { postLogout } from "../../app/data/slice";
+import { postLogout, setSlice } from "../../app/data/slice";
+import Cookies from "universal-cookie"
+const cookies = new Cookies();
 
 const UserMenu = () => {
     const logedIn = useSelector(state => state.slice.logedIn);
@@ -9,7 +11,13 @@ const UserMenu = () => {
     const navigate = useNavigate()
 
     const logoutHandler = () => {
-        dispatch(postLogout()).then(() => navigate("/"));
+        dispatch(postLogout()).then((res) => { 
+            if (!res.payload.login) {
+                cookies.remove('token')
+                dispatch(setSlice({ data: [] }))
+                navigate("/")
+            }
+        })
     }
 
     if (logedIn) {
