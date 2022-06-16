@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as c from './constants'
-import axios from 'axios';
+import Axios from 'axios';
+
+const axios = Axios.create({
+    withCredentials: true,
+})
 
 // const port = process.env.PORT || 3001;
 
@@ -126,7 +130,7 @@ export const slice = createSlice({
             state.status = 'rejected'
             state.recentAction = action.type
             state.error = true
-            state.message = 'Login failed'
+            state.message = action.payload.message
             state.user = {}
             state.loading = false
         })
@@ -288,33 +292,33 @@ export const slice = createSlice({
     },
 })
 
-axios.defaults.withCredentials = true
-// slice.caseReducers.setAxios()
-
-// console.log(slice.reducer)
-// axios.defaults.headers = (() => { 
-//     if (slice.get('logedIn')) { 
-//         return { 
-//             'Authorization': `Bearer ${cookies.get('token')}`
-//         }
-//     }
-// })
-
 // login check
 export const loginCheck = createAsyncThunk('loginCheck', async () => { 
-    const response = await axios.get(c.API_URL + '/auth/me')
+    const response = await axios.get(c.API_URL + '/auth/me', {
+        headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    })
     return response.data
 })
 
 // post login
 export const postLogin = createAsyncThunk('login', async (data) => { 
-    const response = await axios.post(c.API_URL + '/auth/login', data);
+    const response = await axios.post(c.API_URL + '/auth/login', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    });
     return response.data;
 })
 
 // post logout
 export const postLogout = createAsyncThunk('logout', async () => { 
-    const response = await axios.put(c.API_URL + '/auth/logout');
+    const response = await axios.put(c.API_URL + '/auth/logout', {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    });
     return response.data;
 })
 
@@ -326,37 +330,61 @@ export const getProduct = createAsyncThunk('getProducts', async (filter) => {
     } else { 
         url = c.API_URL + '/api/v1/product'
     }
-    const response = await axios.get(url)
+    const response = await axios.get(url, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
     return response.data
 })
 
 // delete product
 export const deleteProduct = createAsyncThunk('deleteProduct', async (id) => { 
-    const response = await axios.delete(c.API_URL + '/api/v1/product/' + id)
+    const response = await axios.delete(c.API_URL + '/api/v1/product/' + id, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
     return response.data
 })
 
 // post product
 export const postProduct = createAsyncThunk('postProduct', async (data) => { 
-    const response = await axios.post(c.API_URL + '/api/v1/product', data)
+    const response = await axios.post(c.API_URL + '/api/v1/product', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
     return response.data;
 } )
 
 // put product
 export const putProduct = createAsyncThunk('putProduct', async (data) => { 
-    const response = await axios.put(c.API_URL + `/api/v1/product/${data.id}`, data.data)
+    const response = await axios.put(c.API_URL + `/api/v1/product/${data.id}`, data.data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
     return response.data;
 })
 
 // put cart
 export const putCart = createAsyncThunk('putCart', async (data) => { 
-    const response = await axios.put(c.API_URL + `/api/v1/cart`, data)
+    const response = await axios.put(c.API_URL + `/api/v1/cart`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
     return response.data;
 })
 
 // get cart
 export const getCart = createAsyncThunk('getCart', async () => { 
-    const response = await axios.get(c.API_URL + '/api/v1/cart')
+    const response = await axios.get(c.API_URL + '/api/v1/cart', {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
     return response.data;
 })
 
