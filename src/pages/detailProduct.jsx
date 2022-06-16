@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useState } from "react";
-import axios from "axios";
+import axios from "../app/data/fetching";
 import * as c from "../app/data/constants"
 import "./index.scss";
 import { useSelector } from 'react-redux';

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Input from "../../../component/Input";
 import * as c from '../../../app/data/constants'
 import AddressOptions from "./option";
-import axios from "axios";
+import axios from "../../../app/data/fetching";
 import AddAddress from "../address/addAddress";
 import { useNavigate, Link } from "react-router-dom";
 import { clearCart } from "../../../app/data/slice";

@@ -1,7 +1,7 @@
 import Input from "../../component/Input";
 import Spinner from "../../component/spinner";
 import { useState } from "react";
-import axios from "axios";
+import axios from "../../app/data/fetching";
 import * as c from "../../app/data/constants"
 import "./index.scss";
 import { useNavigate } from "react-router-dom";

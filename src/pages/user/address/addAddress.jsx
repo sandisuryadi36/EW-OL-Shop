@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../app/data/fetching";
 import Input from "../../../component/Input";
 import * as c from "../../../app/data/constants";
 

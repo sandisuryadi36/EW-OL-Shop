@@ -1,7 +1,7 @@
 import { useState } from "react";
 import EditAddress from "./editAddress";
 import * as c from "../../../app/data/constants";
-import axios from "axios";
+import axios from "../../../app/data/fetching";
 
 const AddressListItem = (props) => { 
     const [address, setAddresses] = useState(props.address);

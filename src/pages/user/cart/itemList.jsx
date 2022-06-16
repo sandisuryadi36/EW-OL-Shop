@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../app/data/fetching";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
