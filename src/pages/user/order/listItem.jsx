@@ -20,6 +20,13 @@ const ListItem = (props) => {
         setTotalOrder(total + props.product.deliveryFee)
     }, [props])
 
+    function cancelHandler(e) {
+        e.preventDefault()
+        if (window.confirm("Are you sure want to cancel this item?")) {
+            props.cancelOrder(props.product._id)
+        }
+    }
+
     let date = new Date(Date.parse(props.product.createdAt))
     return (
         <div className="list-group-item list-group-item-action d-flex flex-column align-items-start ps-0 pe-0" >
@@ -51,7 +58,7 @@ const ListItem = (props) => {
                                 : null
                     }
                     {props.product.status === "waiting payment"
-                        && <button className="btn btn-link no-decor m-0 p-0 text-danger">Cancel Order</button>
+                        && <button className="btn btn-link no-decor m-0 p-0 text-danger" onClick={cancelHandler}>Cancel Order</button>
                     }
                 </div>
             </div>

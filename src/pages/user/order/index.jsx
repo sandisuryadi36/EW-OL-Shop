@@ -16,13 +16,26 @@ const UserOrder = () => {
         })
     }, [])
 
+    const cancelHandler = (id) => { 
+        setLoading(true);
+        axios.put(c.API_URL + "/api/v1/order/" + id, {status: "cancelled"}).then(res => {
+            axios.get(c.API_URL + "/api/v1/order").then(res => {
+                setLoading(false);
+                setOrders(res.data.data)
+            })
+        }).catch(err => {
+            setLoading(false);
+            console.log(err)
+        })
+    }
+
     const OrderList = () => { 
         if (orders.length > 0) {
             return (
                 <ul className="list-group list-group-flush d-flex flex-column">
                     {orders.map((item, key) => {
                         return (
-                            <ListItem product={item} key={key} />
+                            <ListItem product={item} key={key} cancelOrder={cancelHandler} />
                         )
                     })}
                 </ul>
