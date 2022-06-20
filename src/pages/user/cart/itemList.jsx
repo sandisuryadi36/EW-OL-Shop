@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as c from '../../../app/data/constants'
 import { addToCart, subFromCart, getCart, setSlice } from "../../../app/data/slice";
+import Spinner from "../../../component/spinner";
 
 const ListItem = (props) => {
     const cartCount = useSelector(state => state.slice.cartCount);
@@ -12,6 +13,7 @@ const ListItem = (props) => {
     const dispatch = useDispatch()
     const [count, setCount] = useState(props.product.quantity);
     const [product, setProduct] = useState();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         axios.get(c.API_URL + "/api/v1/product/" + props.product.product).then(res => setProduct(res.data.data))
@@ -21,7 +23,9 @@ const ListItem = (props) => {
 
         const counterHandler = (e) => {
             const updateCart = (val) => {
+                setLoading(true);
                 axios.put(c.API_URL + "/api/v1/cart", { product: props.product.product, quantity: val }).then((res) => {
+                    setLoading(false);
                     setCount(res.data.data.quantity)
                 })
             }
@@ -46,7 +50,8 @@ const ListItem = (props) => {
         }
 
         return (
-            <div className="counter d-flex flex-row justify-content-between">
+            <div className="counter d-flex flex-row justify-content-between position-realtive">
+                {loading && <Spinner child={true} overlay={true} />}
                 <button className="btn btn-sm btn-success" value="sub" onClick={counterHandler}>-</button>
                 <span className="list-counter">{count}</span>
                 <button className="btn btn-sm btn-success" value="add" onClick={counterHandler}>+</button>
