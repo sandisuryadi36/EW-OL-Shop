@@ -46,7 +46,7 @@ const Home = () => {
     return (
         <div>
             <SearchBar placeholder="Search..." className="rounded-3 mt-3" search={keyword}/>
-            <div className="pt-3 row row-cols-lg-6">
+            <div className="pt-3 row row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
                 {products !== null && <ListProduct />}
             </div>
         </div>

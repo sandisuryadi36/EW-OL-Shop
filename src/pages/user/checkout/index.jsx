@@ -7,6 +7,7 @@ import axios from "../../../app/data/fetching";
 import AddAddress from "../address/addAddress";
 import { useNavigate, Link } from "react-router-dom";
 import { clearCart } from "../../../app/data/slice";
+import Spinner from '../../../component/spinner';
 
 const Checkout = () => { 
     const totalCart = useSelector(state => state.slice.totalCart);
@@ -14,6 +15,7 @@ const Checkout = () => {
     const [addresses, setAddresses] = useState([])
     const [addressString, setAddressString] = useState("");
     const [delivFee, setDelivFee] = useState(15000);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -47,18 +49,13 @@ const Checkout = () => {
 
     const selectHandler = (e) => { 
         const item = addresses.find(address => address._id === e.target.value)
-        setAddressString(
-            item.detail + ", " +
-            item.kelurahan + ", " +
-            item.kecamatan + ", " +
-            item.kota + ", " +
-            item.provinsi
-        )
+        setAddressString(item.addressString)
     }
 
     const submitOrderHandler = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target)
+        setLoading(true)
         if (formData.get("delivery-address") !== null) { 
             let payload = {
                 deliveryAddressID: formData.get("delivery-address"),
@@ -67,6 +64,7 @@ const Checkout = () => {
             axios.post(c.API_URL + "/api/v1/order", payload).then(res => {
                 if (res.data.message === "Order successfully created") {
                     window.alert("Order successfully created")
+                    setLoading(false)
                     dispatch(clearCart())
                     navigate("/user/order")
                 }
@@ -132,7 +130,13 @@ const Checkout = () => {
                 <h5 className="m-0">Total: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format((totalCart + delivFee))}</h5>
             </div>
             <div className="d-flex justify-content-end">
-                <button className="btn btn-lg btn-success btn-block mb-5" type="submit" form="checkoutForm">Process Order</button>
+                {loading
+                    ? <button className="btn btn-lg btn-success btn-block mb-5" type="submit" form="checkoutForm" disabled>
+                        <Spinner button={true} />
+                        Loading...
+                    </button>
+                    : <button className="btn btn-lg btn-success btn-block mb-5" type="submit" form="checkoutForm">Process Order</button>
+                }
             </div>
         </div>
     )

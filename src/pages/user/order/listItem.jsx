@@ -35,7 +35,7 @@ const ListItem = (props) => {
                 }>{props.product.status}</div>
             </div>
             <div className="d-flex flex-row justify-content-between align-items-center w-100 ps-0 pe-0">
-                <Link to={"/user/invoice/" + props.product._id} className="d-flex flex-row w-100 no-decor">
+                <Link to={"/user/invoice/" + props.product.order_number} className="d-flex flex-row w-100 no-decor">
                     <div className="list-image m-2">
                         <img className="w-100 h-100" src={thumbnail} alt="product" />
                     </div>

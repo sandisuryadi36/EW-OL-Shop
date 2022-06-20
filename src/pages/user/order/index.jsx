@@ -2,12 +2,18 @@ import axios from "../../../app/data/fetching";
 import { useEffect, useState } from "react";
 import * as c from '../../../app/data/constants'
 import ListItem from "./listItem";
+import Spinner from "../../../component/spinner";
 
 const UserOrder = () => { 
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(c.API_URL + "/api/v1/order").then(res => setOrders(res.data.data))
+        setLoading(true);
+        axios.get(c.API_URL + "/api/v1/order").then(res => {
+            setLoading(false);
+            setOrders(res.data.data)
+        })
     }, [])
 
     const OrderList = () => { 
@@ -33,7 +39,8 @@ const UserOrder = () => {
     return (
         <div>
             <h1 className="mt-2">My Orders</h1>
-            <OrderList />
+            {loading && <Spinner child={true} />}
+            {!loading && <OrderList />}
         </div>
     )
 }

@@ -3,16 +3,26 @@ import { useEffect, useState } from "react";
 import * as c from "../../../app/data/constants";
 import AddAddress from "./addAddress";
 import AddressListItem from "./listItem";
+import Spinner from "../../../component/spinner";
 
 const AddressList = (props) => { 
     const [addresses, setAddresses] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(c.API_URL + "/api/v1/delivery-address").then(res => setAddresses(res.data.data))
+        setLoading(true);
+        axios.get(c.API_URL + "/api/v1/delivery-address").then(res => {
+            setLoading(false);
+            setAddresses(res.data.data)
+        })
     }, [])
 
     const updateListHandler = (address) => { 
-        axios.get(c.API_URL + "/api/v1/delivery-address").then(res => setAddresses(res.data.data))
+        setLoading(true);
+        axios.get(c.API_URL + "/api/v1/delivery-address").then(res => {
+            setLoading(false);
+            setAddresses(res.data.data)
+        })
     }
 
     return (
@@ -25,6 +35,7 @@ const AddressList = (props) => {
                 </div>
             </div>
             <div>
+                {loading && <Spinner child={true} />}
                 <ul className="list-group list-group-flush">
                     {addresses.map((address, key) => { 
                         return (

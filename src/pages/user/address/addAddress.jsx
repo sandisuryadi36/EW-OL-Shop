@@ -1,14 +1,20 @@
 import axios from "../../../app/data/fetching";
 import Input from "../../../component/Input";
 import * as c from "../../../app/data/constants";
+import { useState } from "react";
+import Spinner from "../../../component/spinner";
 
 const AddAddress = (props) => { 
+    const [loading, setLoading] = useState(false);
 
     const submitHandler = (e) => { 
         e.preventDefault();
+        e.target.disabled = true;
+        setLoading(true);
         let payload = new URLSearchParams(new FormData(e.target));
 
         axios.post(c.API_URL + "/api/v1/delivery-address", payload).then(res => { 
+            setLoading(false);
             document.querySelector("#addAddressCloseModal").click()
             props.updateAddress(res.data.data)
             e.target.reset()
@@ -31,11 +37,18 @@ const AddAddress = (props) => {
                             <Input type="text" name="kecamatan" label="Kecamatan" />
                             <Input type="text" name="kota" label="Kota" />
                             <Input type="text" name="provinsi" label="Provinsi" />
+                            <Input type="text" maxLength={5} name="kodePos" label="Kode Pos" />
                         </form>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" className="btn btn-primary" form="addAddressForm">Save changes</button>
+                        {loading
+                            ? <button type="button" className="btn btn-primary" disabled>
+                                <Spinner button={true} />
+                                Loading...
+                            </button>
+                            : <button type="submit" className="btn btn-primary" form="addAddressForm">Save changes</button>
+                        }
                     </div>
                 </div>
             </div>

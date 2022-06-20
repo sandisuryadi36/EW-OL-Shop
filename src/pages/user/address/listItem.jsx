@@ -2,18 +2,21 @@ import { useState } from "react";
 import EditAddress from "./editAddress";
 import * as c from "../../../app/data/constants";
 import axios from "../../../app/data/fetching";
+import Spinner from "../../../component/spinner";
 
 const AddressListItem = (props) => { 
     const [address, setAddresses] = useState(props.address);
+    const [loading, setLoading] = useState(false);
 
     const updateAddressHandler = (e) => { 
         setAddresses(e)
     }
 
     const deleteHandler = () => { 
-        console.log(address._id)
+        setLoading(true);
         if (window.confirm("Are you sure you want to delete this address?")) { 
             axios.delete(c.API_URL + "/api/v1/delivery-address/" + address._id).then(res => { 
+                setLoading(false);
                 props.updateAddress(res.data.data)
             })
         }
@@ -21,17 +24,10 @@ const AddressListItem = (props) => {
 
     return (
         <li className="list-group-item d-flex flex-row justify-content-between align-items-center">
+            {loading && <Spinner />}
             <div>
                 <h6>{address.name}</h6>
-                <p>
-                    {
-                        address.detail + ", "
-                        + address.kelurahan + ", "
-                        + address.kecamatan + ", "
-                        + address.kota + ", "
-                        + address.provinsi
-                    }
-                </p>
+                <p>{address.addressString}</p>
             </div>
             <div>
                 <button className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target={"#editAddress"+address._id} >Edit</button>

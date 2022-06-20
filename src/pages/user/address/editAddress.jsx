@@ -1,14 +1,19 @@
 import axios from "../../../app/data/fetching";
 import Input from "../../../component/Input";
 import * as c from "../../../app/data/constants";
+import Spinner from "../../../component/spinner";
+import { useState } from "react";
 
 const EditAddress = (props) => { 
+    const [loading, setLoading] = useState(false);
 
     const submitHandler = (e) => { 
         e.preventDefault();
+        setLoading(true);
         let payload = new URLSearchParams(new FormData(e.target));
 
         axios.put(c.API_URL + "/api/v1/delivery-address/" + props.address._id, payload).then(res => { 
+            setLoading(false);
             document.querySelector("#closeModal"+props.address._id).click()
             props.updateAddress(res.data.data)
         })
@@ -30,11 +35,18 @@ const EditAddress = (props) => {
                             <Input type="text" name="kecamatan" label="Kecamatan" defaultValue={props.address.kecamatan} />
                             <Input type="text" name="kota" label="Kota" defaultValue={props.address.kota} />
                             <Input type="text" name="provinsi" label="Provinsi" defaultValue={props.address.provinsi} />
+                            <Input type="text" maxLength={5} name="kodePos" label="Kode Pos" defaultValue={props.address.kodePos} />
                         </form>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" className="btn btn-primary" form={"editAddressForm"+props.address._id}>Save changes</button>
+                        {loading
+                            ? <button type="button" className="btn btn-primary" disabled>
+                                <Spinner button={true} />
+                                Loading...
+                            </button>
+                            : <button type="submit" className="btn btn-primary" form={"editAddressForm" + props.address._id}>Save changes</button>
+                        }
                     </div>
                 </div>
             </div>
