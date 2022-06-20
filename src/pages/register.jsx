@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Input from "../component/Input";
 import Spinner from "../component/spinner";
 import * as c from "../app/data/constants";
-import axios from "../app/data/fetching";
+import axios from "axios";
 import { useState } from "react";
 
 const Register = () => {

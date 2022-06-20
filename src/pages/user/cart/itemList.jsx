@@ -1,10 +1,11 @@
-import axios from "../../../app/data/fetching";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as c from '../../../app/data/constants'
 import { addToCart, subFromCart, getCart, setSlice } from "../../../app/data/slice";
 import Spinner from "../../../component/spinner";
+import { config } from "../../../app/axiosSet";
 
 const ListItem = (props) => {
     const cartCount = useSelector(state => state.slice.cartCount);
@@ -16,7 +17,7 @@ const ListItem = (props) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(c.API_URL + "/api/v1/product/" + props.product.product).then(res => setProduct(res.data.data))
+        axios.get(c.API_URL + "/api/v1/product/" + props.product.product, config(localStorage.getItem("token"))).then(res => setProduct(res.data.data))
     }, [props])
 
     const Counter = (props) => {
@@ -24,7 +25,7 @@ const ListItem = (props) => {
         const counterHandler = (e) => {
             const updateCart = (val) => {
                 setLoading(true);
-                axios.put(c.API_URL + "/api/v1/cart", { product: props.product.product, quantity: val }).then((res) => {
+                axios.put(c.API_URL + "/api/v1/cart", { product: props.product.product, quantity: val }, config(localStorage.getItem("token"))).then((res) => {
                     setLoading(false);
                     setCount(res.data.data.quantity)
                 })
@@ -77,7 +78,7 @@ const ListItem = (props) => {
                 <div>
                     <button className="btn btn-link cart-delete bi bi-trash-fill text-secondary ms-2 me-1" onClick={() => {
                         if (window.confirm("Are you sure you want to delete this item?")) {
-                            axios.delete(c.API_URL + "/api/v1/cart/" + item._id).then((res) => {
+                            axios.delete(c.API_URL + "/api/v1/cart/" + item._id, config(localStorage.getItem("token"))).then((res) => {
                                 dispatch(setSlice({ cartCount: cartCount - count }))
                                 dispatch(subFromCart({ price: item.total }))
                                 dispatch(getCart())

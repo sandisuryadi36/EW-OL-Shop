@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as c from './constants'
 import Axios from 'axios';
+import { config } from '../axiosSet';
 
 const axios = Axios.create({
     withCredentials: true,
@@ -294,31 +295,19 @@ export const slice = createSlice({
 
 // login check
 export const loginCheck = createAsyncThunk('loginCheck', async () => { 
-    const response = await axios.get(c.API_URL + '/auth/me', {
-        headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-    })
+    const response = await axios.get(c.API_URL + '/auth/me', config(localStorage.getItem("token")))
     return response.data
 })
 
 // post login
 export const postLogin = createAsyncThunk('login', async (data) => { 
-    const response = await axios.post(c.API_URL + '/auth/login', data, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    });
+    const response = await axios.post(c.API_URL + '/auth/login', data, config(localStorage.getItem("token")));
     return response.data;
 })
 
 // post logout
 export const postLogout = createAsyncThunk('logout', async () => { 
-    const response = await axios.put(c.API_URL + '/auth/logout', {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    });
+    const response = await axios.put(c.API_URL + '/auth/logout', config(localStorage.getItem("token")));
     return response.data;
 })
 
@@ -330,61 +319,37 @@ export const getProduct = createAsyncThunk('getProducts', async (filter) => {
     } else { 
         url = c.API_URL + '/api/v1/product'
     }
-    const response = await axios.get(url, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    })
+    const response = await axios.get(url, config(localStorage.getItem("token")))
     return response.data
 })
 
 // delete product
 export const deleteProduct = createAsyncThunk('deleteProduct', async (id) => { 
-    const response = await axios.delete(c.API_URL + '/api/v1/product/' + id, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    })
+    const response = await axios.delete(c.API_URL + '/api/v1/product/' + id, config(localStorage.getItem("token")))
     return response.data
 })
 
 // post product
 export const postProduct = createAsyncThunk('postProduct', async (data) => { 
-    const response = await axios.post(c.API_URL + '/api/v1/product', data, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    })
+    const response = await axios.post(c.API_URL + '/api/v1/product', data, config(localStorage.getItem("token")))
     return response.data;
 } )
 
 // put product
 export const putProduct = createAsyncThunk('putProduct', async (data) => { 
-    const response = await axios.put(c.API_URL + `/api/v1/product/${data.id}`, data.data, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    })
+    const response = await axios.put(c.API_URL + `/api/v1/product/${data.id}`, data.data, config(localStorage.getItem("token")))
     return response.data;
 })
 
 // put cart
 export const putCart = createAsyncThunk('putCart', async (data) => { 
-    const response = await axios.put(c.API_URL + `/api/v1/cart`, data, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    })
+    const response = await axios.put(c.API_URL + `/api/v1/cart`, data, config(localStorage.getItem("token")))
     return response.data;
 })
 
 // get cart
 export const getCart = createAsyncThunk('getCart', async () => { 
-    const response = await axios.get(c.API_URL + '/api/v1/cart', {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    })
+    const response = await axios.get(c.API_URL + '/api/v1/cart', config(localStorage.getItem("token")))
     return response.data;
 })
 

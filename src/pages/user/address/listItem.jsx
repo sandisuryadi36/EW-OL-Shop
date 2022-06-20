@@ -1,8 +1,9 @@
 import { useState } from "react";
 import EditAddress from "./editAddress";
 import * as c from "../../../app/data/constants";
-import axios from "../../../app/data/fetching";
+import axios from "axios";
 import Spinner from "../../../component/spinner";
+import { config } from "../../../app/axiosSet";
 
 const AddressListItem = (props) => { 
     const [address, setAddresses] = useState(props.address);
@@ -15,7 +16,7 @@ const AddressListItem = (props) => {
     const deleteHandler = () => { 
         setLoading(true);
         if (window.confirm("Are you sure you want to delete this address?")) { 
-            axios.delete(c.API_URL + "/api/v1/delivery-address/" + address._id).then(res => { 
+            axios.delete(c.API_URL + "/api/v1/delivery-address/" + address._id, config(localStorage.getItem("token"))).then(res => { 
                 setLoading(false);
                 props.updateAddress(res.data.data)
             })

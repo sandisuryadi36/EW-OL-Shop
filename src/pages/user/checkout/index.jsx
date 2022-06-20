@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Input from "../../../component/Input";
 import * as c from '../../../app/data/constants'
 import AddressOptions from "./option";
-import axios from "../../../app/data/fetching";
+import axios from "axios";
 import AddAddress from "../address/addAddress";
 import { useNavigate, Link } from "react-router-dom";
 import { clearCart } from "../../../app/data/slice";
 import Spinner from '../../../component/spinner';
+import { config } from "../../../app/axiosSet";
 
 const Checkout = () => { 
     const totalCart = useSelector(state => state.slice.totalCart);
@@ -21,12 +22,12 @@ const Checkout = () => {
 
     useEffect(() => {
         if (addresses.length < 1) {
-            axios.get(c.API_URL + "/api/v1/delivery-address").then(res => setAddresses(res.data.data))
+            axios.get(c.API_URL + "/api/v1/delivery-address", config(localStorage.getItem("token"))).then(res => setAddresses(res.data.data))
         }
     }, [addresses])
 
     const updateListHandler = (address) => {
-        axios.get(c.API_URL + "/api/v1/delivery-address").then(res => setAddresses(res.data.data))
+        axios.get(c.API_URL + "/api/v1/delivery-address", config(localStorage.getItem("token"))).then(res => setAddresses(res.data.data))
     }
 
     const ItemList = (props) => { 
@@ -61,7 +62,7 @@ const Checkout = () => {
                 deliveryAddressID: formData.get("delivery-address"),
                 deliveryFee: formData.get("delivery-fee"),
             }
-            axios.post(c.API_URL + "/api/v1/order", payload).then(res => {
+            axios.post(c.API_URL + "/api/v1/order", payload, config(localStorage.getItem("token"))).then(res => {
                 if (res.data.message === "Order successfully created") {
                     window.alert("Order successfully created")
                     setLoading(false)
@@ -88,7 +89,7 @@ const Checkout = () => {
             </div>
             <form id="checkoutForm" onSubmit={submitOrderHandler} className="d-flex flex-column align-items-end container-fluid">
                 <div className="d-flex flex-row justify-content-end align-items-end container-fluid p-0">
-                    <button className="btn btn-link ms-2 me-2 mb-2 p-0 border-0" data-bs-toggle="modal" data-bs-target={"#addAddress"}>Add New Address</button>
+                    <button type="button" className="btn btn-link ms-2 me-2 mb-2 p-0 border-0" data-bs-toggle="modal" data-bs-target={"#addAddress"}>Add New Address</button>
                     <div className="d-flex flex-column align-items-end col-3">
                         <Input
                             divclass="d-flex flex-column align-items-end container-fluid p-0"

@@ -1,9 +1,10 @@
-import axios from "../../../app/data/fetching";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import * as c from "../../../app/data/constants";
 import AddAddress from "./addAddress";
 import AddressListItem from "./listItem";
 import Spinner from "../../../component/spinner";
+import { config } from "../../../app/axiosSet";
 
 const AddressList = (props) => { 
     const [addresses, setAddresses] = useState([]);
@@ -11,7 +12,7 @@ const AddressList = (props) => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(c.API_URL + "/api/v1/delivery-address").then(res => {
+        axios.get(c.API_URL + "/api/v1/delivery-address", config(localStorage.getItem("token"))).then(res => {
             setLoading(false);
             setAddresses(res.data.data)
         })
@@ -19,7 +20,7 @@ const AddressList = (props) => {
 
     const updateListHandler = (address) => { 
         setLoading(true);
-        axios.get(c.API_URL + "/api/v1/delivery-address").then(res => {
+        axios.get(c.API_URL + "/api/v1/delivery-address", config(localStorage.getItem("token"))).then(res => {
             setLoading(false);
             setAddresses(res.data.data)
         })

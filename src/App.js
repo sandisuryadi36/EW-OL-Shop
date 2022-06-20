@@ -28,7 +28,6 @@ function App() {
   const status = useSelector(state => state.slice.status);
   const loading = useSelector(state => state.slice.loading);
   const user = useSelector(state => state.slice.userData);
-  // const [searchQuery, setSearchQuery] = useState('');
 
   function ProtectedRoute(props) {
     const location = useLocation();

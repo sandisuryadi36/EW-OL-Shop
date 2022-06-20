@@ -1,8 +1,9 @@
-import axios from "../../../app/data/fetching";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import * as c from '../../../app/data/constants'
 import ListItem from "./listItem";
 import Spinner from "../../../component/spinner";
+import { config } from "../../../app/axiosSet";
 
 const UserOrder = () => { 
     const [orders, setOrders] = useState([]);
@@ -10,7 +11,7 @@ const UserOrder = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(c.API_URL + "/api/v1/order").then(res => {
+        axios.get(c.API_URL + "/api/v1/order", config(localStorage.getItem("token"))).then(res => {
             setLoading(false);
             setOrders(res.data.data)
         })
@@ -18,8 +19,8 @@ const UserOrder = () => {
 
     const cancelHandler = (id) => { 
         setLoading(true);
-        axios.put(c.API_URL + "/api/v1/order/" + id, {status: "cancelled"}).then(res => {
-            axios.get(c.API_URL + "/api/v1/order").then(res => {
+        axios.put(c.API_URL + "/api/v1/order/" + id, {status: "cancelled"}, config(localStorage.getItem("token"))).then(res => {
+            axios.get(c.API_URL + "/api/v1/order", config(localStorage.getItem("token"))).then(res => {
                 setLoading(false);
                 setOrders(res.data.data)
             })

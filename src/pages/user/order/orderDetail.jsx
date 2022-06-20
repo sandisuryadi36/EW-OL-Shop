@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import axios from "../../../app/data/fetching";
+import axios from "axios";
 import * as c from '../../../app/data/constants'
 import Spinner from "../../../component/spinner";
+import { config } from "../../../app/axiosSet";
 
 const OrderDetail = () => { 
     const params = useParams();
@@ -14,7 +15,7 @@ const OrderDetail = () => {
 
     useEffect(() => { 
         setLoading(true);
-        axios.get(c.API_URL + `/api/v1/order/${orderID}`).then(res => {
+        axios.get(c.API_URL + `/api/v1/order/${orderID}`, config(localStorage.getItem("token"))).then(res => {
             setLoading(false);
             res.data.data.total = 0
             res.data.data.orderItems.forEach(item => { 

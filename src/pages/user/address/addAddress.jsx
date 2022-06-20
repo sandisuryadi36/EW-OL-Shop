@@ -1,8 +1,9 @@
-import axios from "../../../app/data/fetching";
+import axios from "axios";
 import Input from "../../../component/Input";
 import * as c from "../../../app/data/constants";
 import { useState } from "react";
 import Spinner from "../../../component/spinner";
+import { config } from "../../../app/axiosSet";
 
 const AddAddress = (props) => { 
     const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ const AddAddress = (props) => {
         setLoading(true);
         let payload = new URLSearchParams(new FormData(e.target));
 
-        axios.post(c.API_URL + "/api/v1/delivery-address", payload).then(res => { 
+        axios.post(c.API_URL + "/api/v1/delivery-address", payload, config(localStorage.getItem("token"))).then(res => { 
             setLoading(false);
             document.querySelector("#addAddressCloseModal").click()
             props.updateAddress(res.data.data)
