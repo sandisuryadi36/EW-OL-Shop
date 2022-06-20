@@ -20,6 +20,7 @@ import AddressList from './pages/user/address/addressList';
 import Checkout from './pages/user/checkout';
 import UserOrder from './pages/user/order';
 import OrderDetail from './pages/user/order/orderDetail';
+import Register from './pages/register';
 // import { useState } from 'react';
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/product/:id" element={<DetailProduct className="pt-4" />} />
           <Route path="/product" element={<Home />} />
 
@@ -92,7 +94,7 @@ function App() {
             <Route path="/user/cart" element={<Cart />} />
             <Route path="/user/checkout" element={<Checkout />} />
             <Route path="/user/order/" element={<UserOrder />} />
-            <Route path="/user/invoice/:id" element={<OrderDetail />} />
+            <Route path="/user/order/:id" element={<OrderDetail />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

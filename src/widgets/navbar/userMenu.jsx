@@ -39,7 +39,7 @@ const UserMenu = () => {
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <Link to="/login" className="dropdown-item">Login</Link>
-                    <Link to="" className="dropdown-item" >Register</Link>
+                    <Link to="/register" className="dropdown-item" >Register</Link>
                 </div>
             </div>
         )
