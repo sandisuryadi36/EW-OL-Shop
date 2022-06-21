@@ -1,21 +1,15 @@
 import { useEffect } from "react";
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../component/productCard";
 import { getProduct } from "../app/data/slice";
-import SearchBar from "../widgets/searchBar";
+import SearchBar from "./search/searchBar";
 
 const Home = () => {
-    const [params] = useSearchParams();
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
     const recentAction = useSelector(state => state.slice.recentAction);
     const location = useLocation();
-    let keyword = ""
-
-    if (params.get("search") !== null) {
-        keyword = params.get("search")
-    }
 
     useEffect(() => { 
         if (location.state && location.state === "reload") {
@@ -24,10 +18,8 @@ const Home = () => {
     }, [location, dispatch])
 
     useEffect(() => {
-        if (keyword !== "") {
-            dispatch(getProduct("search=" + keyword))
-        } else dispatch(getProduct());
-    }, [dispatch, keyword]);
+        dispatch(getProduct());
+    }, [dispatch]);
 
     useEffect(() => { 
         if (recentAction === "reset-data") dispatch(getProduct())
@@ -52,7 +44,7 @@ const Home = () => {
 
     return (
         <div>
-            <SearchBar placeholder="Search..." className="rounded-3 mt-3" search={keyword}/>
+            <SearchBar placeholder="Search..." className="rounded-3 mt-3"/>
             <div className="pt-3 row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
                 {products !== null && <ListProduct />}
             </div>

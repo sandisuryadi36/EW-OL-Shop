@@ -22,6 +22,7 @@ import UserOrder from './pages/user/order';
 import OrderDetail from './pages/user/order/orderDetail';
 import Register from './pages/register';
 import Footer from './widgets/footer';
+import Search from './pages/search';
 // import { useState } from 'react';
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/product/:id" element={<DetailProduct className="pt-4" />} />
-          <Route path="/product" element={<Home />} />
+          <Route path="/product" element={<Search />} />
 
           <Route path="/admin/dashboard"
             element={

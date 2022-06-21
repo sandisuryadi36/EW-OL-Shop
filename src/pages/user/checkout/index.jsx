@@ -99,7 +99,7 @@ const Checkout = () => {
                             type="select"
                             placeholder="Delivery Address..."
                             label="Delivery Address"
-                            devault="DEFAULT"
+                            defaultValue="DEFAULT"
                             onChange={selectHandler}
                         >
                             <option value="DEFAULT" disabled>Select Address</option>

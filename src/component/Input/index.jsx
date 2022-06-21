@@ -15,7 +15,7 @@ const Input = (props) => {
       return (
         <div className={props.divclass}>
           <label className={props.labelclass}>{props.label}</label>
-          <select className={`form-control ${props.inputclass} ${props.error && 'is-invalid'}`} defaultValue={props.devault} {...props}>
+          <select className={`form-select ${props.inputclass} ${props.error && 'is-invalid'}`} {...props}>
             {props.children}
           </select>
           {props.error && props.error.map(err => <p key={err} className="invalid">* {err}</p>)}
