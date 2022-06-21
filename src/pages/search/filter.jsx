@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import * as c from '../../app/data/constants'
 import Input from "../../component/Input";
 
-const Filter = (props) => { 
+const Filter = (props) => {
+    const [params] = useSearchParams();
     const [category, setCategory] = useState([]);
     const navigate = useNavigate();
+    const defaultCategory = params.get("category");
 
     useEffect(() => { 
         axios.get(c.API_URL + "/api/v1/category")
@@ -28,7 +30,7 @@ const Filter = (props) => {
         <div className="mt-2 p-2">
             <h4>Filter</h4>
             <div>
-                <Input type="select" name="category" label="Category" inputclass="mb-3" onChange={sendCategory}>
+                <Input type="select" name="category" id="categoryOption" value={defaultCategory} label="Category" inputclass="mb-3" onChange={sendCategory}>
                     <option value="">All</option>
                     {category.map((cat, key) => {
                         return <option key={key} value={cat.name}>{cat.name}</option>

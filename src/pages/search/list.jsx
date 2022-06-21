@@ -32,7 +32,16 @@ const ListProduct = () => {
         }
         return <ProductCard product={detail} key={key} />
     })
-    return element
+
+    if (products && products.length > 0) { 
+        return element
+    } else {
+        return (
+            <div className="text-center">
+                <div>No product found</div>
+            </div>
+        )
+    }
 }
 
 export default ListProduct;

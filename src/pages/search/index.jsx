@@ -6,7 +6,7 @@ import ListProduct from "./list";
 
 const Search = () => {
     const [params] = useSearchParams();
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState(params.get("category"));
     let keyword = params.get("search")
     if (keyword === null) keyword = ""
 

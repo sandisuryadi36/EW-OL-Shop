@@ -7,7 +7,7 @@ const Footer = () => {
                 <div className="container">
                     <div className="row text-light">
                         <div className="col-md-6">
-                            <p>&copy; 2022 <a href="https://www.linkedin.com/in/sandisuryadi36/" rel="noreferrer" target="_blank">Sandi Suryadi</a>.</p>
+                            <p>&copy; 2022 <a href="https://www.github.com/sandisuryadi36/" rel="noreferrer" target="_blank">Sandi Suryadi</a>.</p>
                         </div>
                         <div className="col-md-6 text-end">
                             <ul className="list-inline">
