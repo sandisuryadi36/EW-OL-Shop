@@ -21,6 +21,7 @@ import Checkout from './pages/user/checkout';
 import UserOrder from './pages/user/order';
 import OrderDetail from './pages/user/order/orderDetail';
 import Register from './pages/register';
+import Footer from './widgets/footer';
 // import { useState } from 'react';
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
+      <Footer />
     </BrowserRouter >
   );
 }

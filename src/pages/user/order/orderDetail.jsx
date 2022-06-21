@@ -54,7 +54,7 @@ const OrderDetail = () => {
                 <div>
                     <button type="button" className="btn-close" aria-label="Close"
                         onClick={() => {
-                            let origin = location.state ? location.state.from.pathname : "/";
+                            let origin = location.state ? location.state.from.pathname : "/user/order";
                             if (location.state.from.search) {
                                 origin += location.state.from.search;
                             }
@@ -63,11 +63,22 @@ const OrderDetail = () => {
                     ></button>
                 </div>
             </div>
-            <p><span className="fw-semibold">Order Number:</span> {order && order.order_number}</p>
-            <p><span className="fw-semibold">Delivery Address:</span> <br />{order && order.deliveryAddress}</p>
-            <p><span className="fw-semibold">Order Time: </span><br />{order && new Date(Date.parse(order.createdAt)).toLocaleString()}</p>
-            <p><span className="fw-semibold">Order Status: </span><br />{order && order.status}</p>
-            <p><span className="fw-semibold">Order List:</span></p>
+            <div className="row">
+                <div className="col col-12 col-md-6">
+                    <p><span className="fw-semibold">Order Number:</span> {order && order.order_number}</p>
+                    <p><span className="fw-semibold">Delivery Address:</span> <br />{order && order.deliveryAddress}</p>
+                    <p><span className="fw-semibold">Order Time: </span><br />{order && new Date(Date.parse(order.createdAt)).toLocaleString()}</p>
+                    <p><span className="fw-semibold">Order Status: </span><br />{order && order.status}</p>
+                    <p><span className="fw-semibold">Order List:</span></p>
+                </div>
+                {order && order.status === "waiting payment"
+                    && <div className="col col-12 col-md-6 d-flex flex-column align-items-center justify-content-evenly">
+                        <div className="fw-semibold">Payment:</div>
+                        <div>Please do your payment!</div>
+                        <button className="btn btn-sm btn-success m-0">Confirm Payment</button>
+                    </div>
+                }
+            </div>
             <div className="list-group mb-2">
                 {order && <OrderList />}
             </div>

@@ -67,7 +67,7 @@ const Checkout = () => {
                     window.alert("Order successfully created")
                     setLoading(false)
                     dispatch(clearCart())
-                    navigate("/user/order")
+                    navigate("/user/order/" + res.data.data._id)
                 }
             })
         }
