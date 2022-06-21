@@ -12,6 +12,11 @@ const Footer = () => {
                         <div className="col-md-6 text-end">
                             <ul className="list-inline">
                                 <li className="list-inline-item">
+                                    <a href="https://www.github.com/sandisuryadi36/" rel="noreferrer" target="_blank">
+                                        <i className="bi bi-github"></i>
+                                    </a>
+                                </li>
+                                <li className="list-inline-item">
                                     <a href="https://www.instagram.com/sandisuryadi36/" rel="noreferrer" target="_blank">
                                         <i className="bi bi-instagram"></i>
                                     </a>

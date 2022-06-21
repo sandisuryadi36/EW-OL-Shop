@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../component/productCard";
 import { getProduct } from "../app/data/slice";
@@ -10,11 +10,18 @@ const Home = () => {
     const dispatch = useDispatch();
     const products = useSelector(state => state.slice.data);
     const recentAction = useSelector(state => state.slice.recentAction);
+    const location = useLocation();
     let keyword = ""
 
     if (params.get("search") !== null) {
         keyword = params.get("search")
     }
+
+    useEffect(() => { 
+        if (location.state && location.state === "reload") {
+            dispatch(getProduct())
+        }
+    }, [location, dispatch])
 
     useEffect(() => {
         if (keyword !== "") {
