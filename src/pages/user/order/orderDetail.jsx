@@ -55,7 +55,7 @@ const OrderDetail = () => {
                     <button type="button" className="btn-close" aria-label="Close"
                         onClick={() => {
                             let origin = location.state ? location.state.from.pathname : "/user/order";
-                            if (location.state.from.search) {
+                            if (location.state && location.state.from.search) {
                                 origin += location.state.from.search;
                             }
                             navigate(origin)
