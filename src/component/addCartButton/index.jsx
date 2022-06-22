@@ -51,10 +51,10 @@ const AddCartButton = (props) => {
 
     const CartElement = () => { 
         return (
-            <div className="d-flex flex-md-column align-items-center align-items-md-end">
+            <div className="d-flex flex-row flex-md-column align-items-center align-items-md-end">
                 {props.detail && <Counter />}
-                <div className="add-cart-button">
-                    <button onClick={addCartHandler} className={"btn mt-2 pt-1 pb-1" + (props.detail ? " btn-success" : " btn-sm btn-outline-success")}>
+                <div className="add-cart-button w-100">
+                    <button onClick={addCartHandler} className={"btn mt-2 mb-2 pt-1 pb-1" + (props.detail ? " btn-success" : " btn-sm btn-outline-success")}>
                         <i className="bi bi-cart-plus me-1"></i>
                         Add to Cart
                     </button>

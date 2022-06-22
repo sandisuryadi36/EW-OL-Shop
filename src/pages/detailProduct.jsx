@@ -50,7 +50,7 @@ const DetailProduct = (props) => {
                             />
                         </div>
                         <div className='w-100'>
-                            <div className='d-flex flex-column justify-content-between'>
+                            <div className='d-flex flex-column flex-md-row justify-content-between'>
                                 <div>
                                     <h4>{product.name}</h4>
                                     <p className='price'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.price)}</p>
