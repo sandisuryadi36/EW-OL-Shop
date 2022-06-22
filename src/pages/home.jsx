@@ -44,7 +44,7 @@ const Home = () => {
 
     return (
         <div>
-            <SearchBar placeholder="Search..." className="rounded-3 mt-3"/>
+            <SearchBar placeholder="Search..." className="rounded-3 mt-3" category="" tags="" />
             <div className="pt-3 row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
                 {products !== null && <ListProduct />}
             </div>
