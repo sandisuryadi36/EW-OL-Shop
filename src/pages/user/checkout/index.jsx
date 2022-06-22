@@ -69,6 +69,12 @@ const Checkout = () => {
                     dispatch(clearCart())
                     navigate("/user/order/" + res.data.data._id)
                 }
+                if (res.data.error) {
+                    alert(res.data.message)
+                    navigate("/user/cart")
+                }
+            }).catch(err => {
+                console.log(err.message)
             })
         }
     }
@@ -100,10 +106,10 @@ const Checkout = () => {
                             type="select"
                             placeholder="Delivery Address..."
                             label="Delivery Address"
-                            defaultValue="DEFAULT"
+                            defaultValue=""
                             onChange={selectHandler}
                         >
-                            <option value="DEFAULT" disabled>Select Address</option>
+                            <option value="" disabled>Select Address</option>
                             <AddressOptions addresses={addresses} />
                         </Input>
                     </div>
