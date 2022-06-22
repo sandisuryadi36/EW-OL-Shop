@@ -33,7 +33,7 @@ const Checkout = () => {
     const ItemList = (props) => { 
         const {product} = props;
         return (
-            <li className="list-group-item d-flex flex-row justify-content-between align-items-center w-100" >
+            <li className="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center w-100" >
                 <div className="d-flex flex-row justify-content-between align-items-center">
                     <div className="cart-list-img m-2" >
                         <img className="w-100 h-100 image-square" src={product.imageUrl} alt={product.productName} />
@@ -90,7 +90,7 @@ const Checkout = () => {
             <form id="checkoutForm" onSubmit={submitOrderHandler} className="d-flex flex-column align-items-end container-fluid">
                 <div className="d-flex flex-row justify-content-end align-items-end container-fluid p-0">
                     <button type="button" className="btn btn-link ms-2 me-2 mb-2 p-0 border-0" data-bs-toggle="modal" data-bs-target={"#addAddress"}>Add New Address</button>
-                    <div className="d-flex flex-column align-items-end col-3">
+                    <div className="d-flex flex-column align-items-end col-md-3">
                         <Input
                             required
                             divclass="d-flex flex-column align-items-end container-fluid p-0"
@@ -110,7 +110,7 @@ const Checkout = () => {
                 </div>
                 {addressString !== "" && <div className="text-secondary">{addressString}</div>}
                 <Input
-                    divclass="col-3 d-flex flex-column align-items-end mt-2"
+                    divclass="col-md-3 d-flex flex-column align-items-end mt-2"
                     labelclass=""
                     inputclass="mb-2"
                     name="delivery-fee"

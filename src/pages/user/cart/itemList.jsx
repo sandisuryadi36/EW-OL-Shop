@@ -61,19 +61,19 @@ const ListItem = (props) => {
     }
 
     return (
-        <li className="list-group-item d-flex flex-row justify-content-between ps-0 pe-0" >
+        <li className="list-group-item d-flex flex-column flex-md-row justify-content-between ps-0 pe-0" >
             <Link to={"/product/"+item.product} className="d-flex flex-row align-items-center text-black" state={{ from: location }}>
                 <div className="cart-list-img m-2" >
                     <img className="w-100 h-100 image-square" src={item.imageUrl} alt={item.product.name} />
                 </div>
                 <div>{item.productName}</div>
             </Link>
-            <div className="d-flex flex-row justify-content-end align-items-center col-4">
-                <div className="d-flex flex-column justify-content-between align-items-end">
+            <div className="d-flex flex-row justify-content-end align-items-center col-md-4">
+                <div className="d-flex flex-md-column justify-content-between align-items-center align-items-md-end">
                     <div className="d-flex flex-row align-items-center">
                         <Counter product={item} />
                     </div>
-                    <h6 className="m-1">Price: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * count)}</h6>
+                    <div className="m-1">Price: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * count)}</div>
                 </div>
                 <div>
                     <button className="btn btn-link cart-delete bi bi-trash-fill text-secondary ms-2 me-1" onClick={() => {
