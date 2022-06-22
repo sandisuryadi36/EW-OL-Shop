@@ -1,9 +1,8 @@
 export function config(token) {
     return ({
         headers: {
-            'Authorization': 'Bearer ' + token,
-            "Access-Control-Allow-Origin": "*"
+            'Authorization': 'Bearer ' + token
         },
-        'Access-Control-Allow-Credentials': true
+        withCredentials: true,
     })
 }
