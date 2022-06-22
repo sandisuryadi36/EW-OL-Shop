@@ -51,7 +51,7 @@ const AddCartButton = (props) => {
 
     const CartElement = () => { 
         return (
-            <div className="d-flex flex-column align-items-end">
+            <div className="d-flex flex-md-column align-items-center align-items-md-end">
                 {props.detail && <Counter />}
                 <div className="add-cart-button">
                     <button onClick={addCartHandler} className={"btn mt-2 pt-1 pb-1" + (props.detail ? " btn-success" : " btn-sm btn-outline-success")}>
