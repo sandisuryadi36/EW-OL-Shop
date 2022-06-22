@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Input from "../component/Input";
 import Spinner from "../component/spinner";
 import * as c from "../app/data/constants";
@@ -60,6 +60,10 @@ const Register = () => {
                         }
                     </form>
                 </div>
+            </div>
+
+            <div className="m-2">
+                already have an account? <Link to="/login" className="text-primary">login</Link> here
             </div>
         </div>
     );

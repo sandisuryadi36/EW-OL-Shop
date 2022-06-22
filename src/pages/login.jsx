@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { postLogin } from "../app/data/slice";
 import Spinner from "../component/spinner";
 
@@ -49,6 +49,9 @@ const Login = () => {
                         <button type="submit" className="btn btn-primary mt-2" form="loginForm">Submit</button>
                     </form>
                 </div>
+            </div>
+            <div className="m-2">
+                or <Link to="/register" className="text-primary">register</Link> you new account
             </div>
         </div>
     );
