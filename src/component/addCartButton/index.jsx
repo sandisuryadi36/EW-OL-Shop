@@ -42,9 +42,9 @@ const AddCartButton = (props) => {
     const Counter = () => { 
         return (
             <div className="counter w-100 d-flex flex-row justify-content-between">
-                <button className="btn btn-sm btn-success" onClick={() => {if (productCount > 0) { setProductCount(productCount - 1)}}}>-</button>
+                <button className="btn btn-sm btn-success px-3" onClick={() => {if (productCount > 0) { setProductCount(productCount - 1)}}}>-</button>
                 <span>{productCount}</span>
-                <button className="btn btn-sm btn-success" onClick={() => {if (productCount < product.stock) {setProductCount(productCount + 1)}}}>+</button>
+                <button className="btn btn-sm btn-success px-3" onClick={() => {if (productCount < product.stock) {setProductCount(productCount + 1)}}}>+</button>
             </div>
         )
     }
@@ -54,7 +54,7 @@ const AddCartButton = (props) => {
             <div className="d-flex flex-row flex-md-column align-items-center align-items-md-end">
                 {props.detail && <Counter />}
                 <div className="add-cart-button w-100">
-                    <button onClick={addCartHandler} className={"btn mt-2 mb-2 pt-1 pb-1" + (props.detail ? " btn-success" : " btn-sm btn-outline-success")}>
+                    <button onClick={addCartHandler} className={"btn my-2 py-1" + (props.detail ? " btn-success" : " btn-sm btn-outline-success")}>
                         <i className="bi bi-cart-plus me-1"></i>
                         Add to Cart
                     </button>

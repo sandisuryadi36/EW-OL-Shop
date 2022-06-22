@@ -43,7 +43,7 @@ const DetailProduct = (props) => {
                 </div>
                 {product && (
                     <div className='d-flex flex-column flex-md-row gap-4'>
-                        <div>
+                        <div className='d-flex justify-content-center'>
                             <img src={product.image ? product.image.filePath : "https://via.placeholder.com/150/999999/FFFFFF/?text=no%20image"}
                                 height={"200px"}
                                 alt="product"
