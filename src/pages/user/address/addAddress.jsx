@@ -32,13 +32,13 @@ const AddAddress = (props) => {
                     </div>
                     <div className="modal-body">
                         <form id="addAddressForm" onSubmit={submitHandler}>
-                            <Input type="text" name="name" label="Name" />
-                            <Input type="text" name="detail" label="Detail" />
-                            <Input type="text" name="kelurahan" label="Kelurahan" />
-                            <Input type="text" name="kecamatan" label="Kecamatan" />
-                            <Input type="text" name="kota" label="Kota" />
-                            <Input type="text" name="provinsi" label="Provinsi" />
-                            <Input type="text" maxLength={5} name="kodePos" label="Kode Pos" />
+                            <Input required type="text" name="name" label="Name" />
+                            <Input required type="text" name="detail" label="Detail" />
+                            <Input required type="text" name="kelurahan" label="Kelurahan" />
+                            <Input required type="text" name="kecamatan" label="Kecamatan" />
+                            <Input required type="text" name="kota" label="Kota" />
+                            <Input required type="text" name="provinsi" label="Provinsi" />
+                            <Input required type="text" maxLength={5} name="kodePos" label="Kode Pos" />
                         </form>
                     </div>
                     <div className="modal-footer">

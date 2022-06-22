@@ -46,11 +46,11 @@ const Register = () => {
             <div className="card col-8 col-md-6 m-2">
                 <div className="card-body">
                     <form id="loginForm" onSubmit={submitHandler} className="d-flex flex-column">
-                        <Input name="userName" type="text" label="User Name" />
-                        <Input name="email" type="email" label="Email" />
-                        <Input name="full_name" type="text" label="Full Name" />
-                        <Input name="password" type="password" label="Password" />
-                        <Input name="confirmPassword" type="password" label="Confirm Password" />
+                        <Input required name="userName" type="text" label="User Name" />
+                        <Input required name="email" type="email" label="Email" />
+                        <Input required name="full_name" type="text" label="Full Name" />
+                        <Input required name="password" type="password" label="Password" />
+                        <Input required name="confirmPassword" type="password" label="Confirm Password" />
                         {loading
                             ? <button type="submit" className="btn btn-primary mt-2" form="loginForm" disabled>
                                 <Spinner button={true} />

@@ -40,11 +40,11 @@ const Login = () => {
                     <form id="loginForm" onSubmit={submitHandler} className="d-flex flex-column align-items-center">
                         <div className="form-group mt-2">
                             <label htmlFor="inputEmail">Email address</label>
-                            <input name="email" type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" />
+                            <input required name="email" type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" />
                         </div>
                         <div className="form-group mt2">
                             <label htmlFor="inputPassword">Password</label>
-                            <input name="password" type="password" className="form-control" id="inputPassword" placeholder="Password" />
+                            <input required name="password" type="password" className="form-control" id="inputPassword" placeholder="Password" />
                         </div>
                         <button type="submit" className="btn btn-primary mt-2" form="loginForm">Submit</button>
                     </form>

@@ -178,16 +178,16 @@ const EditProduct = () => {
 
             return (
                 <form id="editProductForm" onSubmit={putProdutHandler}>
-                    <Input name="name" type="text" placeholder="Product Name..." label="Name" defaultValue={product.name} />
-                    <Input type="editor" name="description" label="Description" defaultValue={product.description} />
-                    <Input name="category" type="select" placeholder="Product Category..." label="Category" onChange={selectHandler} defaultValue={product.category._id}>
+                    <Input required name="name" type="text" placeholder="Product Name..." label="Name" defaultValue={product.name} />
+                    <Input required type="editor" name="description" label="Description" defaultValue={product.description} />
+                    <Input required name="category" type="select" placeholder="Product Category..." label="Category" onChange={selectHandler} defaultValue={product.category._id}>
                         <option value="">Choose Category</option>
                         <CategoryOptions />
                         <option value="new">Add New Category</option>
                     </Input>
                     {newCategory && <Input name="newCategory" type="text" placeholder="New Category Name..." label="Add New Category" />}
-                    <Input name="price" type="number" placeholder="Product Price..." label="Price" defaultValue={product.price} />
-                    <Input name="stock" type="number" placeholder="Product Stock..." label="Stock" defaultValue={product.stock} />
+                    <Input required name="price" type="number" placeholder="Product Price..." label="Price" defaultValue={product.price} />
+                    <Input required name="stock" type="number" placeholder="Product Stock..." label="Stock" defaultValue={product.stock} />
                     <div>
                         <label>Tags</label>
                         <div className="d-flex flex-row flex-wrap m-1">
@@ -202,7 +202,7 @@ const EditProduct = () => {
                         <div className="small mb-2">End with comma (,)</div>
                     </div>
                     <img src={prevImage} alt="product" />
-                    <Input name="image" type="file" placeholder="Product Image..." label="Change image" onChange={onImgChange} />
+                    <Input required name="image" type="file" placeholder="Product Image..." label="Change image" onChange={onImgChange} />
                     <Input name="status" type="checkbox" label="Active" defaultChecked={product.status} />
                     <div className="d-flex justify-content-end">
                         {loading

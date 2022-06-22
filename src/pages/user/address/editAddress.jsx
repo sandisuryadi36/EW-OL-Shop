@@ -30,13 +30,13 @@ const EditAddress = (props) => {
                     </div>
                     <div className="modal-body">
                         <form id={"editAddressForm"+props.address._id} onSubmit={submitHandler}>
-                            <Input type="text" name="name" label="Name" defaultValue={props.address.name} />
-                            <Input type="text" name="detail" label="Detail" defaultValue={props.address.detail} />
-                            <Input type="text" name="kelurahan" label="Kelurahan" defaultValue={props.address.kelurahan} />
-                            <Input type="text" name="kecamatan" label="Kecamatan" defaultValue={props.address.kecamatan} />
-                            <Input type="text" name="kota" label="Kota" defaultValue={props.address.kota} />
-                            <Input type="text" name="provinsi" label="Provinsi" defaultValue={props.address.provinsi} />
-                            <Input type="text" maxLength={5} name="kodePos" label="Kode Pos" defaultValue={props.address.kodePos} />
+                            <Input required type="text" name="name" label="Name" defaultValue={props.address.name} />
+                            <Input required type="text" name="detail" label="Detail" defaultValue={props.address.detail} />
+                            <Input required type="text" name="kelurahan" label="Kelurahan" defaultValue={props.address.kelurahan} />
+                            <Input required type="text" name="kecamatan" label="Kecamatan" defaultValue={props.address.kecamatan} />
+                            <Input required type="text" name="kota" label="Kota" defaultValue={props.address.kota} />
+                            <Input required type="text" name="provinsi" label="Provinsi" defaultValue={props.address.provinsi} />
+                            <Input required type="text" maxLength={5} name="kodePos" label="Kode Pos" defaultValue={props.address.kodePos} />
                         </form>
                     </div>
                     <div className="modal-footer">

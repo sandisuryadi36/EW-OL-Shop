@@ -92,6 +92,7 @@ const Checkout = () => {
                     <button type="button" className="btn btn-link ms-2 me-2 mb-2 p-0 border-0" data-bs-toggle="modal" data-bs-target={"#addAddress"}>Add New Address</button>
                     <div className="d-flex flex-column align-items-end col-3">
                         <Input
+                            required
                             divclass="d-flex flex-column align-items-end container-fluid p-0"
                             // labelclass=""
                             inputclass= "mb-2"
