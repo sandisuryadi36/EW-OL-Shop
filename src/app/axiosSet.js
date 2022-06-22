@@ -4,6 +4,6 @@ export function config(token) {
             'Authorization': 'Bearer ' + token,
             "Access-Control-Allow-Origin": "*"
         },
-        withCredentials: true,
+        'Access-Control-Allow-Credentials': true
     })
 }
