@@ -68,7 +68,7 @@ const ListItem = (props) => {
                 </div>
                 <div>{item.productName}</div>
             </Link>
-            <div className="d-flex flex-row justify-content-end align-items-center col-md-4">
+            <div className="d-flex flex-row justify-content-between justify-content-md-end align-items-center col-md-4">
                 <div className="d-flex flex-md-column justify-content-between align-items-center align-items-md-end">
                     <div className="d-flex flex-row align-items-center">
                         <Counter product={item} />
