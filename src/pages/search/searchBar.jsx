@@ -7,8 +7,8 @@ const SearchBar = (props) => {
     const [queryText, setQueryText] = useState("");
     const input = document.getElementById("searchBar");
     const currentLocation = useSelector(state => state.slice.currentLocation);
-    let category = props.category
-    let tags = props.tags
+    let category = props.category !== null ? props.category : ""
+    let tags = props.tags !== null ? props.tags : ""
 
     useEffect(() => {
         setQueryText(props.search)
@@ -34,6 +34,7 @@ const SearchBar = (props) => {
         setQueryText("");
         navigate("/product?search=" + input.value
             + "&category=" + category
+            + "&tags=" + tags
         )
     }
 
