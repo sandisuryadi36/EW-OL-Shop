@@ -68,6 +68,12 @@ const DetailProduct = (props) => {
                         </div>
                         <h6>Description</h6>
                         <span dangerouslySetInnerHTML={{ __html: product.description }} />
+                        <p>Tags: {
+                            product.tags.map((tag, key) => { 
+                                if (key === 0) return tag.name;
+                                else return ", " + tag.name;
+                            })
+                        }</p>
                     </div>
                 </div>
             )}

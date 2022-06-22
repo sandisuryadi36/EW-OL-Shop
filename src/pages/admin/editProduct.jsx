@@ -21,12 +21,17 @@ const EditProduct = () => {
     const origin = location.state ? location.state.from.pathname : "/admin/dashboard/list"
     const dispatch = useDispatch();
     const [tags, setTags] = useState([]);
-    const [newTags, setNewTags] = useState([]);
+    const [newTags, setNewTags] = useState([{}]);
     
     if (product === null) {
         axios.get(c.API_URL + "/api/v1/product/" + params.id)
         .then(res => {
             setProduct(res.data.data)
+            let arr = []
+            res.data.data.tags.forEach(tag => { 
+                arr.push(tag.name)
+            })
+            setNewTags(arr)
         })
         .catch(err => {
             console.log(err)
@@ -74,30 +79,37 @@ const EditProduct = () => {
         )
     }
 
+    async function postTag() {
+        newTags.forEach(async (tag) => {
+            let exist = false
+            exist = tags.some(t => t.Name === tag)
+            if (!exist) {
+                const payload = { "name": tag }
+                return await axios.post(c.API_URL + "/api/v1/tag", payload, config(localStorage.getItem("token")))
+            }
+        })
+    }
+
+    async function postCategory(value) {
+        let new_category = {
+            "name": value.toLowerCase()
+        }
+        const category = await axios.post(c.API_URL + "/api/v1/category", new_category)
+        return category.data.data._id
+    }
+
     const putProdutHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         let categoryValue = e.target.category.value;
         if (newCategory) {
-            let new_category = {
-                "name": e.target.newCategory.value.toLowerCase()
-            }
-            const category = await axios.post(c.API_URL + "/api/v1/category", new_category)
-            categoryValue = category.data.data._id
+            categoryValue = await postCategory(categoryValue)
         }
 
-        let newTagsArr = []
+
         if (newTags.length > 0) {
-            newTags.forEach(async (tag) => {
-                let exist = false
-                exist = tags.some(t => t.Name === tag)
-                if (!exist) {
-                    const payload = { "name": tag }
-                    await axios.post(c.API_URL + "/api/v1/tag", payload, config(localStorage.getItem("token")))
-                }
-                newTagsArr.push(tag)
-            })
+            await postTag()
         }
 
         let payload = new FormData(e.target)
@@ -107,7 +119,7 @@ const EditProduct = () => {
             payload.set("status", false);
         }
         payload.set("category", categoryValue)
-        newTagsArr.forEach((tag, index) => {
+        newTags.forEach((tag, index) => {
             payload.set("tags[" + index + "]", tag)
         })
 
@@ -132,6 +144,7 @@ const EditProduct = () => {
 
     const EditForm = () => {
         const [prevImage, setPrevImage] = useState(product !== null ? product.image ? product.image.filePath : "https://via.placeholder.com/150/999999/FFFFFF/?text=no%20image" : "");
+        
         if (product === null) { 
             return (
                 <p>Product not found!</p>
@@ -146,11 +159,10 @@ const EditProduct = () => {
                 }
             }
 
-
             function tagInputHandler(e) {
                 if (e.keyCode === 188) {
                     let split = e.target.value.split(",")
-                    setNewTags([...newTags, split[0].trim()])
+                    setNewTags([...newTags, split[0].trim().toLowerCase()])
                     e.target.value = ""
                 }
             }

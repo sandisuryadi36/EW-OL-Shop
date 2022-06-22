@@ -60,31 +60,36 @@ const AddProduct = () => {
         )
     }
 
+    async function postTag() {
+        newTags.forEach(async (tag) => {
+            let exist = false
+            exist = tags.some(t => t.Name === tag)
+            if (!exist) {
+                const payload = { "name": tag }
+                await axios.post(c.API_URL + "/api/v1/tag", payload, config(localStorage.getItem("token")))
+            }
+        })
+    }
+
+    async function postCategory(value) {
+        let new_category = {
+            "name": value.toLowerCase()
+        }
+        const category = await axios.post(c.API_URL + "/api/v1/category", new_category)
+        return category.data.data._id
+    }
+
     async function postProdutHandler(e) { 
         e.preventDefault();
         setLoading(true);
         
         let categoryValue = e.target.category.value;
         if (newCategory) {
-            let new_category = {
-                "name": e.target.newCategory.value.toLowerCase()
-            }
-            const category = await axios.post(c.API_URL + "/api/v1/category", new_category, config(localStorage.getItem("token")))
-            categoryValue = category.data.data._id
+            categoryValue = await postCategory(categoryValue)
         }
 
-        
-        let newTagsArr = []
-        if (newTags.length > 0) { 
-            newTags.forEach(async (tag) => { 
-                let exist = false
-                exist = tags.some(t => t.Name === tag)
-                if (!exist) { 
-                    const payload = { "name": tag }
-                    await axios.post(c.API_URL + "/api/v1/tag", payload, config(localStorage.getItem("token")))
-                }
-                newTagsArr.push(tag)
-            })
+        if (newTags.length > 0) {
+            await postTag()
         }
 
         let data = new FormData(e.target)
@@ -95,7 +100,7 @@ const AddProduct = () => {
         }
 
         data.set("category", categoryValue)
-        newTagsArr.forEach((tag, index) => { 
+        newTags.forEach((tag, index) => { 
             data.set("tags["+index+"]", tag)
         })
 
@@ -120,7 +125,7 @@ const AddProduct = () => {
     function tagInputHandler(e) { 
         if (e.keyCode === 188) {
             let split = e.target.value.split(",")
-            setNewTags([...newTags, split[0].trim()])
+            setNewTags([...newTags, split[0].trim().toLowerCase()])
             e.target.value = ""
         }
     }

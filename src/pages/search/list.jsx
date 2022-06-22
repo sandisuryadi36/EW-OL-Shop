@@ -7,17 +7,31 @@ import { useSearchParams } from "react-router-dom";
 const ListProduct = () => {
     const [params] = useSearchParams();
     const products = useSelector(state => state.slice.data);
+    const recentAction = useSelector(state => state.slice.recentAction);
     const dispatch = useDispatch();
     let keyword = params.get("search")
     if (keyword === null) keyword = ""
     let category = params.get("category")
     if (category === null) category = ""
+    let tags = getTagsParam()
+    let queryString = "search=" + keyword + "&category=" + category + "&tags=" + tags
 
     useEffect(() => {
-        dispatch(getProduct("search=" + keyword
-            + "&category=" + category
-        ))
-    }, [dispatch, keyword, category]);
+        dispatch(getProduct(queryString))
+    }, [dispatch, queryString]);
+
+    function getTagsParam() {
+        let paramString = params.get("tags")
+        if (paramString !== null) {
+            if (paramString.indexOf(",") === -1) {
+                return [paramString]
+            } else {
+                return paramString.split(",")
+            }
+        } else {
+            return []
+        }
+    }
 
     let element = products.map((item, key) => {
         const detail = {
@@ -35,7 +49,7 @@ const ListProduct = () => {
 
     if (products && products.length > 0) { 
         return element
-    } else {
+    } else if (recentAction === "getProducts/fulfilled") {
         return (
             <div className="text-center">
                 <div>No product found</div>

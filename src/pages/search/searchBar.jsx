@@ -5,13 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 const SearchBar = (props) => {
     const navigate = useNavigate();
     const [queryText, setQueryText] = useState("");
-    const [category, setCategory] = useState("");
     const input = document.getElementById("searchBar");
     const currentLocation = useSelector(state => state.slice.currentLocation);
+    let category = props.category
+    let tags = props.tags
 
     useEffect(() => {
         setQueryText(props.search)
-        setCategory(props.category)
     }, [props])
 
     // set search text
@@ -24,6 +24,7 @@ const SearchBar = (props) => {
             setQueryText(text);
             navigate("/product?search=" + text
                 + "&category=" + category
+                + "&tags=" + tags
                 )
         }, 500)
     }
