@@ -3,17 +3,13 @@ import ProductCard from "../component/productCard";
 import SearchBar from "./search/searchBar";
 import * as c from "../app/data/constants"
 import axios from "axios";
-import Spinner from "../component/spinner";
 
 const Home = () => {
     const [products, setProducts] = useState([])
-    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
         axios.get(c.API_URL + "/api/v1/product").then(res => {
             setProducts(res.data.data)
-            setLoading(false)
         })
     }, []);
 
@@ -38,7 +34,6 @@ const Home = () => {
         <div>
             <SearchBar placeholder="Search..." className="rounded-3 mt-3" category="" tags="" />
             <div className="pt-3 row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
-                {loading && <Spinner child={true} overlay={true} />}
                 {products !== null && <ListProduct />}
             </div>
         </div>

@@ -6,12 +6,10 @@ import Login from './pages/login';
 import Navbar from './widgets/navbar';
 import UserDashboard from './pages/user/dashboard';
 import AddProduct from './pages/admin/addProduct';
-import Spinner from './component/spinner';
 import EditProduct from './pages/admin/editProduct';
 import ListProduct from './pages/admin/listProduct';
 import Overview from './pages/admin/overview';
 import DetailProduct from './pages/detailProduct';
-// import SearchBar from './widgets/searchBar';
 import RouteChangeListener from './widgets/routeChangeListener';
 import Cart from './pages/user/cart';
 import UserOverview from './pages/user/overview';
@@ -23,7 +21,7 @@ import OrderDetail from './pages/user/order/orderDetail';
 import Register from './pages/register';
 import Footer from './widgets/footer';
 import Search from './pages/search';
-// import { useState } from 'react';
+import Spinner from './component/spinner';
 
 function App() {
   const logedIn = useSelector(state => state.slice.logedIn);
@@ -33,7 +31,7 @@ function App() {
 
   function ProtectedRoute(props) {
     const location = useLocation();
-    if ((status === "fulfilled")&&(!loading)) {
+    if ((status === "fulfilled")) {
       if (!logedIn) {
         return <Navigate to="/login" replace state={{ from: location }} />
       }
@@ -43,20 +41,14 @@ function App() {
       }
       return props.children
     }
-    return <Spinner />
   }
-
-  // const searchHandler = (value) => { 
-  //   setSearchQuery(value);
-  // }
 
   return (
     <BrowserRouter>
-      {loading && <Spinner />}
       <RouteChangeListener />
       <Navbar />
+      {loading && <Spinner />}
       <div className='container'>
-        {/* <SearchBar placeholder="Search..." className="rounded-3 mt-3" /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

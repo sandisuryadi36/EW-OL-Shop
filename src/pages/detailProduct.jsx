@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import * as c from "../app/data/constants"
 import "./index.scss";
@@ -14,7 +14,7 @@ const DetailProduct = (props) => {
     const [product, setProduct] = useState(null);
     const userRole = useSelector(state => state.slice.userData ? state.slice.userData.role : null);
 
-    if (product === null) {
+    useEffect(() => {
         axios.get(c.API_URL + "/api/v1/product/" + id)
             .then(res => {
                 setProduct(res.data.data)
@@ -22,7 +22,7 @@ const DetailProduct = (props) => {
             .catch(err => {
                 console.log(err)
             })
-    }
+    }, [id])
 
     return (
         <div className='pt-4'>
