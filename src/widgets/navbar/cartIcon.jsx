@@ -16,7 +16,7 @@ const CartIcon = () => {
         )
     } else { 
         return (
-            <Link to="/user/cart" className="cart-icon me-3">
+            <Link to="/user/cart" className="text-light fs-4">
                 <i className="bi bi-cart position-relative"></i>
             </Link>
         )
