@@ -6,7 +6,7 @@ const CartIcon = () => {
 
     if (cartCount > 0) {
         return (
-            <Link to="/user/cart" className="cart-icon me-3">
+            <Link to="/user/cart" className="text-light fs-4">
                 <i className="bi bi-cart position-relative">
                     <div className="position-absolute top-0 start-100 translate-middle p-2 mt-1 bg-danger rounded-circle border border-white">
                         <span className="badge-count position-absolute top-50 start-50 translate-middle">{cartCount <= 99 && cartCount}</span>

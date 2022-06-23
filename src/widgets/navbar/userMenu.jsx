@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { postLogout, setSlice } from "../../app/data/slice";
 
 const UserMenu = () => {
@@ -21,12 +21,12 @@ const UserMenu = () => {
     if (logedIn) {
         return (
             <div className="dropdown">
-                <button className="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {user.full_name}
+                <button className="btn btn-link text-light fs-3 p-0 mx-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i className="bi bi-person-circle"></i>
                 </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <Link to={"/" + user.role + "/dashboard/"} className="dropdown-item">Dashboard</Link>
-                    {user.role === "user" && <Link to={"/user/order"} className="dropdown-item">My Orders</Link>}
+                <div className="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <button onClick={() => navigate("/" + user.role + "/dashboard/")} className="btn-link no-m dropdown-item">Dashboard</button>
+                    {user.role === "user" && <button onClick={() => navigate("/user/order")} className="btn-link no-m dropdown-item">My Orders</button>}
                     <button onClick={logoutHandler} className="btn-link no-m dropdown-item" >Logout</button>
                 </div>
             </div>
@@ -34,12 +34,12 @@ const UserMenu = () => {
     } else {
         return (
             <div className="dropdown">
-                <button className="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Login
+                <button className="btn btn-link text-light fs-3 p-0 mx-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i className="bi bi-person-circle"></i>
                 </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <Link to="/login" className="dropdown-item">Login</Link>
-                    <Link to="/register" className="dropdown-item" >Register</Link>
+                <div className="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <button onClick={() => navigate("/login")} className="btn-link no-m dropdown-item">Login</button>
+                    <button onClick={() => navigate("/register")} className="btn-link no-m dropdown-item" >Register</button>
                 </div>
             </div>
         )
