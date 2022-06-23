@@ -1,29 +1,21 @@
-import { useEffect } from "react";
-import { useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import ProductCard from "../component/productCard";
-import { getProduct } from "../app/data/slice";
 import SearchBar from "./search/searchBar";
+import * as c from "../app/data/constants"
+import axios from "axios";
+import Spinner from "../component/spinner";
 
 const Home = () => {
-    const dispatch = useDispatch();
-    const products = useSelector(state => state.slice.data);
-    const recentAction = useSelector(state => state.slice.recentAction);
-    const location = useLocation();
-
-    useEffect(() => { 
-        if (location.state && location.state === "reload") {
-            dispatch(getProduct())
-        }
-    }, [location, dispatch])
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        dispatch(getProduct());
-    }, [dispatch]);
-
-    useEffect(() => { 
-        if (recentAction === "reset-data") dispatch(getProduct())
-    }, [recentAction, dispatch])
+        setLoading(true)
+        axios.get(c.API_URL + "/api/v1/product").then(res => {
+            setProducts(res.data.data)
+            setLoading(false)
+        })
+    }, []);
 
     const ListProduct = () => {
         let element = products.map((item, key) => {
@@ -46,6 +38,7 @@ const Home = () => {
         <div>
             <SearchBar placeholder="Search..." className="rounded-3 mt-3" category="" tags="" />
             <div className="pt-3 row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
+                {loading && <Spinner child={true} overlay={true} />}
                 {products !== null && <ListProduct />}
             </div>
         </div>

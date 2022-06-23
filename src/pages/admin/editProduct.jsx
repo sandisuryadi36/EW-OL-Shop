@@ -4,26 +4,24 @@ import { useState } from "react";
 import axios from "axios";
 import * as c from "../../app/data/constants"
 import "./index.scss";
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { putProduct } from "../../app/data/slice";
 import { config } from "../../app/axiosSet";
+import { useEffect } from "react";
 
 const EditProduct = () => { 
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newCategory, setNewCategory] = useState(false);
-    const status = useSelector(state => state.slice.status);
     const params = useParams()
     const navigate = useNavigate();
     const location = useLocation();
     const [product, setProduct] = useState(null);
     const origin = location.state ? location.state.from.pathname : "/admin/dashboard/list"
-    const dispatch = useDispatch();
     const [tags, setTags] = useState([]);
     const [newTags, setNewTags] = useState([{}]);
     
-    if (product === null) {
+    useEffect(() => {
+        setLoading(true)
         axios.get(c.API_URL + "/api/v1/product/" + params.id)
         .then(res => {
             setProduct(res.data.data)
@@ -32,11 +30,12 @@ const EditProduct = () => {
                 arr.push(tag.name)
             })
             setNewTags(arr)
+            setLoading(false)
         })
         .catch(err => {
             console.log(err)
         })
-    }
+    }, [params.id])
 
     const loadCategory = async () => { 
         let getCategory = await axios.get(c.API_URL + "/api/v1/category");
@@ -123,7 +122,7 @@ const EditProduct = () => {
             payload.set("tags[" + index + "]", tag)
         })
 
-        dispatch(putProduct({id: params.id, data: payload}))
+        axios.put(c.API_URL + "/api/v1/product/" + params.id, payload, config(localStorage.getItem("token")))
         .then(res => {
                 setLoading(false);
                 if (res.payload.message === "Product successfully updated") {
@@ -145,7 +144,7 @@ const EditProduct = () => {
     const EditForm = () => {
         const [prevImage, setPrevImage] = useState(product !== null ? product.image ? product.image.filePath : "https://via.placeholder.com/150/999999/FFFFFF/?text=no%20image" : "");
         
-        if (product === null) { 
+        if (product === null && !loading) { 
             return (
                 <p>Product not found!</p>
             )
@@ -226,7 +225,7 @@ const EditProduct = () => {
 
     return (
         <div>
-            {status === "pending" && <Spinner />}
+            {(loading && product === null) && <Spinner />}
             <div className="d-flex justify-content-between">
                 <h3>Edit Product</h3>
                 <button className="btn btn-primary btn-sm" onClick={() => navigate(origin)}>Cancel</button>

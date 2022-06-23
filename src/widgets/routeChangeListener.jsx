@@ -11,7 +11,6 @@ const RouteChangeListener = () => {
     useEffect(() => {
         async function routeChange() {
             dispatch(setSlice({ currentLocation: location }))
-            dispatch(setSlice({ data: [] }))
             dispatch(loginCheck()).then((res) => { 
                 if (res.payload.message === "jwt expired") { 
                     localStorage.removeItem("token");

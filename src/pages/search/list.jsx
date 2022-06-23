@@ -15,7 +15,7 @@ const ListProduct = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios(c.API_URL + "/api/v1/product?" + queryString).then(res => {
+        axios.get(c.API_URL + "/api/v1/product?" + queryString).then(res => {
             setProducts(res.data.data)
             setLoading(false)
         })

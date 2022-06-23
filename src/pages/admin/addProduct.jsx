@@ -5,8 +5,6 @@ import axios from "axios";
 import * as c from "../../app/data/constants"
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { postProduct } from "../../app/data/slice";
 import { config } from "../../app/axiosSet";
 
 const AddProduct = () => { 
@@ -16,7 +14,6 @@ const AddProduct = () => {
     const [tags, setTags] = useState([]);
     const [newTags, setNewTags] = useState([]);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     async function loadCategory() { 
         let getCategory = await axios.get(c.API_URL + "/api/v1/category");
@@ -104,7 +101,7 @@ const AddProduct = () => {
             data.set("tags["+index+"]", tag)
         })
 
-        dispatch(postProduct(data))
+        axios.post(c.API_URL + "/api/v1/product", config(localStorage.getItem("token")))
             .then(res => {
                 setLoading(false);
                 if (res.payload.message === "Product successfully created") {

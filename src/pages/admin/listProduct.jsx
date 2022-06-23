@@ -1,25 +1,33 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { deleteProduct, getProduct } from "../../app/data/slice";
+import { config } from "../../app/axiosSet";
+import * as c from "../../app/data/constants"
+import Spinner from "../../component/spinner";
 
 const ListProduct = () => { 
-    const dispatch = useDispatch();
-    const products = useSelector(state => state.slice.data);
-    const status = useSelector(state => state.slice.status);
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
     const location = useLocation()
 
     useEffect(() => {
-        if ((products.length < 1) && (status === "fulfilled")) {
-            dispatch(getProduct());
-        }
-    }, [products, dispatch, status]);
+        setLoading(true)
+        axios.get(c.API_URL + "/api/v1/product").then(res => {
+            setProducts(res.data.data)
+            setLoading(false)
+        })
+    }, []);
 
 
     // delete product
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
-            dispatch(deleteProduct(id))
+            setLoading(true)
+            axios.delete(c.API_URL + "/api/v1/product/" + id, config(localStorage.getItem("token"))).then(res => {
+                setProducts(products => products.filter(product => product._id !== id))
+                alert(res.data.message)
+                setLoading(false)
+            })
         }
     }
 
@@ -48,7 +56,7 @@ const ListProduct = () => {
                 }
             )
             return el;
-        } else { 
+        } else if (!loading) { 
             return (
                 <tr>
                     <td colSpan="6">No Product</td>
@@ -73,7 +81,8 @@ const ListProduct = () => {
                             <th className="text-center">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="position-relative">
+                        {loading && <tr><td><Spinner child={true} overlay={true} /></td></tr>}
                         <ItemList />
                     </tbody>
                 </table>
