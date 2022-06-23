@@ -36,10 +36,12 @@ const ListItem = (props) => {
                         updateCart(count + 1)
                         dispatch(setSlice({ cartCount: cartCount + 1 }))
                         dispatch(addToCart({ price: props.product.price }))
+                    } else {
+                        alert("Not enough product")
                     }
                     break
                 case "sub":
-                    if (count > 0) {
+                    if (count > 1) {
                         updateCart(count - 1)
                         dispatch(setSlice({ cartCount: cartCount - 1 }))
                         dispatch(subFromCart({ price: props.product.price }))

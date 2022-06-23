@@ -125,7 +125,7 @@ const EditProduct = () => {
         axios.put(c.API_URL + "/api/v1/product/" + params.id, payload, config(localStorage.getItem("token")))
         .then(res => {
                 setLoading(false);
-                if (res.payload.message === "Product successfully updated") {
+                if (res.data.message === "Product successfully updated") {
                     alert("Product successfully updated");
                     navigate("/admin/dashboard/list")
                 }

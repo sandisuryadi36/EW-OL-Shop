@@ -104,7 +104,7 @@ const AddProduct = () => {
         axios.post(c.API_URL + "/api/v1/product", config(localStorage.getItem("token")))
             .then(res => {
                 setLoading(false);
-                if (res.payload.message === "Product successfully created") {
+                if (res.data.message === "Product successfully created") {
                     alert("Product successfully created");
                     navigate("/admin/dashboard/list")
                 }
@@ -163,7 +163,7 @@ const AddProduct = () => {
                     </datalist>
                     <div className="small mb-2">End with comma (,)</div>
                 </div>
-                <Input required name="image" type="file" placeholder="Product Image..." label="Image" />
+                <Input name="image" type="file" placeholder="Product Image..." label="Image" />
                 <Input name="status" type="checkbox" label="Active" defaultChecked={true} />
                 <div className="d-flex justify-content-end">
                     {loading

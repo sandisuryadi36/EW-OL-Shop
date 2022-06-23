@@ -27,7 +27,11 @@ const AddCartButton = (props) => {
             product: productID,
             quantity: (productCount !== 0 ? productCount : 1 ) + (productInCart !== "" ? productInCart.quantity : 0)
         }
-        dispatch(putCart(payload)).then(() => { 
+        dispatch(putCart(payload)).then(res => {
+            if (res.payload.error) {
+                alert(res.payload.message)
+                return
+            }
             dispatch(getCart()).then((res) => {
                 let itemCount = 0
                 res.payload.data.forEach((item) => {
