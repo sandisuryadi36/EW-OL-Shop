@@ -12,6 +12,9 @@ const UserDashboard = () => {
                                 <NavLink className="nav-link" aria-current="page" to="/user/dashboard/">Overview</NavLink>
                             </li>
                             <li className="nav-item">
+                                <NavLink className="nav-link" aria-current="page" to="/user/dashboard/profile">My Profile</NavLink>
+                            </li>
+                            <li className="nav-item">
                                 <NavLink className="nav-link" aria-current="page" to="/user/dashboard/address">My Address</NavLink>
                             </li>
 

@@ -12,6 +12,9 @@ const AdminDashboard = () => {
                                 <NavLink className="nav-link" aria-current="page" to="/admin/dashboard/">Overview</NavLink>
                             </li>
                             <li className="nav-item">
+                                <NavLink className="nav-link" aria-current="page" to="/admin/dashboard/profile">My Profile</NavLink>
+                            </li>
+                            <li className="nav-item">
                                 <NavLink className="nav-link" aria-current="page" to="/admin/dashboard/add">Add Product</NavLink>
                             </li>
                             <li className="nav-item">

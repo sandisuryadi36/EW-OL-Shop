@@ -22,6 +22,8 @@ import Register from './pages/register';
 import Footer from './widgets/footer';
 import Search from './pages/search';
 import Spinner from './component/spinner';
+import UserProfile from './pages/user/profile';
+import AdminProfile from './pages/admin/profile';
 
 function App() {
   const logedIn = useSelector(state => state.slice.logedIn);
@@ -64,6 +66,7 @@ function App() {
             } >
             <Route path="/admin/dashboard/" element={<Overview />} />
             <Route path="/admin/dashboard/add" element={<AddProduct />} />
+            <Route path="/admin/dashboard/profile" element={<AdminProfile />} />
             <Route path="/admin/dashboard/list" element={<ListProduct />} />
             <Route path="/admin/dashboard/list/edit/:id" element={<EditProduct />} />
             <Route path="/admin/dashboard/list/detail/:id" element={<DetailProduct />} />
@@ -77,6 +80,7 @@ function App() {
             } >
             <Route path="/user/dashboard/" element={<UserOverview />} />
             <Route path="/user/dashboard/address" element={<AddressList />} />
+            <Route path="/user/dashboard/profile" element={<UserProfile />} />
           </Route>
           <Route path="/user"
             element={

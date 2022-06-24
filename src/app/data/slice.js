@@ -178,7 +178,7 @@ export const loginCheck = createAsyncThunk('loginCheck', async () => {
 
 // post login
 export const postLogin = createAsyncThunk('login', async (data) => { 
-    const response = await axios.post(c.API_URL + '/auth/login', data, config(localStorage.getItem("token")));
+    const response = await axios.post(c.API_URL + '/auth/login', data);
     return response.data;
 })
 
