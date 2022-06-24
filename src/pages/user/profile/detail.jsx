@@ -41,7 +41,7 @@ const DetailProfile = (props) => {
             <div className="d-flex flex-row gap-3 align-items-center">
                 {editable
                     ? <>
-                        <input id={"id-" + props.name} type="text" {...properties} onChange={(e) => setInputValue(e.target.value)} ></input>
+                        <input required id={"id-" + props.name} type="text" {...properties} onChange={(e) => setInputValue(e.target.value)} ></input>
                         <button type="button" className="btn btn-link m-0 p-0 text-reset" onClick={saveEdit} >
                             <i className="bi bi-check2 fs-4" />
                         </button>
