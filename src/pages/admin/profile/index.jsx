@@ -26,19 +26,33 @@ const AdminProfile = () => {
         confirmPayload.set("email", userData.email)
         axios.post(c.API_URL + "/auth/login", confirmPayload).then(res => {
             if (res.data.login) {
-                const payload = new URLSearchParams(new FormData(document.getElementById("formEditProfile")))
+                const formData = new FormData(document.getElementById("formEditProfile"))
+                const payload = {}
+                if (edited.includes("full_name")) {
+                    payload.full_name = formData.get("full_name")
+                }
+                if (edited.includes("email")) {
+                    payload.email = formData.get("email")
+                }
+                if (edited.includes("password")) {
+                    payload.password = formData.get("password")
+                }
                 axios.put(c.API_URL + "/api/v1/user", payload, config(localStorage.getItem("token")))
-                    .then(() => {
-                        confirmPayload.set("email", payload.get("email"))
-                        if (edited.includes("password")) { 
-                            confirmPayload.set("password", payload.get("password"))
-                        }
-                        axios.post(c.API_URL + "/auth/login", confirmPayload).then(res => {
-                            if (res.data.login) {
-                                localStorage.setItem("token", res.data.data.token)
-                                window.location.reload()
+                    .then((res) => {
+                        if (!res.data.error) {
+                            confirmPayload.set("email", payload.email ? payload.email : userData.email)
+                            if (edited.includes("password")) {
+                                confirmPayload.set("password", payload.password)
                             }
-                        })
+                            axios.post(c.API_URL + "/auth/login", confirmPayload).then(res => {
+                                if (res.data.login) {
+                                    localStorage.setItem("token", res.data.data.token)
+                                    window.location.reload()
+                                }
+                            })
+                        } else {
+                            alert(res.data.message)
+                        }
                     })
                 document.getElementById("editProfileCloseModal").click()
             } else {
@@ -60,7 +74,10 @@ const AdminProfile = () => {
                 {editPassowrd &&
                     <>
                         <ResetPassword edited={handleEdited} />
-                        <button type="button" className="btn btn-link text-secondary m-0 p-0 text-decoration-none" onClick={() => setEditPassword(false)}>Cancel change password</button>
+                        <button type="button" className="btn btn-link text-secondary m-0 p-0 text-decoration-none" onClick={() => {
+                            setEdited(edited.filter(item => item !== "password"))
+                            setEditPassword(false)
+                        }}>Cancel change password</button>
                     </>
                 }
             </form>
