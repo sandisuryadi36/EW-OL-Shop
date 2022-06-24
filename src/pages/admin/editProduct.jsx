@@ -201,7 +201,7 @@ const EditProduct = () => {
                         <div className="small mb-2">End with comma (,)</div>
                     </div>
                     <img src={prevImage} alt="product" />
-                    <Input required name="image" type="file" placeholder="Product Image..." label="Change image" onChange={onImgChange} />
+                    <Input name="image" type="file" placeholder="Product Image..." label="Change image" onChange={onImgChange} />
                     <Input name="status" type="checkbox" label="Active" defaultChecked={product.status} />
                     <div className="d-flex justify-content-end">
                         {loading
