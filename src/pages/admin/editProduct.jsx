@@ -8,7 +8,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { config } from "../../app/axiosSet";
 import { useEffect } from "react";
 
-const EditProduct = () => { 
+const EditProduct = () => {
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newCategory, setNewCategory] = useState(false);
@@ -16,41 +16,55 @@ const EditProduct = () => {
     const params = useParams()
     const navigate = useNavigate();
     const location = useLocation();
-    const [product, setProduct] = useState(null);
+    const [product, setProduct] = useState();
     const origin = location.state ? location.state.from.pathname : "/admin/dashboard/list"
     const [tags, setTags] = useState([]);
     const [newTags, setNewTags] = useState([{}]);
-    
+
     useEffect(() => {
         setLoading(true)
         axios.get(c.API_URL + "/api/v1/product/" + params.id)
-        .then(res => {
-            if (!res.data.error) {
-                setProduct(res.data.data)
-                let arr = []
-                res.data.data.tags.forEach(tag => {
-                    arr.push(tag.name)
+            .then(res => {
+                if (!res.data.error) {
+                    setProduct(res.data.data)
+                    let arr = []
+                    res.data.data.tags.forEach(tag => {
+                        arr.push(tag.name)
+                    })
+                    setNewTags(arr)
+                    setPrevImage(res.data.data.image.filePath)
+                }
+                setLoading(false)
+            })
+            .then(() => {
+                axios.get(c.API_URL + "/api/v1/category").then(res => {
+                    if (!res.data.error) {
+                        let arr = []
+                        res.data.data.forEach(cat => {
+                            arr.push({ "Id": cat._id, "Name": cat.name })
+                        })
+                        setCategory(arr)
+                    }
                 })
-                setNewTags(arr)
-                setPrevImage(res.data.data.image.filePath)
-            }
-            setLoading(false)
-        })
+            })
+            .then(() => {
+                axios.get(c.API_URL + "/api/v1/tag").then(res => {
+                    if (!res.data.error) {
+                        let arr = []
+                        res.data.data.forEach(tag => {
+                            arr.push({ "Id": tag._id, "Name": tag.name })
+                        })
+                        setTags(arr)
+                    }
+                })
+            })
     }, [params.id])
 
-    const loadCategory = async () => { 
-        let getCategory = await axios.get(c.API_URL + "/api/v1/category");
-        let categories = []
-        categories = getCategory.data.data.map(category => { 
-            return {"Id": category._id, "Name": category.name}
-        })
-        setCategory(categories);    }
+    const CategoryOptions = () => {
+        useEffect(() => { 
+            document.getElementById("categoryInput").value = product.category._id
+        }, [])
 
-    const CategoryOptions = () => { 
-        if (category.length < 1) { 
-            loadCategory();
-
-        }
         return (
             category.map((cat, key) => {
                 return <option key={key} value={cat.Id}>{cat.Name}</option>
@@ -58,20 +72,7 @@ const EditProduct = () => {
         )
     }
 
-    async function loadTags() {
-        const res = await axios.get(c.API_URL + "/api/v1/tag")
-        let arrTags = []
-        arrTags = res.data.data.map(tag => {
-            return { "Id": tag._id, "Name": tag.name }
-        })
-        setTags(arrTags)
-    }
-
     const TagsOptions = () => {
-        if (tags.length < 1) {
-            loadTags();
-        }
-
         return (
             tags.map((tag, key) => {
                 return <option key={key} value={tag.Name} />
@@ -124,7 +125,7 @@ const EditProduct = () => {
         })
 
         axios.put(c.API_URL + "/api/v1/product/" + params.id, payload, config(localStorage.getItem("token")))
-        .then(res => {
+            .then(res => {
                 setLoading(false);
                 if (res.data.message === "Product successfully updated") {
                     alert("Product successfully updated");
@@ -177,11 +178,13 @@ const EditProduct = () => {
                 ? <form id="editProductForm" onSubmit={putProdutHandler}>
                     <Input required name="name" type="text" placeholder="Product Name..." label="Name" defaultValue={product.name} />
                     <Input required type="editor" name="description" label="Description" defaultValue={product.description} />
-                    <Input required name="category" type="select" placeholder="Product Category..." label="Category" onChange={selectHandler} defaultValue={product.category._id}>
-                        <option value="">Choose Category</option>
-                        <CategoryOptions />
-                        <option value="new">Add New Category</option>
-                    </Input>
+                    { category &&
+                        <Input id="categoryInput" required name="category" type="select" placeholder="Product Category..." label="Category" onChange={selectHandler}>
+                            <option value="">Choose Category</option>
+                            <CategoryOptions />
+                            <option value="new">Add New Category</option>
+                        </Input>
+                    }
                     {newCategory && <Input name="newCategory" type="text" placeholder="New Category Name..." label="Add New Category" />}
                     <Input required name="price" type="number" placeholder="Product Price..." label="Price" defaultValue={product.price} />
                     <Input required name="stock" type="number" placeholder="Product Stock..." label="Stock" defaultValue={product.stock} />
