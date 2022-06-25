@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as c from '../../app/data/constants'
 import Input from "../../component/Input";
+import "./index.scss";
 
 const Filter = (props) => {
     const [params] = useSearchParams();
@@ -80,7 +81,7 @@ const Filter = (props) => {
             </div>
             <div>
                 <div className="fw-semibold">Has tag</div>
-                <div className="d-flex flex-column align-items-start mt-1">
+                <div className="d-flex flex-column align-items-start mt-1 tag-frame">
                     {tags.map((tag, key) => {
                         return <Input type="checkbox" name="tag" id={tag.name} value={tag.name} label={tag.name} key={key} inputclass="" checked={tagsQuery.includes(tag.name)} onChange={sendTags} />
                     })}
