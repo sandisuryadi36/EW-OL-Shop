@@ -161,7 +161,7 @@ const AddProduct = () => {
                     <datalist id="tagOptions">
                     <TagsOptions />
                     </datalist>
-                    <div className="small mb-2">End with comma (,)</div>
+                    <div className="small mb-2">End with comma (,) 3 characters minimum.</div>
                 </div>
                 <Input name="image" type="file" placeholder="Product Image..." label="Image" />
                 <Input name="status" type="checkbox" label="Active" defaultChecked={true} />
