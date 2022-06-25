@@ -103,7 +103,7 @@ const EditProduct = () => {
 
         let categoryValue = e.target.category.value;
         if (newCategory) {
-            categoryValue = await postCategory(categoryValue)
+            categoryValue = await postCategory(categoryValue.toLowerCase())
         }
 
 
@@ -159,7 +159,7 @@ const EditProduct = () => {
             }
 
             function tagInputHandler(e) {
-                if (e.keyCode === 188) {
+                if (e.target.value[e.target.value.length - 1] === "," && e.target.value.trim().length > 3) {
                     let split = e.target.value.split(",")
                     setNewTags([...newTags, split[0].trim().toLowerCase()])
                     e.target.value = ""
@@ -194,7 +194,7 @@ const EditProduct = () => {
                                 return <TagBadge key={key} tag={tag} />
                             })}
                         </div>
-                        <input list="tagOptions" className="form-control m-0" type="text" onKeyUp={tagInputHandler} placeholder="Product tags..." />
+                        <input list="tagOptions" className="form-control m-0" type="text" onChange={tagInputHandler} placeholder="Product tags..." />
                         <datalist id="tagOptions">
                             <TagsOptions />
                         </datalist>
