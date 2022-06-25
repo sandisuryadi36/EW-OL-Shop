@@ -80,55 +80,57 @@ const ManageCategory = () => {
     }
 
     function deleteCategory(cat) {
-        alert("Are you sure you want to delete this category?")
-        setLoading(true)
-        // check if category is used in product
-        axios.get(c.API_URL + "/api/v1/product?categpry=" + cat.name, config(localStorage.getItem("token")))
-            .then(res => {
-                if (res.data.data.length > 0) {
-                    alert("Category is used in product, cannot delete")
-                    setLoading(false)
-                } else {
-                    axios.delete(c.API_URL + "/api/v1/category/" + cat._id, config(localStorage.getItem("token")))
-                        .then(res => {
-                            if (!res.data.error) {
-                                setCategory(category.filter(val => val._id !== cat._id))
-                            } else {
-                                alert(res.data.message)
-                            }
-                            setLoading(false)
-                        }).catch(err => {
-                            console.log(err)
-                            setLoading(false)
-                        })
-                }
-            })
+        if (window.confirm(`Are you sure you want to delete this category "${cat.name}"?`)) { 
+            setLoading(true)
+            // check if category is used in product
+            axios.get(c.API_URL + "/api/v1/product?category=" + cat.name, config(localStorage.getItem("token")))
+                .then(res => {
+                    if (res.data.data.length > 0) {
+                        alert("Category is used in product, cannot delete")
+                        setLoading(false)
+                    } else {
+                        axios.delete(c.API_URL + "/api/v1/category/" + cat._id, config(localStorage.getItem("token")))
+                            .then(res => {
+                                if (!res.data.error) {
+                                    setCategory(category.filter(val => val._id !== cat._id))
+                                } else {
+                                    alert(res.data.message)
+                                }
+                                setLoading(false)
+                            }).catch(err => {
+                                console.log(err)
+                                setLoading(false)
+                            })
+                    }
+                })
+        }
     }
     
     function deleteTag(tag) {
-        alert("Are you sure you want to delete this tag?")
-        setLoading(true)
-        // check if tag is used in product
-        axios.get(c.API_URL + "/api/v1/product?tags=" + tag.name, config(localStorage.getItem("token")))
-            .then(res => {
-                if (res.data.data.length > 0) {
-                    alert("Tag is used in product, cannot delete")
-                    setLoading(false)
-                } else {
-                    axios.delete(c.API_URL + "/api/v1/tag/" + tag._id, config(localStorage.getItem("token")))
-                        .then(res => {
-                            if (!res.data.error) {
-                                setTags(tags.filter(val => val._id !== tag._id))
-                            } else {
-                                alert(res.data.message)
-                            }
-                            setLoading(false)
-                        }).catch(err => {
-                            console.log(err)
-                            setLoading(false)
-                        })
-                }
-            })
+        if (window.confirm(`Are you sure you want to delete this tag "${tag.name}"?`)) { 
+            setLoading(true)
+            // check if tag is used in product
+            axios.get(c.API_URL + "/api/v1/product?tags=" + tag.name, config(localStorage.getItem("token")))
+                .then(res => {
+                    if (res.data.data.length > 0) {
+                        alert("Tag is used in product, cannot delete")
+                        setLoading(false)
+                    } else {
+                        axios.delete(c.API_URL + "/api/v1/tag/" + tag._id, config(localStorage.getItem("token")))
+                            .then(res => {
+                                if (!res.data.error) {
+                                    setTags(tags.filter(val => val._id !== tag._id))
+                                } else {
+                                    alert(res.data.message)
+                                }
+                                setLoading(false)
+                            }).catch(err => {
+                                console.log(err)
+                                setLoading(false)
+                            })
+                    }
+                })
+        }
     }
 
     function editOnClick(e) {
@@ -193,7 +195,7 @@ const ManageCategory = () => {
                     </div>
                     <div className="d-flex flex-row align-items-end mt-2">
                         <form id="addCategoryForm" onSubmit={submitCategory}>
-                            <Input label="Add Category" className="form-control m-0 py-1" name="name" />
+                            <Input required label="Add Category" className="form-control m-0 py-1" name="name" />
                         </form>
                         <button type="submit" form="addCategoryForm" className="btn btn-sm btn-primary">Add</button>
                     </div>
@@ -214,7 +216,7 @@ const ManageCategory = () => {
                     </div>
                     <div className="d-flex flex-row align-items-end mt-2">
                         <form id="addTagForm" onSubmit={submitTag}>
-                            <Input label="Add Tag" className="form-control m-0 py-1" name="name" />
+                            <Input required label="Add Tag" className="form-control m-0 py-1" name="name" />
                         </form>
                         <button type="submit" form="addTagForm" className="btn btn-sm btn-primary">Add</button>
                     </div>

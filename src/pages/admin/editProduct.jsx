@@ -42,7 +42,7 @@ const EditProduct = () => {
                         res.data.data.forEach(cat => {
                             arr.push({ "Id": cat._id, "Name": cat.name })
                         })
-                        setCategory(arr)
+                        setCategory(arr.sort(compare))
                     }
                 })
             })
@@ -53,11 +53,17 @@ const EditProduct = () => {
                         res.data.data.forEach(tag => {
                             arr.push({ "Id": tag._id, "Name": tag.name })
                         })
-                        setTags(arr)
+                        setTags(arr.sort(compare))
                     }
                 })
             })
     }, [params.id])
+
+    function compare(a, b) {
+        if (a.Name < b.Name) return -1;
+        if (a.Name > b.Name) return 1;
+        return 0;
+    }
 
     const CategoryOptions = () => {
         useEffect(() => { 
@@ -168,7 +174,7 @@ const EditProduct = () => {
 
     return (
         <div>
-            {(loading && product === null) && <Spinner />}
+            {loading && <Spinner />}
             <div className="d-flex justify-content-between">
                 <h3>Edit Product</h3>
                 <button className="btn btn-primary btn-sm" onClick={() => navigate(origin)}>Cancel</button>
