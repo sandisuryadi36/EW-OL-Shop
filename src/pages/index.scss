@@ -34,3 +34,11 @@ button.no-m {
 .cursor {
     cursor: pointer;
 }
+
+.min-h-content {
+    min-height: fit-content;
+}
+
+.max-h-50 {
+    max-height: 50vh;
+}
