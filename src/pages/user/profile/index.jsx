@@ -5,11 +5,13 @@ import * as c from "../../../app/data/constants";
 import axios from "axios";
 import { config } from "../../../app/axiosSet";
 import ResetPassword from "./resetPassword";
+import Spinner from "../../../component/spinner";
 
 const UserProfile = () => {
     const userData = useSelector(state => state.slice.userData)
     const [edited, setEdited] = useState([])
     const [editPassowrd, setEditPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     function handleEdited(e) {
         if (e.action === "save") {
@@ -24,6 +26,7 @@ const UserProfile = () => {
         let confirmData = document.getElementById("formConfirm")
         let confirmPayload = new URLSearchParams(new FormData(confirmData))
         confirmPayload.set("email", userData.email)
+        setLoading(true)
         axios.post(c.API_URL + "/auth/login", confirmPayload).then(res => {
             if (res.data.login) {
                 const formData = new FormData(document.getElementById("formEditProfile"))
@@ -52,18 +55,21 @@ const UserProfile = () => {
                             })
                         } else {
                             alert(res.data.message)
+                            setLoading(false)
                         }
                     })
                 document.getElementById("editProfileCloseModal").click()
             } else {
                 alert("Password incorrect")
                 confirmData.reset()
+                setLoading(false)
             }
         })
     }
 
     return (
         <div>
+            {loading && <Spinner /> }
             <div>
                 <h1>My Profile</h1>
             </div>
