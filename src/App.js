@@ -4,15 +4,12 @@ import AdminDashboard from './pages/admin/dashboard';
 import Home from './pages/home';
 import Login from './pages/login';
 import Navbar from './widgets/navbar';
-import UserDashboard from './pages/user/dashboard';
 import AddProduct from './pages/admin/addProduct';
 import EditProduct from './pages/admin/editProduct';
 import ListProduct from './pages/admin/listProduct';
-import Overview from './pages/admin/overview';
 import DetailProduct from './pages/detailProduct';
 import RouteChangeListener from './widgets/routeChangeListener';
 import Cart from './pages/user/cart';
-import UserOverview from './pages/user/overview';
 import PageNotFound from './pages/404';
 import AddressList from './pages/user/address/addressList';
 import Checkout from './pages/user/checkout';
@@ -59,41 +56,36 @@ function App() {
           <Route path="/product/:id" element={<DetailProduct />} />
           <Route path="/product" element={<Search />} />
 
-          <Route path="/admin/dashboard"
+          <Route path="/admin"
             element={
               <ProtectedRoute role="admin">
-                <AdminDashboard />
+                <div className='pt-3'>
+                  <Outlet />
+                </div>
               </ProtectedRoute>
             } >
-            <Route path="/admin/dashboard/" element={<Overview />} />
-            <Route path="/admin/dashboard/add" element={<AddProduct />} />
-            <Route path="/admin/dashboard/profile" element={<AdminProfile />} />
-            <Route path="/admin/dashboard/list" element={<ListProduct />} />
-            <Route path="/admin/dashboard/categories" element={<ManageCategory />} />
-            <Route path="/admin/dashboard/list/edit/:id" element={<EditProduct />} />
-            <Route path="/admin/dashboard/list/detail/:id" element={<DetailProduct />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/add" element={<AddProduct />} />
+            <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/admin/list" element={<ListProduct />} />
+            <Route path="/admin/categories" element={<ManageCategory />} />
+            <Route path="/admin/list/edit/:id" element={<EditProduct />} />
           </Route>
 
-          <Route path="/user/dashboard"
-            element={
-              <ProtectedRoute role="user">
-                <UserDashboard />
-              </ProtectedRoute>
-            } >
-            <Route path="/user/dashboard/" element={<UserOverview />} />
-            <Route path="/user/dashboard/address" element={<AddressList />} />
-            <Route path="/user/dashboard/profile" element={<UserProfile />} />
-          </Route>
           <Route path="/user"
             element={
               <ProtectedRoute role="user">
-                <Outlet />
+                <div className='pt-3'>
+                  <Outlet />
+                </div>
               </ProtectedRoute>
             } >
             <Route path="/user/cart" element={<Cart />} />
             <Route path="/user/checkout" element={<Checkout />} />
             <Route path="/user/order/" element={<UserOrder />} />
             <Route path="/user/order/:id" element={<OrderDetail />} />
+            <Route path="/user/profile" element={<UserProfile />} />
+            <Route path="/user/address" element={<AddressList />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

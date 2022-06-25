@@ -30,7 +30,7 @@ const Cart = (props) => {
     }
 
     return (
-        <div className="pt-2">
+        <div>
             <h3>Cart</h3>
             <CartItemList />
             {cartItems.length > 0 && <Checkout />}

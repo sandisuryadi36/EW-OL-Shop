@@ -62,7 +62,7 @@ const DetailProduct = (props) => {
                                     <AddCartButton product={product} detail={true} />
                                     {userRole === "admin" &&
                                         <button className="btn btn-primary"
-                                            onClick={() => navigate("/admin/dashboard/list/edit/" + id, { state: { from: location } })}
+                                            onClick={() => navigate("/admin/list/edit/" + id, { state: { from: location } })}
                                         >Edit</button>
                                     }
                                 </div>

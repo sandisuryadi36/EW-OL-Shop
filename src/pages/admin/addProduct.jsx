@@ -106,7 +106,7 @@ const AddProduct = () => {
                 setLoading(false);
                 if (res.data.message === "Product successfully created") {
                     alert("Product successfully created");
-                    navigate("/admin/dashboard/list")
+                    navigate("/admin/list")
                 }
             })
     }

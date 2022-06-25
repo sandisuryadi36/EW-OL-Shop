@@ -81,7 +81,7 @@ const Checkout = () => {
 
     return (
         <div className="d-flex flex-column gap-3 align-items-end">
-            <div className="container-fluid mt-2 d-flex flex-row justify-content-between align-items-center">
+            <div className="container-fluid d-flex flex-row justify-content-between align-items-center">
                 <h3 className="text-black">Your Cart</h3>
                 <Link to="/user/cart" className="btn btn-link no-decor">
                     <i className="bi bi-chevron-left"></i>

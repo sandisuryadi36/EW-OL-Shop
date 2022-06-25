@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import UserMenu from "./userMenu";
+import MainMenu from "./menu";
 import "./index.scss"
 import CartIcon from "./cartIcon";
 import { useSelector } from "react-redux";
@@ -13,7 +13,7 @@ const Navbar = (props) => {
                 <div className="justify-content-end" >
                     <div className="d-flex align-items-center gap-3 gap-md-4">
                         {user ? (user.role === "admin") ? null : <CartIcon /> : <CartIcon />}
-                        <UserMenu />
+                        <MainMenu />
                     </div>
                 </div>
             </div>

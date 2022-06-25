@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { postLogout, setSlice } from "../../app/data/slice";
+import { postLogout, setSlice } from "../../../app/data/slice";
+import MenuList from "./menuList";
 
-const UserMenu = () => {
+const MainMenu = () => {
     const logedIn = useSelector(state => state.slice.logedIn);
-    const user = useSelector(state => state.slice.userData);
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
@@ -25,8 +25,8 @@ const UserMenu = () => {
                     <i className="bi bi-person-circle"></i>
                 </button>
                 <div className="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                    <button onClick={() => navigate("/" + user.role + "/dashboard/")} className="btn-link no-m dropdown-item">Dashboard</button>
-                    {user.role === "user" && <button onClick={() => navigate("/user/order")} className="btn-link no-m dropdown-item">My Orders</button>}
+                    <MenuList />
+                    <div className="dropdown-divider"></div>
                     <button onClick={logoutHandler} className="btn-link no-m dropdown-item" >Logout</button>
                 </div>
             </div>
@@ -46,4 +46,4 @@ const UserMenu = () => {
     }
 }
 
-export default UserMenu;
+export default MainMenu;

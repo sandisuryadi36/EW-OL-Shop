@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import * as c from "../../app/data/constants"
 import "./index.scss";
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { config } from "../../app/axiosSet";
 import { useEffect } from "react";
 
@@ -15,9 +15,8 @@ const EditProduct = () => {
     const [prevImage, setPrevImage] = useState("")
     const params = useParams()
     const navigate = useNavigate();
-    const location = useLocation();
     const [product, setProduct] = useState();
-    const origin = location.state ? location.state.from.pathname : "/admin/dashboard/list"
+    const origin = "/admin/list"
     const [tags, setTags] = useState([]);
     const [newTags, setNewTags] = useState([{}]);
 
@@ -129,7 +128,7 @@ const EditProduct = () => {
                 setLoading(false);
                 if (res.data.message === "Product successfully updated") {
                     alert("Product successfully updated");
-                    navigate("/admin/dashboard/list")
+                    navigate("/admin/list")
                 }
             })
     }
@@ -174,7 +173,7 @@ const EditProduct = () => {
                 <h3>Edit Product</h3>
                 <button className="btn btn-primary btn-sm" onClick={() => navigate(origin)}>Cancel</button>
             </div>
-            {product
+            {product && !loading
                 ? <form id="editProductForm" onSubmit={putProdutHandler}>
                     <Input required name="name" type="text" placeholder="Product Name..." label="Name" defaultValue={product.name} />
                     <Input required type="editor" name="description" label="Description" defaultValue={product.description} />

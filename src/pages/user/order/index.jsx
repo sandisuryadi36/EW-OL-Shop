@@ -52,7 +52,7 @@ const UserOrder = () => {
 
     return (
         <div>
-            <h1 className="mt-2">My Orders</h1>
+            <h1>My Orders</h1>
             {loading && <Spinner child={true} />}
             {!loading && <OrderList />}
         </div>
