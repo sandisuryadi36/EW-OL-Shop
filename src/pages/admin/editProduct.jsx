@@ -12,6 +12,7 @@ const EditProduct = () => {
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newCategory, setNewCategory] = useState(false);
+    const [prevImage, setPrevImage] = useState("")
     const params = useParams()
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,16 +25,16 @@ const EditProduct = () => {
         setLoading(true)
         axios.get(c.API_URL + "/api/v1/product/" + params.id)
         .then(res => {
-            setProduct(res.data.data)
-            let arr = []
-            res.data.data.tags.forEach(tag => { 
-                arr.push(tag.name)
-            })
-            setNewTags(arr)
+            if (!res.data.error) {
+                setProduct(res.data.data)
+                let arr = []
+                res.data.data.tags.forEach(tag => {
+                    arr.push(tag.name)
+                })
+                setNewTags(arr)
+                setPrevImage(res.data.data.image.filePath)
+            }
             setLoading(false)
-        })
-        .catch(err => {
-            console.log(err)
         })
     }, [params.id])
 
@@ -140,43 +141,40 @@ const EditProduct = () => {
         }
     }
 
-
-    const EditForm = () => {
-        const [prevImage, setPrevImage] = useState(product !== null ? product.image ? product.image.filePath : "https://via.placeholder.com/150/999999/FFFFFF/?text=no%20image" : "");
-        
-        if (product === null && !loading) { 
-            return (
-                <p>Product not found!</p>
-            )
+    const onImgChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setPrevImage(URL.createObjectURL(event.target.files[0]));
+        } else {
+            setPrevImage(product.image.filePath);
         }
-        if (product !== null) {
-            const onImgChange = (event) => {
-                if (event.target.files && event.target.files[0]) {
-                    setPrevImage(URL.createObjectURL(event.target.files[0]));
-                } else {
-                    setPrevImage(product.image.filePath);
-                }
-            }
+    }
 
-            function tagInputHandler(e) {
-                if (e.target.value[e.target.value.length - 1] === "," && e.target.value.trim().length > 3) {
-                    let split = e.target.value.split(",")
-                    setNewTags([...newTags, split[0].trim().toLowerCase()])
-                    e.target.value = ""
-                }
-            }
+    function tagInputHandler(e) {
+        if (e.target.value[e.target.value.length - 1] === "," && e.target.value.trim().length > 3) {
+            let split = e.target.value.split(",")
+            setNewTags([...newTags, split[0].trim().toLowerCase()])
+            e.target.value = ""
+        }
+    }
 
-            const TagBadge = (props) => {
-                return (
-                    <div className="badge rounded-pill text-bg-secondary m-1">
-                        {props.tag}
-                        <span className="cursor badge badge-pill badge-danger pe-0" onClick={() => { setNewTags(tags => tags.filter(tag => tag !== props.tag)) }}>x</span>
-                    </div>
-                )
-            }
+    const TagBadge = (props) => {
+        return (
+            <div className="badge rounded-pill text-bg-secondary m-1">
+                {props.tag}
+                <span className="cursor badge badge-pill badge-danger pe-0" onClick={() => { setNewTags(tags => tags.filter(tag => tag !== props.tag)) }}>x</span>
+            </div>
+        )
+    }
 
-            return (
-                <form id="editProductForm" onSubmit={putProdutHandler}>
+    return (
+        <div>
+            {(loading && product === null) && <Spinner />}
+            <div className="d-flex justify-content-between">
+                <h3>Edit Product</h3>
+                <button className="btn btn-primary btn-sm" onClick={() => navigate(origin)}>Cancel</button>
+            </div>
+            {product
+                ? <form id="editProductForm" onSubmit={putProdutHandler}>
                     <Input required name="name" type="text" placeholder="Product Name..." label="Name" defaultValue={product.name} />
                     <Input required type="editor" name="description" label="Description" defaultValue={product.description} />
                     <Input required name="category" type="select" placeholder="Product Category..." label="Category" onChange={selectHandler} defaultValue={product.category._id}>
@@ -217,20 +215,8 @@ const EditProduct = () => {
                         }
                     </div>
                 </form>
-            )
-        }
-
-        return null
-    }
-
-    return (
-        <div>
-            {(loading && product === null) && <Spinner />}
-            <div className="d-flex justify-content-between">
-                <h3>Edit Product</h3>
-                <button className="btn btn-primary btn-sm" onClick={() => navigate(origin)}>Cancel</button>
-            </div>
-            <EditForm />
+                : <p>Product not found!</p>
+            }
         </div>
     )
 }
