@@ -9,6 +9,7 @@ const ManageCategory = () => {
     const [category, setCategory] = useState([]);
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [onEdit, setOnEdit] = useState({});
 
     function compare(a, b) {
         if (a.name < b.name) return -1;
@@ -41,7 +42,7 @@ const ManageCategory = () => {
     function submitCategory(e) {
         e.preventDefault()
         setLoading(true)
-        let name = e.target.elements.name.value
+        let name = e.target.elements.name.value.toLowerCase()
         axios.post(c.API_URL + "/api/v1/category", {
             name: name
         }, config(localStorage.getItem("token"))).then(res => {
@@ -61,7 +62,7 @@ const ManageCategory = () => {
     function submitTag(e) { 
         e.preventDefault()
         setLoading(true)
-        let name = e.target.elements.name.value
+        let name = e.target.elements.name.value.toLowerCase()
         axios.post(c.API_URL + "/api/v1/tag", {
             name: name
         }, config(localStorage.getItem("token"))).then(res => {
@@ -130,11 +131,52 @@ const ManageCategory = () => {
             })
     }
 
+    function editOnClick(e) {
+        setOnEdit({
+            type: e.type,
+            name: e.name,
+            id: e.id
+        })
+        document.getElementById("editForm").name.value = e.name
+    }
+
+    function saveEdit(e) {
+        e.preventDefault()
+        setLoading(true)
+        let name = document.getElementById("editForm").name.value.toLowerCase()
+        axios.put(c.API_URL + "/api/v1/" + onEdit.type + "/" + onEdit.id, {
+            name: name
+        }, config(localStorage.getItem("token")))
+            .then(res => { 
+                if (!res.data.error) {
+                    if (onEdit.type === "category") {
+                        setCategory(category.map(val => {
+                            if (val._id === onEdit.id) {
+                                val.name = name
+                            }
+                            return val
+                        }))
+                    } else {
+                        setTags(tags.map(val => {
+                            if (val._id === onEdit.id) {
+                                val.name = name
+                            }
+                            return val
+                        }))
+                    }
+                    document.getElementById("editProfileCloseModal").click()
+                } else {
+                    alert(res.data.message)
+                }
+                setLoading(false)
+            })
+    }
+
     return (
-        <div className="position-relative">
+        <div>
             <h1>Manage Category</h1>
-            {loading && <Spinner child={true} overlay={true} />}
-            <div className="row row-cols-1 row-cols-md-2 mt-3 min-h-content">
+            {loading && <Spinner />}
+            <div className="row row-cols-1 row-cols-md-2 mt-3 gap-5 gap-md-0 min-h-content">
                 <div className="col">
                     <h5>Categories</h5>
                     <div className="max-h-50 overflow-auto">
@@ -143,6 +185,8 @@ const ManageCategory = () => {
                                 <li key={c._id} className="list-group-item">
                                     <span className="cursor badge badge-pill text-danger" onClick={() => deleteCategory(c)}>x</span>
                                     {c.name}
+                                    <i className="bi bi-pencil-fill text-primary ms-3 cursor" data-bs-toggle="modal" data-bs-target="#editModal"
+                                        onClick={() => editOnClick({ name: c.name, type: "category", id: c._id })} />
                                 </li>
                             ))}
                         </ul>
@@ -162,6 +206,8 @@ const ManageCategory = () => {
                                 <li key={t._id} className="list-group-item positio-relative">
                                     <span className="cursor badge badge-pill text-danger" onClick={() => deleteTag(t)}>x</span>
                                     {t.name}
+                                    <i className="bi bi-pencil-fill text-primary ms-3 cursor" data-bs-toggle="modal" data-bs-target="#editModal"
+                                        onClick={() => editOnClick({ name: t.name, type: "tag", id: t._id })} />
                                 </li>
                             ))}
                         </ul>
@@ -171,6 +217,19 @@ const ManageCategory = () => {
                             <Input label="Add Tag" className="form-control m-0 py-1" name="name" />
                         </form>
                         <button type="submit" form="addTagForm" className="btn btn-sm btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="editLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <form id="editForm" onSubmit={(e) => e.preventDefault()} className="modal-body d-flex flex-column justify-content-center align-items-center">
+                            <h5 className="modal-title" id="editLabel">Edit</h5>
+                            <button id="editProfileCloseModal" type="button" className="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <input required type="text" className="form-control my-3" name="name"/>
+                            <button type="button" form="editForm" className="btn btn-success" onClick={saveEdit}>Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
