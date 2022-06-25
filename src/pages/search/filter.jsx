@@ -27,17 +27,23 @@ const Filter = (props) => {
         }
     }
 
+    function compare(a, b) {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+    }
+
     useEffect(() => {
         axios.get(c.API_URL + "/api/v1/category")
             .then(res => {
-                setCategory(res.data.data)
+                setCategory(res.data.data.sort(compare))
             }).catch(err => {
                 console.log(err)
             })
 
         axios.get(c.API_URL + "/api/v1/tag")
             .then(res => {
-                setTags(res.data.data)
+                setTags(res.data.data.sort(compare))
             })
             .catch(err => {
                 console.log(err)
