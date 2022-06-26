@@ -36,7 +36,7 @@ const UserOrder = () => {
                 <ul className="list-group list-group-flush d-flex flex-column">
                     {orders.map((item, key) => {
                         return (
-                            <ListItem product={item} key={key} cancelOrder={cancelHandler} />
+                            <ListItem order={item} key={key} cancelOrder={cancelHandler} />
                         )
                     })}
                 </ul>

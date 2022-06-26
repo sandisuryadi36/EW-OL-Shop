@@ -4,6 +4,7 @@ import axios from "axios";
 import * as c from '../../../app/data/constants'
 import Spinner from "../../../component/spinner";
 import { config } from "../../../app/axiosSet";
+import * as scr from "./script"
 
 const OrderDetail = () => { 
     const params = useParams();
@@ -25,6 +26,19 @@ const OrderDetail = () => {
             setOrder(res.data.data)
         })
     }, [orderID])
+
+    function confirmPayment() {
+        setLoading(true)
+        scr.confirmPayment(order).then(res => {
+            if (!res.error) {
+                setOrder({ ...order, status: "paid" })
+                alert("Payment confirmed")
+            } else {
+                alert(res.message)
+            }
+            setLoading(false)
+        })
+    }
 
     const OrderList = () => { 
         return (
@@ -75,7 +89,7 @@ const OrderDetail = () => {
                     && <div className="col col-12 col-md-6 d-flex flex-column align-items-center justify-content-evenly mb-2">
                         <div className="fw-semibold">Payment:</div>
                         <div>Please do your payment!</div>
-                        <button className="btn btn-sm btn-success m-0">Confirm Payment</button>
+                        <button className="btn btn-sm btn-success m-0" onClick={confirmPayment}>Confirm Payment</button>
                     </div>
                 }
             </div>

@@ -1,50 +1,69 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Spinner from "../../../component/spinner";
 import "./index.scss"
+import * as scr from "./script"
 
-const ListItem = (props) => { 
+const ListItem = (props) => {
     const [thumbnail, setThubnail] = useState(null);
     const [quantity, setQuantity] = useState(0);
     const [totalOrder, setTotalOrder] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState(props.order.status);
     const location = useLocation();
 
-    useEffect(() => { 
-        setThubnail(props.product.thumbnail)
+    useEffect(() => {
+        setThubnail(props.order.thumbnail)
         let qnt = 0
         let total = 0
-        props.product.orderItems.forEach(item => {
+        props.order.orderItems.forEach(item => {
             qnt += item.quantity
             total += item.total
         })
         setQuantity(qnt)
-        setTotalOrder(total + props.product.deliveryFee)
+        setTotalOrder(total + props.order.deliveryFee)
     }, [props])
 
     function cancelHandler(e) {
         e.preventDefault()
         if (window.confirm("Are you sure want to cancel this item?")) {
-            props.cancelOrder(props.product._id)
+            props.cancelOrder(props.order._id)
         }
     }
 
-    let date = new Date(Date.parse(props.product.createdAt))
+    function confirmPayment() {
+        setLoading(true)
+        scr.confirmPayment(props.order).then(res => {
+            if (!res.error) {
+                setStatus("paid")
+                alert("Payment confirmed")
+            } else {
+                alert(res.message)
+            }
+            setLoading(false)
+        })
+    }
+
+    let date = new Date(Date.parse(props.order.createdAt))
     return (
         <div className="list-group-item list-group-item-action d-flex flex-column align-items-start ps-0 pe-0" >
+            {loading && <Spinner />}
             <div className="d-flex flex-row justify-content-between w-100 p-0">
                 <div className={
-                    props.product.status === "waiting payment" ? "text-warning"
-                        : props.product.status === "waiting delivery" ? "text-primary"
-                            : props.product.status === "delivered" ? "text-success"
-                                : "text-danger"
-                }>{props.product.status}</div>
+                    status === "waiting payment" ? "text-warning"
+                        : status === "paid" ? "text-success"
+                            : status === "waiting delivery" ? "text-primary"
+                                : status === "delivered" ? "text-success"
+                                    : "text-danger"
+                }>{status}</div>
             </div>
             <div className="d-flex flex-row justify-content-between align-items-center w-100 ps-0 pe-0">
-                <Link to={"/user/order/" + props.product._id} state={{ from: location }} className="d-flex flex-row w-100 no-decor">
+                <Link to={"/user/order/" + props.order._id} state={{ from: location }} className="d-flex flex-row w-100 no-decor">
                     <div className="list-image m-2">
-                        <img className="w-100 h-100 image-square" src={thumbnail} alt="product" />
+                        <img className="w-100 h-100 image-square" src={thumbnail} alt="order" />
                     </div>
                     <div>
-                        <div>Order Number: {props.product.order_number}</div>
+                        <div>Order Number: {props.order.order_number}</div>
                         <div>{quantity} {quantity === 1 ? "item" : "items"}</div>
                         <div>{date.toLocaleString()}</div>
                     </div>
@@ -52,18 +71,19 @@ const ListItem = (props) => {
                 <div className="d-flex flex-column align-items-end">
                     <div>Total Order:</div>
                     <h5 className="text-right">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalOrder)}</h5>
-                    {props.product.status === "waiting payment" ? <button className="btn btn-sm btn-success m-0">Confirm Payment</button> 
-                        : props.product.status === "waiting delivery" ? null
-                            : props.product.status === "delivered" ? <button className="btn btn-sm btn-success m-0">Confirm Received</button>
-                                : null
+                    {status === "waiting payment" ? <button className="btn btn-sm btn-success m-0" onClick={confirmPayment}>Confirm Payment</button>
+                        : status === "paid" ? <button className="btn btn-sm btn-warning m-0" disabled>Waiting Confirmation</button>
+                            : status === "waiting delivery" ? null
+                                : status === "delivered" ? <button className="btn btn-sm btn-success m-0">Confirm Received</button>
+                                    : null
                     }
-                    {props.product.status === "waiting payment"
+                    {status === "waiting payment"
                         && <button className="btn btn-link no-decor m-0 p-0 text-danger" onClick={cancelHandler}>Cancel Order</button>
                     }
                 </div>
             </div>
-            
-        </div>           
+
+        </div>
     )
 }
 
