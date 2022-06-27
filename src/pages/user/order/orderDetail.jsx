@@ -37,6 +37,9 @@ const OrderDetail = () => {
                 alert(res.message)
             }
             setLoading(false)
+        }).catch(err => {
+            setLoading(false)
+            alert(err)
         })
     }
 
@@ -86,11 +89,17 @@ const OrderDetail = () => {
                     <p><span className="fw-semibold">Order List:</span></p>
                 </div>
                 {order && order.status === "waiting payment"
-                    && <div className="col col-12 col-md-6 d-flex flex-column align-items-center justify-content-evenly mb-2">
+                    ? <div className="col col-12 col-md-6 d-flex flex-column align-items-center justify-content-evenly mb-2">
                         <div className="fw-semibold">Payment:</div>
                         <div>Please do your payment!</div>
                         <button className="btn btn-sm btn-success m-0" onClick={confirmPayment}>Confirm Payment</button>
                     </div>
+                    : order && order.status === "paid"
+                        ? <div className="col col-12 col-md-6 d-flex flex-column align-items-center justify-content-evenly mb-2">
+                            <div>Your order paid!</div>
+                            <button className="btn btn-sm btn-warning m-0 text-light" disabled>Waiting Comfirmation</button>
+                        </div>
+                        : null
                 }
             </div>
             <div className="list-group mb-2">

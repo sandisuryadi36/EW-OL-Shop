@@ -33,7 +33,7 @@ const ListItem = (props) => {
 
     function confirmPayment() {
         setLoading(true)
-        scr.confirmPayment(props.order).then(res => {
+        scr.confirmPayment(props.order).then(res => { 
             if (!res.error) {
                 setStatus("paid")
                 alert("Payment confirmed")
@@ -41,6 +41,9 @@ const ListItem = (props) => {
                 alert(res.message)
             }
             setLoading(false)
+        }).catch(err => { 
+            setLoading(false)
+            alert(err)
         })
     }
 
@@ -72,7 +75,7 @@ const ListItem = (props) => {
                     <div>Total Order:</div>
                     <h5 className="text-right">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalOrder)}</h5>
                     {status === "waiting payment" ? <button className="btn btn-sm btn-success m-0" onClick={confirmPayment}>Confirm Payment</button>
-                        : status === "paid" ? <button className="btn btn-sm btn-warning m-0" disabled>Waiting Confirmation</button>
+                        : status === "paid" ? <button className="btn btn-sm btn-warning m-0 text-light" disabled>Waiting Confirmation</button>
                             : status === "waiting delivery" ? null
                                 : status === "delivered" ? <button className="btn btn-sm btn-success m-0">Confirm Received</button>
                                     : null
