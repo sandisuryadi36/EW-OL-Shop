@@ -22,7 +22,7 @@ const EditProduct = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios.get(c.API_URL + "/api/v1/product/" + params.id)
+        axios.get(c.API_URL + "/api/v1/product/" + params.id, config(localStorage.getItem("token")))
             .then(res => {
                 if (!res.data.error) {
                     setProduct(res.data.data)

@@ -7,7 +7,7 @@ export async function confirmPayment(order) {
         let canOrder = true;
         let promise = new Promise((resolve, reject) => { 
             order.orderItems.forEach( async (item) => {
-                let res = await axios.get(c.API_URL + `/api/v1/product/${item.product}`, config)
+                let res = await axios.get(c.API_URL + `/api/v1/product/${item.product}`, config(localStorage.getItem("token")))
                 if (res.data.data.stock < item.quantity) {
                     resolve(false)
                 }

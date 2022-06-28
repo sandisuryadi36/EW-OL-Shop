@@ -12,7 +12,7 @@ const ListProduct = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios.get(c.API_URL + "/api/v1/product").then(res => {
+        axios.get(c.API_URL + "/api/v1/product", config(localStorage.getItem("token"))).then(res => {
             setProducts(res.data.data)
             setLoading(false)
         })

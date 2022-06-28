@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import * as c from '../../app/data/constants'
 import axios from "axios";
+import { config } from "../../app/axiosSet";
 
 const ListProduct = () => {
     const [params] = useSearchParams();
@@ -15,7 +16,7 @@ const ListProduct = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios.get(c.API_URL + "/api/v1/product?" + queryString).then(res => {
+        axios.get(c.API_URL + "/api/v1/product?" + queryString, config(localStorage.getItem("token"))).then(res => {
             setProducts(res.data.data)
             setLoading(false)
         })
