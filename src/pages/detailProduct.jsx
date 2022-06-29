@@ -5,6 +5,7 @@ import * as c from "../app/data/constants"
 import "./index.scss";
 import { useSelector } from 'react-redux';
 import AddCartButton from "../component/addCartButton";
+import { viewRP } from '../app/script';
 
 const DetailProduct = (props) => { 
     const params = useParams();
@@ -53,7 +54,7 @@ const DetailProduct = (props) => {
                             <div className='d-flex flex-column flex-md-row justify-content-between'>
                                 <div>
                                     <h4>{product.name}</h4>
-                                    <p className='price'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.price)}</p>
+                                    <p className='price'>{viewRP(product.price)}</p>
                                     {userRole === "admin" && <p>{product.status ? <span className="badge text-bg-success">Active</span> : <span className="badge text-bg-danger">Inactive</span>}</p>}
                                     <p>{"Stock : " + product.stock}</p>
                                     <p>{"Category : " + product.category.name}</p>

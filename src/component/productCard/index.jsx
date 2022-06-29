@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { viewRP } from "../../app/script";
 import AddCartButton from "../addCartButton";
 import "./index.scss"
 
@@ -16,7 +17,7 @@ const ProductCard = (props) => {
                     <div className="ps-2 pe-2">
                         <div className="badge text-bg-dark mt-1">{categoryName}</div>
                         <div className="mt-2 mb-1 limit-text" data-bs-toggle="tooltip" data-bs-placement="bottom" title={productName}>{productName}</div>
-                        <h6 className="mb-0 fw-bold limit-text">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price)}</h6>
+                        <h6 className="mb-0 fw-bold limit-text">{viewRP(price)}</h6>
                     </div>
                 </Link>
                 <>

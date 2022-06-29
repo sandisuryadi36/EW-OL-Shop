@@ -9,6 +9,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { clearCart } from "../../../app/data/slice";
 import Spinner from '../../../component/spinner';
 import { config } from "../../../app/axiosSet";
+import { viewRP } from "../../../app/script";
 
 const Checkout = () => { 
     const totalCart = useSelector(state => state.slice.totalCart);
@@ -42,7 +43,7 @@ const Checkout = () => {
                 </div>
                 <div className="d-flex flex-column align-items-end">
                     <div>Qty: {product.quantity}</div>
-                    <div>Price: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.total)}</div>
+                    <div>Price: {viewRP(product.total)}</div>
                 </div>
             </li>
         )
@@ -130,12 +131,12 @@ const Checkout = () => {
                 </Input>
                 {delivFee !== "" &&
                 <div className="text-secondary">
-                    {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(delivFee)}
+                    {viewRP(delivFee)}
                 </div>}
             </form>
             <AddAddress updateAddress={updateListHandler} />
             <div className="d-flex justify-content-end align-intems-center p-3 bg-warning rounded w-100" >
-                <h5 className="m-0">Total: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format((totalCart + delivFee))}</h5>
+                <h5 className="m-0">Total: {viewRP((totalCart + delivFee))}</h5>
             </div>
             <div className="d-flex justify-content-end">
                 {loading

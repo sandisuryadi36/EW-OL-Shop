@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { viewRP } from "../../../app/script";
 import Spinner from "../../../component/spinner";
 import "./index.scss"
 import * as scr from "./script"
@@ -73,7 +74,7 @@ const ListItem = (props) => {
                 </Link>
                 <div className="d-flex flex-column align-items-end">
                     <div>Total Order:</div>
-                    <h5 className="text-right">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalOrder)}</h5>
+                    <h5 className="text-right">{viewRP(totalOrder)}</h5>
                     {status === "waiting payment" ? <button className="btn btn-sm btn-success m-0" onClick={confirmPayment}>Confirm Payment</button>
                         : status === "paid" ? <button className="btn btn-sm btn-warning m-0 text-light" disabled>Waiting Confirmation</button>
                             : status === "waiting delivery" ? null

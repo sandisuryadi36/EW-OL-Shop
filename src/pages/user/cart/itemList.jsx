@@ -6,6 +6,7 @@ import * as c from '../../../app/data/constants'
 import { addToCart, subFromCart, getCart, setSlice } from "../../../app/data/slice";
 import Spinner from "../../../component/spinner";
 import { config } from "../../../app/axiosSet";
+import { viewRP } from "../../../app/script";
 
 const ListItem = (props) => {
     const cartCount = useSelector(state => state.slice.cartCount);
@@ -75,7 +76,7 @@ const ListItem = (props) => {
                     <div className="d-flex flex-row align-items-center">
                         <Counter product={item} />
                     </div>
-                    <div className="m-1">Price: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * count)}</div>
+                    <div className="m-1">Price: {viewRP(item.price * count)}</div>
                 </div>
                 <div>
                     <button className="btn btn-link cart-delete bi bi-trash-fill text-secondary ms-2 me-1" onClick={() => {

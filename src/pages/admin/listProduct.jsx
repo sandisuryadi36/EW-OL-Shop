@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { config } from "../../app/axiosSet";
 import * as c from "../../app/data/constants"
+import { viewRP } from "../../app/script";
 import Spinner from "../../component/spinner";
 
 const ListProduct = () => { 
@@ -39,7 +40,7 @@ const ListProduct = () => {
                         <tr key={key}>
                             <td className="text-center">{key + 1}</td>
                             <td>{product.name}</td>
-                            <td>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.price)}</td>
+                            <td>{viewRP(product.price)}</td>
                             <td className="text-center">{product.category ? product.category.name : ""}</td>
                             <td className="text-center">{product.status ? "Active" : "Inactive"}</td>
                             <td className="d-flex justify-content-center">

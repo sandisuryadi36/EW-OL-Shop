@@ -5,6 +5,7 @@ import * as c from '../../../app/data/constants'
 import Spinner from "../../../component/spinner";
 import { config } from "../../../app/axiosSet";
 import * as scr from "./script"
+import { viewRP } from "../../../app/script";
 
 const OrderDetail = () => { 
     const params = useParams();
@@ -56,7 +57,7 @@ const OrderDetail = () => {
                         </div>
                         <div className="text-end">
                             <div>{item.quantity} {item.quantity === 1 ? "item" : "items"}</div>
-                            <div>{order && new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.total)}</div>
+                            <div>{order && viewRP(item.total)}</div>
                         </div>
                     </div>
                 )
@@ -105,7 +106,7 @@ const OrderDetail = () => {
             <div className="list-group mb-2">
                 {order && <OrderList />}
             </div>
-            <p className="text-end fw-bold">Order Total: {order && new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(order.total)}</p>
+            <p className="text-end fw-bold">Order Total: {order && viewRP(order.total)}</p>
         </div>
     );
 }
