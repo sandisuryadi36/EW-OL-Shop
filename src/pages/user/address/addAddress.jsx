@@ -22,6 +22,12 @@ const AddAddress = (props) => {
         })
     }
 
+    function maxNumber(e) {
+        if (e.target.value.toString().length > 5) {
+            e.target.value = e.target.value.slice(0, 5)
+        }
+    }
+
     return (
         <div className="modal fade" id="addAddress" tabIndex="-1" aria-labelledby="addAddressLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
@@ -38,7 +44,7 @@ const AddAddress = (props) => {
                             <Input required type="text" name="kecamatan" label="Kecamatan" />
                             <Input required type="text" name="kota" label="Kota" />
                             <Input required type="text" name="provinsi" label="Provinsi" />
-                            <Input required type="text" maxLength={5} name="kodePos" label="Kode Pos" />
+                            <Input required type="number" onChange={maxNumber} name="kodePos" label="Kode Pos" />
                         </form>
                     </div>
                     <div className="modal-footer">
