@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { config } from "../../../app/axiosSet";
 import * as c from '../../../app/data/constants'
 import Spinner from "../../../component/spinner";
-import ListTable from "./listTable";
 import OrderModal from "./modal";
+import DashboardTable from "./table";
 
 const AdminDashboard = () => { 
     const [orders, setOrders] = useState([]);
@@ -12,21 +12,19 @@ const AdminDashboard = () => {
     const [modalContent, setModalContent] = useState(null);
 
     useEffect(() => { 
+        initData()
+    }, [])
+
+    function initData() {
         setLoading(true)
-        axios.get(c.API_URL + "/api/v1/order-all/", config(localStorage.getItem("token"))).then(res => { 
+        axios.get(c.API_URL + "/api/v1/order-all/", config(localStorage.getItem("token"))).then(res => {
             setOrders(res.data.data)
             setLoading(false)
         })
-    }, [])
-
-    function compare(a, b) {
-        if (a.createdAt < b.createdAt) return -1;
-        if (a.createdAt > b.createdAt) return 1;
-        return 0;
     }
 
     async function getItem(val) {
-        setModalContent(orders.filter(item => item._id === val)[0])
+        setModalContent(orders.find(item => item._id === val))
     }
 
     useEffect(() => { 
@@ -39,48 +37,33 @@ const AdminDashboard = () => {
         }
     }, [modalContent])
 
+    function getLoading(e) {
+        if (e === true) {
+            setLoading(true)
+        } else {
+            setLoading(false)
+        }
+    }
+
+    function doUpdate(e) { 
+        if (e) {
+            setModalContent(null)
+            initData()
+        }
+    }
+
     return (
         <div className="d-flex flex-column gap-4">
             <h1>Admin Dashboard</h1>
-            <div>
-                {loading && <Spinner />}
-                <h5>Pending Orders</h5>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Order No.</th>
-                            <th>Customer</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders && <ListTable orders={orders.filter(item => item.status === "paid").sort(compare)} sendItem={getItem} />}
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <h5>Waiting Paiment</h5>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Order No.</th>
-                            <th>Customer</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders && <ListTable orders={orders.filter(item => item.status === "waiting payment").sort(compare)} sendItem={getItem} />}
-                    </tbody>
-                </table>
-            </div>
+            {loading && <Spinner />}
+            <DashboardTable orders={orders} title="Orders on Process" status="processing" sendItem={getItem} />
+            <DashboardTable orders={orders} title="Pending Orders" status="paid" sendItem={getItem} />
+            <DashboardTable orders={orders} title="Waiting Payment" status="waiting payment" sendItem={getItem} />
+            <DashboardTable orders={orders} title="Other Orders" status="other" sendItem={getItem} />
             <button id="showModal" type="button" className="btn btn-primary visually-hidden" data-bs-toggle="modal" data-bs-target="#orderModal">
                 Modal
             </button>
-            {modalContent && <OrderModal order={modalContent} />}
+            {modalContent && <OrderModal order={modalContent} loading={getLoading} update={doUpdate} />}
         </div>
     )
 }

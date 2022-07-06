@@ -8,14 +8,13 @@ const ListTable = (props) => {
     
     return (
             props.orders.map((item, key) => {
-                let total = item.orderItems.reduce((total, val) => total += val.total, 0)
                 return (
                     <tr key={key}>
                         <td>{item.order_number}</td>
                         <td>{item.user.full_name}</td>
-                        <td>{viewRP(total)}</td>
+                        <td>{viewRP(item.total)}</td>
                         <td>{item.status}</td>
-                        <td>
+                        <td className="text-end">
                             <button className="btn btn-primary" value={item._id} onClick={sendItem}>View</button>
                         </td>
                     </tr>
