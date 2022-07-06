@@ -14,11 +14,11 @@ const AddressListItem = (props) => {
     }
 
     const deleteHandler = () => { 
-        setLoading(true);
         if (window.confirm("Are you sure you want to delete this address?")) { 
+            setLoading(true);
             axios.delete(c.API_URL + "/api/v1/delivery-address/" + address._id, config(localStorage.getItem("token"))).then(res => { 
-                setLoading(false);
                 props.updateAddress(res.data.data)
+                setLoading(false);
             })
         }
     }
