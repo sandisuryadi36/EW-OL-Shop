@@ -42,6 +42,7 @@ const ListProduct = () => {
                             <td>{product.name}</td>
                             <td>{viewRP(product.price)}</td>
                             <td className="text-center">{product.category ? product.category.name : ""}</td>
+                            <td className="text-center">{product.stock}</td>
                             <td className="text-center">{product.status ? "Active" : "Inactive"}</td>
                             <td className="d-flex justify-content-center">
                                 <Link to={`/product/${product._id}`} state={{ from: location }}>
@@ -60,7 +61,7 @@ const ListProduct = () => {
         } else if (!loading) { 
             return (
                 <tr>
-                    <td colSpan="6">No Product</td>
+                    <td colSpan="7" className="text-center">No Product</td>
                 </tr>
             )
         }
@@ -78,6 +79,7 @@ const ListProduct = () => {
                             <th>Name</th>
                             <th>Price</th>
                             <th className="text-center">Category</th>
+                            <th className="text-center">Stock</th>
                             <th className="text-center">Status</th>
                             <th className="text-center">Action</th>
                         </tr>

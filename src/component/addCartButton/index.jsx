@@ -40,6 +40,7 @@ const AddCartButton = (props) => {
                 dispatch(setSlice({ cartCount: itemCount }))
             })
             setProductCount(0)
+            alert("Product added to cart")
         })
     }
 
