@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Navbar = (props) => { 
     const user = useSelector(state => state.slice.userData);
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
                 <NavLink to="/" className="navbar-brand">Tech Shop</NavLink>
                 <div className="justify-content-end" >
