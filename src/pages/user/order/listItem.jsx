@@ -54,11 +54,12 @@ const ListItem = (props) => {
             {loading && <Spinner />}
             <div className="d-flex flex-row justify-content-between w-100 p-0">
                 <div className={
-                    status === "waiting payment" ? "text-warning"
-                        : status === "paid" ? "text-success"
-                            : status === "waiting delivery" ? "text-primary"
-                                : status === "delivered" ? "text-success"
-                                    : "text-danger"
+                    status === "waiting payment" ? "text-warning fw-semibold"
+                        : status === "paid" ? "text-success fw-semibold"
+                            : status === "processing" ? "text-primary fw-semibold"
+                                : status === "waiting delivery" ? "text-primary fw-semibold"
+                                    : status === "delivered" ? "text-success fw-semibold"
+                                        : "text-danger fw-semibold"
                 }>{status}</div>
             </div>
             <div className="d-flex flex-row justify-content-between align-items-center w-100 ps-0 pe-0">
