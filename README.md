@@ -2,8 +2,8 @@
 ![Heroku](http://heroku-badge.herokuapp.com/?app=techshop-web)
 https://techshop-web.herokuapp.com/
 
-This is my final project for a boot camp class at Eduwork with the topic MERN.
-This is also my portfolio as a Full Stack Web Developer.
+This is my final project for a boot camp class at Eduwork with the topic MERN, and also my portfolio as a Full Stack Web Developer.
+
 This web/repo will always be updated as my knowledge updates.
 
 Backend :
