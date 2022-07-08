@@ -73,7 +73,7 @@ const OrderModal = (props) => {
                                     <div>: {viewRP(props.order.total)}</div>
                                 </div>
                             </div>
-                        {props.order.status !== "processing" &&
+                        {props.order.status === "paid" &&
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" className="btn btn-danger" onClick={rejectHandler}>Reject</button>

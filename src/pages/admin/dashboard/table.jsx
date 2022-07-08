@@ -14,7 +14,7 @@ const DashboardTable = (props) => {
     }
 
     return (
-        <div>
+        <div className="overflow-auto">
             <h5>{title}</h5>
             <table className="table table-striped">
                 <thead>

@@ -61,13 +61,26 @@ const AdminDashboard = () => {
                     {loading && <Spinner />}
                     <div className="nav nav-tabs">
                         <div className="nav-item">
-                            <NavLink className="nav-link" to="/admin/dashboard/">On Process</NavLink>
+                            <NavLink className="nav-link" to="/admin/dashboard/">
+                                On Process
+                                {orders.filter(item => item.status === "processing").length > 0 &&
+                                    <span className="badge rounded-pill bg-danger ms-2">{orders.filter(item => item.status === "processing").length}</span>
+                                }
+                            </NavLink>
                         </div>
                         <div className="nav-item">
-                            <NavLink className="nav-link" to="/admin/dashboard/pending">Pending</NavLink>
+                            <NavLink className="nav-link" to="/admin/dashboard/pending">Pending
+                                {orders.filter(item => item.status === "paid").length > 0 &&
+                                    <span className="badge rounded-pill bg-danger ms-2">{orders.filter(item => item.status === "paid").length}</span>
+                                }
+                            </NavLink>
                         </div>
                         <div className="nav-item">
-                            <NavLink className="nav-link" to="/admin/dashboard/waiting-payment">Waiting Payment</NavLink>
+                            <NavLink className="nav-link" to="/admin/dashboard/waiting-payment">Waiting Payment
+                                {orders.filter(item => item.status === "waiting payment").length > 0 &&
+                                    <span className="badge rounded-pill bg-danger ms-2">{orders.filter(item => item.status === "waiting payment").length}</span>
+                                }
+                            </NavLink>
                         </div>
                         <div className="nav-item">
                             <NavLink className="nav-link" to="/admin/dashboard/other">Other</NavLink>
@@ -92,7 +105,7 @@ const AdminDashboard = () => {
                 />
                 <Route path="/waiting-payment"
                     element={
-                        <DashboardTable orders={orders} title="Waiting Payment" status="waiting-payment" sendItem={getItem} />
+                        <DashboardTable orders={orders} title="Waiting Payment" status="waiting payment" sendItem={getItem} />
                     }
                 />
                 <Route path="/other"
