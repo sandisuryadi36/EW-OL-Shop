@@ -1,17 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { config } from "../../../app/axiosSet";
 import * as c from '../../../app/data/constants'
 import Spinner from "../../../component/spinner";
 import OrderModal from "./modal";
 import DashboardTable from "./table";
 
-const AdminDashboard = () => { 
+const AdminDashboard = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [modalContent, setModalContent] = useState(null);
 
-    useEffect(() => { 
+    useEffect(() => {
         initData()
     }, [])
 
@@ -27,10 +28,10 @@ const AdminDashboard = () => {
         setModalContent(orders.find(item => item._id === val))
     }
 
-    useEffect(() => { 
+    useEffect(() => {
         if (modalContent) {
             document.getElementById("showModal").click()
-            window.addEventListener("hidden.bs.modal", () => { 
+            window.addEventListener("hidden.bs.modal", () => {
                 setModalContent(null)
                 window.removeEventListener("hidden.bs.modal", () => { })
             })
@@ -45,7 +46,7 @@ const AdminDashboard = () => {
         }
     }
 
-    function doUpdate(e) { 
+    function doUpdate(e) {
         if (e) {
             setModalContent(null)
             initData()
@@ -53,18 +54,55 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="d-flex flex-column gap-4">
-            <h1>Admin Dashboard</h1>
-            {loading && <Spinner />}
-            <DashboardTable orders={orders} title="Orders on Process" status="processing" sendItem={getItem} />
-            <DashboardTable orders={orders} title="Pending Orders" status="paid" sendItem={getItem} />
-            <DashboardTable orders={orders} title="Waiting Payment" status="waiting payment" sendItem={getItem} />
-            <DashboardTable orders={orders} title="Other Orders" status="other" sendItem={getItem} />
-            <button id="showModal" type="button" className="btn btn-primary visually-hidden" data-bs-toggle="modal" data-bs-target="#orderModal">
-                Modal
-            </button>
-            {modalContent && <OrderModal order={modalContent} loading={getLoading} update={doUpdate} />}
-        </div>
+        <Routes>
+            <Route path="/" element={ 
+                <div className="d-flex flex-column gap-4">
+                    <h1>Admin Dashboard</h1>
+                    {loading && <Spinner />}
+                    <div className="nav nav-tabs">
+                        <div className="nav-item">
+                            <NavLink className="nav-link" to="/admin/dashboard/">On Process</NavLink>
+                        </div>
+                        <div className="nav-item">
+                            <NavLink className="nav-link" to="/admin/dashboard/pending">Pending</NavLink>
+                        </div>
+                        <div className="nav-item">
+                            <NavLink className="nav-link" to="/admin/dashboard/waiting-payment">Waiting Payment</NavLink>
+                        </div>
+                        <div className="nav-item">
+                            <NavLink className="nav-link" to="/admin/dashboard/other">Other</NavLink>
+                        </div>
+                    </div>
+                    <Outlet />
+                    <button id="showModal" type="button" className="btn btn-primary visually-hidden" data-bs-toggle="modal" data-bs-target="#orderModal">
+                        Modal
+                    </button>
+                    {modalContent && <OrderModal order={modalContent} loading={getLoading} update={doUpdate} />}
+                </div>
+            }>
+                <Route path="/"
+                    element={
+                        <DashboardTable orders={orders} title="Orders on Process" status="processing" sendItem={getItem} />
+                    }
+                />
+                <Route path="/pending"
+                    element={
+                        <DashboardTable orders={orders} title="Pending Orders" status="paid" sendItem={getItem} />
+                    }
+                />
+                <Route path="/waiting-payment"
+                    element={
+                        <DashboardTable orders={orders} title="Waiting Payment" status="waiting-payment" sendItem={getItem} />
+                    }
+                />
+                <Route path="/other"
+                    element={
+                        <DashboardTable orders={orders} title="Other Orders" status="other" sendItem={getItem} />
+                    }
+                />
+            </Route>
+
+        </Routes>
     )
 }
 

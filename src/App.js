@@ -64,7 +64,7 @@ function App() {
                 </div>
               </ProtectedRoute>
             } >
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/dashboard/*" element={<AdminDashboard />} />
             <Route path="/admin/add" element={<AddProduct />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
             <Route path="/admin/list" element={<ListProduct />} />
