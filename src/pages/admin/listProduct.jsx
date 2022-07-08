@@ -33,7 +33,6 @@ const ListProduct = () => {
     }
 
     const ItemList = () => { 
-        // console.log(products);
         if (products.length > 0) {
             let el = products.map((product, key) => {
                     return (
@@ -67,11 +66,10 @@ const ListProduct = () => {
         }
     }
 
-    // console.log(products);
     return (
         <div>
-            <div className="d-flex flex-row justify-content-between align-items-center">
-                <h3>List Product</h3>
+            <div className="d-flex flex-row justify-content-between align-items-center mb-3">
+                <h3 className="m-0">List Product</h3>
                 <Link type="button" className="btn btn-sm btn-primary" to="/admin/add">Add New</Link>
             </div>
             <div className="table-responsive">
