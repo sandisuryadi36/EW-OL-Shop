@@ -72,7 +72,7 @@ const AddProduct = () => {
         let new_category = {
             "name": value.toLowerCase()
         }
-        const category = await axios.post(c.API_URL + "/api/v1/category", new_category)
+        const category = await axios.post(c.API_URL + "/api/v1/category", new_category, config(localStorage.getItem("token")))
         return category.data.data._id
     }
 
@@ -82,7 +82,7 @@ const AddProduct = () => {
         
         let categoryValue = e.target.category.value;
         if (newCategory) {
-            categoryValue = await postCategory(categoryValue.toLowerCase())
+            categoryValue = await postCategory(e.target.newCategory.value.toLowerCase())
         }
 
         if (newTags.length > 0) {
@@ -101,7 +101,7 @@ const AddProduct = () => {
             data.set("tags["+index+"]", tag)
         })
 
-        axios.post(c.API_URL + "/api/v1/product", config(localStorage.getItem("token")))
+        axios.post(c.API_URL + "/api/v1/product", data, config(localStorage.getItem("token")))
             .then(res => {
                 setLoading(false);
                 if (res.data.message === "Product successfully created") {

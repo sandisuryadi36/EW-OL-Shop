@@ -70,7 +70,10 @@ const ListProduct = () => {
     // console.log(products);
     return (
         <div>
-            <h3>List Product</h3>
+            <div className="d-flex flex-row justify-content-between align-items-center">
+                <h3>List Product</h3>
+                <Link type="button" className="btn btn-sm btn-primary" to="/admin/add">Add New</Link>
+            </div>
             <div className="table-responsive">
                 <table className="table table-sm table-striped">
                     <thead>
