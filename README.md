@@ -1,6 +1,5 @@
 ## React-JS Based Online-Shop Website 
-![Heroku](http://heroku-badge.herokuapp.com/?app=techshop-web)
-https://techshop-web.herokuapp.com/
+url: https://techshop-web.herokuapp.com/
 
 This is my final project for a boot camp class at Eduwork with the topic MERN, and also my portfolio as a Full Stack Web Developer.
 
