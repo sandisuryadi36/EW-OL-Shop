@@ -61,7 +61,7 @@ const AdminDashboard = () => {
                     {loading && <Spinner />}
                     <div className="nav nav-tabs">
                         <div className="nav-item">
-                            <NavLink className="nav-link" to="/admin/dashboard/">
+                            <NavLink className="nav-link" to="/admin/dashboard/process">
                                 On Process
                                 {orders.filter(item => item.status === "processing").length > 0 &&
                                     <span className="badge rounded-pill bg-danger ms-2">{orders.filter(item => item.status === "processing").length}</span>
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
                     {modalContent && <OrderModal order={modalContent} loading={getLoading} update={doUpdate} />}
                 </div>
             }>
-                <Route path="/"
+                <Route path="/process"
                     element={
                         <DashboardTable orders={orders} title="Orders on Process" status="processing" sendItem={getItem} />
                     }

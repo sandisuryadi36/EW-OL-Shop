@@ -23,7 +23,7 @@ const MenuList = () => {
     const adminMenu = [
         {
             name: "Dashboard",
-            link: "/admin/dashboard"
+            link: "/admin/dashboard/process"
         },
         {
             name: "Profile",

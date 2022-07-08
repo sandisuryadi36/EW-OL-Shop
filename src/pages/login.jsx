@@ -29,7 +29,7 @@ const Login = () => {
         <div className="d-flex flex-column align-items-center pt-5">
             {logedIn
                 ? (userData.role === "admin")
-                    ? <Navigate to="/admin/dashboard/" />
+                    ? <Navigate to="/admin/dashboard/process" />
                     : (userData.role === "user") && <Navigate to="/" />
                 : null
             }
